@@ -13,8 +13,8 @@
 	  		var hasError = false;
 	  		document.getElementById("error").innerHTML = "";
 		  	var xhttp = new XMLHttpRequest();
-		  	xhttp.open("GET", "ValidateSearch?searchInput="+document.myform.searchInput.value
-		  			+"&searchOption="+document.myform.searchOption.value, false);
+		  	xhttp.open("GET", "AddReview?rating="+document.myform.rating.value
+		  			+"&text="+document.myform.enterText.value, false);
 
 		  	xhttp.send();
 		  	if(xhttp.responseText.trim().length > 0) {
@@ -61,14 +61,16 @@
 				<div id="profile">
 					<a href="Profile.jsp"><img src="img/user.png"></a>
 				</div>
+				<form name="myform" onsubmit="return isValid();" action="Review.jsp" method="GET">
 				<% for(int i = 0; i < 5; i++) { %>
 					<img src="img/star.png" height="50px" style="align: left;">
 				<% } %>
 				<div id="reviewText">
-					<textarea id="enterText" placeholder="Type your review here"></textarea>
+					<textarea id="enterText" name="enterText" placeholder="Type your review here"></textarea>
 				</div>
-				<p><br><div id="error">Hello</div><br><p>
+				<p><br><div id="error"></div><br><p>
 				<button id="button" type="button" onclick="validate()" style="float: right;">Submit</button>
+				</form>
 			</div>
 		</div>
 	</body>
