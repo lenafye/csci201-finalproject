@@ -28,7 +28,7 @@
 				float: left;
 				width: 80%;
 			}
-			.profile {
+			#profile {
 				padding-top: 20px;
 				float: right;
 				width: 15%;
@@ -45,6 +45,7 @@
 			.column {
 				float: left;
 				width: 50%;
+				line-height: 20px;
 			}
 			#box {
 				font-family: 'Josefin Sans', sans-serif;
@@ -82,6 +83,9 @@
   				border-radius: 25px;
   				transform: translate(-50%, -50%);
 			}
+			#noUserError {
+				text-align: center;
+			}
 			.text {
 				width: 80%;
 				float: right;
@@ -95,6 +99,10 @@
 			img {
     			max-width: 100%;
     			max-height: 100%;
+			}
+			a {
+				text-decoration: none;
+				color: gray;
 			}
 		</style>
 		<script>
@@ -116,33 +124,34 @@
 		  		return !hasError;
 		  	}
 			function hasUser() {
-				var x = document.getElementById("profile");
-				x.style.display = "block";
+				document.getElementById("profile").style.display = "block";
+				document.getElementById("content").style.display = "block";
+				document.getElementById("noUserError").innerHTML = "";
 			}
 			function noUser() {
-				var x = document.getElementById("profile");
-				x.style.display = "none";
+				document.getElementById("profile").style.display = "none";
+				document.getElementById("content").style.display = "none";
+				document.getElementById("noUserError").innerHTML = "Error: No user logged in.";
 			}
 		</script>
 	</head>
 	<body>
-		<!-- 
-		 <% /* user_jdbc hold = (user_jdbc)session.getAttribute("database");
-		 if(hold != null) {
-			String currentUser = hold.getUser();
-			if(currentUser.length() > 0) { */ %>
+		<%@ page import='lenaye_CSCI201L_TrojanEats.DatabaseJDBC' %>
+		 <% String username = (String)session.getAttribute("username");
+		 if(username != null) {
+			if(username.length() >= 0) { %>
 				<body onload="hasUser()">
-			<% /* }
-			else { */ %>
+			<% }
+			else { %>
 				<body onload="noUser()">
-			<% /* }
+			<% }
 		 }
-		 else { */ %>
+		 else { %>
 			 <body onload="noUser()">
-		 <% // } %> -->
+		 <% } %>
 		<div id="header">
 			<div class="logo">
-				TrojanEats
+				<a href="HomePage.jsp">TrojanEats</a>
 			</div>
 			<div class="links">
 				<div class="search">
@@ -166,22 +175,25 @@
 						</div>
 					</div>
 				</div>
-				<div class="profile">
-					<img src="profile.jpg" height="100px">
+				<div id="profile">
+					<a href="Profile.jsp"><img src="profile.jpg" height="100px"></a>
 				</div>
 			</div>
 		
 		</div>
 		<div id="main">
 			<div id="container">
-				<h1>username's Reviews</h1>
-				<hr><p>
-				<div class="text">
-				<h2>Panda Express</h2>
-				Rating: 5/5 <br>
-				Rating text: I liked it. <p>
+				<div id="noUserError"></div>
+				<div id="content">
+					<h1><% out.println(username); %>'s Reviews</h1>
+					<hr><p>
+					<div class="text">
+					<h2>Panda Express</h2>
+					Rating: 5/5 <br>
+					Rating text: I liked it. <p>
+					</div>
+					<hr>
 				</div>
-				<hr>
 			</div>
 		</div>
 	</body>
