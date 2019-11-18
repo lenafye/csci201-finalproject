@@ -3,73 +3,14 @@ body {
 	margin: 0px;
 	color: #7A7A7A;
 }
-#header {
-	background-color: #FFF;
-	height: 100px;
-	padding: 10px;
-}
-
-
-#search {
-	margin-left: auto;
-	margin-right: auto;
-	width: 95%;
-	
-}
-
-#searchbar {
-	width: 100%;
-	padding: 7px;
-	border: 1px solid #BFBFBF;
-	border-radius: 3px;
-	margin-bottom: 15px;
-	
-}
-
-.searchBy {
-	float: left;
-	width: 50%;
-	color: #FFFFFF;
-	margin-bottom: 10px;
-}
-
-label .searchBy {
-	float: left;
-	color: #FFFFFF;
-}
-
-#header > img, #h-content > a {
-	height: 75px;
-	float: left;
-	margin: 0px;
-	text-decoration: none;
-	color: #7A7A7A;
-	font-weight: 700;
-	font-size: 1.5em;
-}
-
-#h-content h1 {
-	margin: 0px;
-	margin-top: 20px;
-}
-
 
 .clearfloat {
 	clear: both;
 }
 
 #error {
-		width: 200px;
-		background-color: rgb(191,2,2, 0.5);
-		color: #FFF;
-		padding: 10px;
-		
-	}
-	
-.loginInput {
-	width: 100%;
-	padding: 7px;
-	border: 1px solid #BFBFBF;
-	border-radius: 3px;
-	margin-bottom: 15px;
+	width: 200px;
+	background-color: rgb(191,2,2, 0.5);
+	color: #FFF;
+	padding: 10px;
 }
