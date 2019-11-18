@@ -177,7 +177,7 @@
 				  var marker = new google.maps.Marker({position: uluru, map: map});
 				}
 				</script>
-				<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBV0wV1lmOOC_9OPfNjG0ZZoXeMp1YkE8Q&callback=initMap" type="text/javascript"></script>
+				<script async defer src="https://maps.googleapis.com/maps/api/js?key=<took_out_for_security>&callback=initMap" type="text/javascript"></script>
 			
 			
 			<div class='clearfloat'></div>
