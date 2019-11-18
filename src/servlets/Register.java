@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 //import database.Database;
 
@@ -35,23 +36,21 @@ public class Register extends HttpServlet {
 		
 		String un = request.getParameter("username");
 		String pw = request.getParameter("password");
+		HttpSession session = request.getSession();
 		
-		//boolean exists = Database.userExists(un);
-		boolean exists = true;
+		int success = DatabaseJDBC.register(un, pw);
 		
 		String next = "/HomePage.jsp";
 		String error = "";
 		
-		if(exists)
+		if(success == 0)
 		{
 			next = "/Register.jsp";
 			error += "Error! User already exists.";
 		}
 		else
 		{
-			//Database.addUser(un, pw);
-			//Cookie user = new Cookie("username", un);
-			//response.addCookie(user);
+			session.setAttribute("username", un);
 		}
 		
 		request.setAttribute("error", error);
@@ -87,5 +86,4 @@ public class Register extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 }
