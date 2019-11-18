@@ -1,5 +1,7 @@
 package trojaneats;
 
+package lenaye_CSCI201L_TrojanEats;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,15 +13,22 @@ public class DatabaseJDBC {
 	
 	public static final long serialVersionUID = 1;
 	private static int currentUserId;
+	private static String currentUsername;
 	
 	public DatabaseJDBC() {
 		currentUserId = 0;
+		currentUsername = "";
 	}
 	
 	public static int getUser()
 	{
 		return currentUserId;
 	}
+	
+	public static String getUsername() {
+		return currentUsername;
+	}
+	
 	public static int register(String username, String password)
 	{
 		Connection conn = null;;
@@ -38,6 +47,8 @@ public class DatabaseJDBC {
 				ps.setString(2, password);
 				ps.executeUpdate();
 				success = 1;
+				currentUsername = username;
+				// update currentUserId -- is there a better way than to do another search
 			}
 		} catch (SQLException sqle)
 		{
@@ -82,6 +93,7 @@ public class DatabaseJDBC {
 			else if(cont){
 				success = 1;
 				currentUserId = rs.getInt("userId");
+				currentUsername = username;
 			}
 		} catch(SQLException sqle)
 		{
@@ -240,6 +252,4 @@ public class DatabaseJDBC {
 			}
 		}
 	}
-	
-
 }
