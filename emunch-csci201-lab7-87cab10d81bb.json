@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "emunch-csci201-lab7",
+  "private_key_id": "87cab10d81bb6b9752bd9c22c07c9c286f8e918a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCvFji/V+WRsLlu\nvW9Ohdl/4uloH/86KTXnTRYAq3OvFqFiUDI1KDJplYNOYyADZ+NGXLXu7avTF0FX\n0kiHdJB7VFUo0kgin14gOJO0o2TqS2HfpJ8PT11B3W4/fyeW3UJF7mnVfk4PSlJM\n2liByQPX6xGMiZKlgEbI/ve1Hb2BvRl81YqAtTUxjC6t5cdwrofwBWUlLMZjLKui\nI2/b53jkOEzykYH55M6xPW2OV9gT1l7CQBDAabZHTU5/yQUlmndEN1QDGI/FVRmB\n6WOKJESyuOaU+jfhSOrOK93IeVzy7p/veIgYV1UOBLDIpPrzI3Vi39GxmEHg2KwI\nX+3IPH6ZAgMBAAECggEAAJa/dfHz+/TfSXPPfBu0+E+OpOgXTz5ZvSTUJN2Za+vp\n0DSVrU+XYdBcABy9vBKH9Wc068WMB8+iy4qRw2DdO95JU16SWbQgWH/li/HmZ5JS\n1TIkIHn4xegFKadXaP68AmkI8pae6RbBJvCEuS+wTgmEm4IlRoi4qY7lTYw4zwb5\ncnuMx6JOJBK9dxN1wv8J2QmWZQcnKfHg3EGvwd0qUCkWw2vm09NE/0EUT6R8Q0LS\nmemP22KQqJbD4cZbf7FhbQgsdnHCpVwjhJ4JwLcIlWsliL7Z+W8C2ZeO+4OBVzHv\nhT53xRrwkPKIU5gKlQ4xaeXOFUXU8jhIsH2YM41V7QKBgQDUOGRqQYXFMRloPr2f\nt+rnLOLpsHcXngGHbyTXunfT1Uh2MDt15i1L3hNl3qesT++5sSjPnNGnaj7QTw/9\nl4khUQfUfiNxFihFgWR6v7DlTlhcDKZDXRvIlwwDnorI9IlThBrxeyD3nZDyZYhf\nUGGThtKQu6dcUn7UlomkU9qNbQKBgQDTNMQOtVwG76Yfyb0ze9PHY3z1qOtF7wcr\nZfJJSbFA/W995apAqKe/YrTXtoGIfaGzBXsEzlGkzOKV9AzRruvvXHhicXAgk76J\nX2bEGu9Mq9QP7sOVuL+ITUxJk+1kbrv2XHlZjcX9juwFeZ9zvoF1Wn296xpbeohn\nh/YycVbWXQKBgEaIr6c5O9K8bOte3vt0z1gibRCqnAp3c56l7CLfUPBRFRJjGYAo\nDqoGl3/mLuhwcQbQwPWv82anQ1VM0c3BTcyK+AVCH1l4uc3QIatChvLPxUJi2efN\nzGww98dELHB6BiKB58qW1/A0qHZIFLlJKAU2bEm6dPeUW58goYLCdANJAoGAdPLV\n0RMpVwniId3ybwyU8uYq7lhPlpTJkoVLyLsOdF8hGkROpqj84ePFIWEEjtCJ9fgF\n615XJPrySHgvlPfX2t2IJ3KK1O8aZTS3UcVcVkcbEIt0L3ZyUAYFRQStQZxzZfJE\nm4r+Y+180XdMDKojQxkNYVlKafcKitFlSP8rR10CgYEAq5BhyXRdu8p4INv7qpsS\n5/ceJuj7Sc2BHAsKV5WQG7ZISwpIzkZdFIz46V/C2lFsCBvRmQtla1E+EqOu3lS7\nBZgif5HcnA/hwB+RZJRx/VmQk03eXT8vG1pRRLrj13E5il8S16yv/6dcMGWlQ3C6\nFypqhZfGXiwgUit1dlCwwyI=\n-----END PRIVATE KEY-----\n",
+  "client_email": "id-01-service-account@emunch-csci201-lab7.iam.gserviceaccount.com",
+  "client_id": "114972415241705172069",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/id-01-service-account%40emunch-csci201-lab7.iam.gserviceaccount.com"
+}
