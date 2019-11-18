@@ -47,10 +47,10 @@
 			<input type = "text" name = "username" class = "usernameInput">
 			<br>
 			<p id = "pw">Password</p>
-			<input type = "text" name = "password" class = "passwordInput">
+			<input type = "password" name = "password" class = "passwordInput">
 			<br>
 			<p id = "confirm_pw">Confirm Password</p>
-			<input type = "text" name = "passwordConfirmation" class = "passwordConfirmationInput">
+			<input type = "password" name = "passwordConfirmation" class = "passwordConfirmationInput">
 			<br>
 			<input type = "submit" name = "submit" value = "Register" class = "registerButton">
 		</form>
