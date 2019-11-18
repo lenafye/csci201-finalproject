@@ -1,5 +1,3 @@
-package trojaneats;
-
 package lenaye_CSCI201L_TrojanEats;
 
 import java.sql.Connection;
@@ -169,7 +167,7 @@ public class DatabaseJDBC {
 				rs = ps.executeQuery();
 				rs.next();
 				String restaurantName = rs.getString("name");
-				Review r = new Review(reviewId, userId, restaurantId, restaurantName, date, rating, text, score);
+				Review r = new Review(reviewId, username, restaurantId, restaurantName, date, rating, text, score);
 				reviews.add(r);
 			}
 		} catch(SQLException sqle)
