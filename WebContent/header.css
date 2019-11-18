@@ -1,0 +1,60 @@
+#header {
+	height: 22vh;
+	background-color: white;
+	font-family: 'Josefin Sans', sans-serif;
+  	color: gray;
+}
+.logo {
+	padding-top: 50px;
+	float: left;
+	font-size: 50px;
+}
+.links {
+	float: right;
+	width: 80%;
+	font-family: 'Josefin Sans', sans-serif;
+}
+.search {
+	padding-top: 50px;
+	float: left;
+	width: 80%;
+}
+#profile {
+	padding-top: 20px;
+	float: right;
+	width: 15%;
+}
+.bar {
+	padding-top: 10px;
+	float: left;
+	width: 55%;
+}
+.row {
+	float: right;
+	width: 40%;
+}
+.column {
+	float: left;
+	width: 50%;
+	line-height: 20px;
+}
+#box {
+	font-family: 'Josefin Sans', sans-serif;
+	width: 399px;
+	height: 30px;
+	border-color: lightgray;
+	font-size: 20px;
+}
+#button {
+	width: 100px;
+	height: 30px;
+	border: 1px solid gray;
+	background: gray;
+	text-align: center;
+	color: #fff;
+	font-size: 20px;
+}
+a {
+	text-decoration: none;
+	color: gray;
+}
