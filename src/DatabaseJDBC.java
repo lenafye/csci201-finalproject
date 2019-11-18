@@ -12,6 +12,10 @@ public class DatabaseJDBC {
 	public static final long serialVersionUID = 1;
 	private static int currentUserId;
 	
+	public DatabaseJDBC() {
+		currentUserId = 0;
+	}
+	
 	public static int getUser()
 	{
 		return currentUserId;
@@ -77,6 +81,7 @@ public class DatabaseJDBC {
 			}
 			else if(cont){
 				success = 1;
+				currentUserId = rs.getInt("userId");
 			}
 		} catch(SQLException sqle)
 		{
@@ -91,6 +96,10 @@ public class DatabaseJDBC {
 			}
 		}
 		return success;
+	}
+	
+	public static void logout() {
+		currentUserId = 0;
 	}
 	
 	//TODO
