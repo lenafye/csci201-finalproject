@@ -53,7 +53,7 @@
 		 <% } %>
 		<div id="main">
 			<div id="noUserError"></div>
-			<div id="askLogin"></div>
+			<a href="Login.jsp"><div id="askLogin"></div></a>
 			<div id="text">
 				<div id="title">
 					<h1>Panda Express</h1>
