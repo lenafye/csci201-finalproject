@@ -34,7 +34,7 @@
 			<input type = "text" name = "username" class = "usernameInput">
 			<br>
 			<p id = "pw">Password</p>
-			<input type = "text" name = "password" class = "passwordInput">
+			<input type = "password" name = "password" class = "passwordInput">
 			<br>
 			<input type = "submit" name = "submit" value = "Login" class = "registerButton">
 		</form>
