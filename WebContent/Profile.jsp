@@ -6,67 +6,12 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Profile</title>
 		<link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet">
+		<link href='header.css' rel='stylesheet'>
 		<style type="text/css">
-			#header {
-				height: 22vh;
-			  	background-color: white;
-			  	font-family: 'Josefin Sans', sans-serif;
-			  	color: gray;
-			}
-			.logo {
-				padding-top: 50px;
-				float: left;
-				font-size: 50px;
-			}
-			.links {
-				float: right;
-				width: 80%;
-				font-family: 'Josefin Sans', sans-serif;
-			}
-			.search {
-				padding-top: 50px;
-				float: left;
-				width: 80%;
-			}
-			#profile {
-				padding-top: 20px;
-				float: right;
-				width: 15%;
-			}
-			.bar {
-				padding-top: 10px;
-				float: left;
-				width: 55%;
-			}
-			.row {
-				float: right;
-				width: 40%;
-			}
-			.column {
-				float: left;
-				width: 50%;
-				line-height: 20px;
-			}
-			#box {
-				font-family: 'Josefin Sans', sans-serif;
-				width: 400px;
-				height: 30px;
-				border-color: lightgray;
-				font-size: 20px;
-			}
-			#button {
-				width: 100px;
-				height: 30px;
-				border: 1px solid gray;
-				background: gray;
-				text-align: center;
-				color: #fff;
-				font-size: 20px;
-			}
 			#main {
 				font-family: 'Josefin Sans', sans-serif;
 				font-color: gray;
-				background-image: url("bg.jpeg");
+				background-image: url("img/bg.jpeg");
 				background-size: cover;
 				height: 78vh;
 				width: 100%;
@@ -86,6 +31,10 @@
 			#noUserError {
 				text-align: center;
 			}
+			#askLogin {
+				text-align: center;
+				line-height: 30px;
+			}
 			.text {
 				width: 80%;
 				float: right;
@@ -99,10 +48,6 @@
 			img {
     			max-width: 100%;
     			max-height: 100%;
-			}
-			a {
-				text-decoration: none;
-				color: gray;
 			}
 		</style>
 		<script>
@@ -127,11 +72,13 @@
 				document.getElementById("profile").style.display = "block";
 				document.getElementById("content").style.display = "block";
 				document.getElementById("noUserError").innerHTML = "";
+				document.getElementById("askLogin").innerHTML = "";
 			}
 			function noUser() {
 				document.getElementById("profile").style.display = "none";
 				document.getElementById("content").style.display = "none";
 				document.getElementById("noUserError").innerHTML = "Error: No user logged in.";
+				document.getElementById("askLogin").innerHTML = "Login now?";
 			}
 		</script>
 	</head>
@@ -176,7 +123,7 @@
 					</div>
 				</div>
 				<div id="profile">
-					<a href="Profile.jsp"><img src="profile.jpg" height="100px"></a>
+					<a href="Profile.jsp"><img src="img/user.png" height="100px"></a>
 				</div>
 			</div>
 		
@@ -184,6 +131,7 @@
 		<div id="main">
 			<div id="container">
 				<div id="noUserError"></div>
+				<a href="Login.jsp"><div id="askLogin"></div></a>
 				<div id="content">
 					<h1><% out.println(username); %>'s Reviews</h1>
 					<hr><p>
