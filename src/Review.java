@@ -1,10 +1,10 @@
-package trojaneats;
+package lenaye_CSCI201L_TrojanEats;
 
 public class Review {
 	private int reviewId;
 	//TODO: decide if necessary to have resId and userId
 	
-	private int userId;
+	private String username;
 	private int restaurantId;
 	private String restaurantName;
 	private String date;
@@ -12,10 +12,10 @@ public class Review {
 	private String text;
 	private int score;
 	
-	public Review(int reviewId, int userId, int restaurantId, String restaurantName, String date, int rating, String text, int score)
+	public Review(int reviewId, String username, int restaurantId, String restaurantName, String date, int rating, String text, int score)
 	{
 		this.reviewId = reviewId;
-		this.userId = userId;
+		this.username = username;
 		this.restaurantId = restaurantId;
 		this.restaurantName = restaurantName;
 		this.date = date;
@@ -28,9 +28,9 @@ public class Review {
 	{
 		return reviewId;
 	}
-	public int getUserId()
+	public String getUsername()
 	{
-		return userId;
+		return username;
 	}
 	public int getRestaurantId()
 	{
