@@ -36,8 +36,8 @@
 				line-height: 30px;
 			}
 			.text {
-				width: 80%;
-				float: right;
+				width: 70%;
+				margin: auto;
 			}
 			h1{
 				text-align: center;
