@@ -59,3 +59,7 @@ body {
 	font-size: 50px;
 	color: gray;
 }
+a {
+	text-decoration: none;
+	color: gray;
+}
