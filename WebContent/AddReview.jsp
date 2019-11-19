@@ -70,15 +70,11 @@
 		  	var xhttp = new XMLHttpRequest();
 		  	xhttp.open("GET", "AddReview?rating="+document.myform.stars.value
 		  			+"&text="+document.myform.enterText.value, false);
-
 		  	xhttp.send();
 		  	if(xhttp.responseText.trim().length > 0) {
 		  		document.getElementById("error").innerHTML = xhttp.responseText;
 		  		hasError = true;
 		  	}
-		  	if(hasError) {
-		  		window.location.href = "HomePage.jsp?error=" + xhttp.responseText;
-	  		}
 	  		return !hasError;
 	  	}
 		function hasUser() {
