@@ -14,8 +14,9 @@
 		  		document.getElementById("error").innerHTML = "";
 			  	var xhttp = new XMLHttpRequest();
 			  	xhttp.open("GET", "SearchRestaurant?searchInput="+document.myform.input.value
-			  			+"&searchOption="+document.myform.filter.value, false);
-	
+			  			+"&swipes="+document.myform.swipes.value+"&dollars="+document.myform.dollars.value
+			  			+"&cuisine="+document.myform.cuisine.value+"&price="+document.myform.price.value
+			  			+"&hours="+document.myform.hours.value, false);
 			  	xhttp.send();
 			  	if(xhttp.responseText.trim().length > 0) {
 			  		document.getElementById("error").innerHTML = xhttp.responseText;
@@ -55,7 +56,7 @@
 			<div class="links">
 				<div class="search">
 					<div class="bar">
-						<form name="myform" onsubmit="return isValid();" action="Details.jsp" method="GET">
+						<form name="myform" onsubmit="return isValid();" action="SearchResults.jsp" method="GET">
 						<input type="search" name="input" id="box" placeholder="Enter search terms">
 						<button id="button" type="button" onclick="validate()" style="float: right;">Search</button>
 						<p>
@@ -63,13 +64,23 @@
 					</div>
 					<div class="row">
 						<div class="column">
-							<input type="radio" name="filter" value="Price"> Price Range<br>
-							<input type="radio" name="filter" value="Cuisine"> Cuisine Type<br>
-							<input type="radio" name="filter" value="Hours"> Hours Open
+							<input type="checkbox" name="swipes"> Dining Swipes<br>
+							<select name="cuisine">
+								<option value="none"></option>
+								<option value="american">American</option>
+								<option value="asian">Asian</option>
+								<option value="mexican">Mexican</option>
+							</select> Cuisine
+							Hours <input type="time" name="hours" id="time" step="900">
 						</div>
 						<div class="column">
-							<input type="radio" name="filter" value="Dollars"> Dining Dollars<br>
-							<input type="radio" name="filter" value="Swipes"> Dining Swipes
+							<input type="checkbox" name="dollars"> Dining Dollars <br>
+							<select name="price">
+								<option value="none"></option>
+								<option value="one">$</option>
+								<option value="two">$$</option>
+								<option value="three">$$$</option>
+							</select> Price
 							</form>
 						</div>
 					</div>
