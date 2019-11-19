@@ -106,6 +106,7 @@
 		 else { %>
 			 <body onload="noUser()">
 		 <% } %>
+		<div id="logo"><a href="HomePage.jsp">TrojanEats</a></div>
 		<div id="main">
 			<div id="noUserError"></div>
 			<a href="Login.jsp"><div id="askLogin"></div></a>
@@ -152,7 +153,7 @@
 				<div id="reviewText">
 					<textarea id="enterText" name="enterText" placeholder="Type your review here"></textarea>
 				</div>
-				<p><br><div id="error"></div><br><p>
+				<p><div id="error"></div>
 				<button id="button" type="button" onclick="validate()" style="float: right;">Submit</button>
 				</form>
 			</div>
