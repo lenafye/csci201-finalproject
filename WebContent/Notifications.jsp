@@ -39,6 +39,9 @@
 				width: 70%;
 				margin: auto;
 			}
+			body {
+				margin: 0;
+			}
 			h1{
 				text-align: center;
 			}
