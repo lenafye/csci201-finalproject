@@ -4,23 +4,63 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Send a Recommendation</title>
+		<title>Add a Review</title>
 	</head>
 	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet">
 	<link href='interact.css' rel='stylesheet'>
 	<style type="text/css">
-		#box {
-			font-family: 'Josefin Sans', sans-serif;
-			padding-left: 10px;
-			font-size: 20px;
-			width: 40%;
-			border-radius: 10px;
-			height: 40px;
-			background: transparent;
-			background-color: #E9EEE7;
-			background-size: cover;
-    		border: none;
-    		resize: none;
+		.rating {
+			display: inline-block;
+			position: relative;
+			height: 50px;
+			line-height: 50px;
+			font-size: 50px;
+		}
+		.rating label {
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 100%;
+		  	cursor: pointer;
+		}
+		.rating label:last-child {
+			position: static;
+		}
+		.rating label:nth-child(1) {
+		  	z-index: 5;
+		}
+		.rating label:nth-child(2) {
+		  	z-index: 4;
+		}
+		.rating label:nth-child(3) {
+		  	z-index: 3;
+		}
+		.rating label:nth-child(4) {
+		  	z-index: 2;
+		}
+		.rating label:nth-child(5) {
+		  	z-index: 1;
+		}
+		.rating label input {
+			position: absolute;
+		  	top: 0;
+		  	left: 0;
+		  	opacity: 0;
+		}
+		.rating label .icon {
+			float: left;
+			color: transparent;
+		}
+		.rating label:last-child .icon {
+			color: gray;
+		}
+		.rating:not(:hover) label input:checked ~ .icon,
+		.rating:hover label:hover input ~ .icon {
+		  	color: #ffc700;
+		}
+		.rating label input:focus:not(:checked) ~ .icon:last-child {
+		  	color: #000;
+		  	text-shadow: 0 0 5px #09f;
 		}
 	</style>
 	<script>
@@ -28,17 +68,13 @@
 	  		var hasError = false;
 	  		document.getElementById("error").innerHTML = "";
 		  	var xhttp = new XMLHttpRequest();
-		  	xhttp.open("GET", "AddRecommendation?usernames="+document.myform.usernames.value
+		  	xhttp.open("GET", "AddReview?rating="+document.myform.stars.value
 		  			+"&text="+document.myform.enterText.value, false);
-
 		  	xhttp.send();
 		  	if(xhttp.responseText.trim().length > 0) {
 		  		document.getElementById("error").innerHTML = xhttp.responseText;
 		  		hasError = true;
 		  	}
-		  	if(hasError) {
-		  		window.location.href = "HomePage.jsp?error=" + xhttp.responseText;
-	  		}
 	  		return !hasError;
 	  	}
 		function hasUser() {
@@ -77,12 +113,43 @@
 				<div id="profile">
 					<a href="Profile.jsp"><img src="img/user.png"></a>
 				</div>
-				<form name="myform" onsubmit="return isValid();" action="Details.jsp" method="GET">
-				<input type="text" name="usernames" id="box" placeholder="Enter usernames here">
-				<div id="reviewText">
-					<textarea id="enterText" placeholder="Type your message here"></textarea>
+				<form name="myform" onsubmit="return isValid();" action="Review.jsp" method="GET">
+				<div class="rating">
+					<label>
+				    <input type="radio" name="stars" value="1" />
+				    <span class="icon">★</span>
+					</label>
+					<label>
+				    <input type="radio" name="stars" value="2" />
+				    <span class="icon">★</span>
+				    <span class="icon">★</span>
+				  	</label>
+				  	<label>
+				    <input type="radio" name="stars" value="3" />
+				    <span class="icon">★</span>
+				    <span class="icon">★</span>
+				    <span class="icon">★</span>   
+				  	</label>
+				  	<label>
+				    <input type="radio" name="stars" value="4" />
+				    <span class="icon">★</span>
+				    <span class="icon">★</span>
+				    <span class="icon">★</span>
+				    <span class="icon">★</span>
+				  	</label>
+				  	<label>
+				    <input type="radio" name="stars" value="5" />
+				    <span class="icon">★</span>
+				    <span class="icon">★</span>
+				    <span class="icon">★</span>
+				    <span class="icon">★</span>
+				    <span class="icon">★</span>
+				  	</label>
 				</div>
-				<p><div id="error"></div><br>
+				<div id="reviewText">
+					<textarea id="enterText" name="enterText" placeholder="Type your review here"></textarea>
+				</div>
+				<p><div id="error"></div>
 				<button id="button" type="button" onclick="validate()" style="float: right;">Submit</button>
 				</form>
 			</div>
