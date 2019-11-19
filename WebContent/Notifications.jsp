@@ -55,8 +55,8 @@
 		  		var hasError = false;
 		  		document.getElementById("error").innerHTML = "";
 			  	var xhttp = new XMLHttpRequest();
-			  	xhttp.open("GET", "ValidateSearch?searchInput="+document.myform.searchInput.value
-			  			+"&searchOption="+document.myform.searchOption.value, false);
+			  	xhttp.open("GET", "ValidateSearch?searchInput="+document.myform.input.value
+			  			+"&searchOption="+document.myform.filter.value, false);
 	
 			  	xhttp.send();
 			  	if(xhttp.responseText.trim().length > 0) {
@@ -103,7 +103,7 @@
 			<div class="links">
 				<div class="search">
 					<div class="bar">
-						<form name="myform" onsubmit="return isValid();" action="Results.jsp" method="GET">
+						<form name="myform" onsubmit="return isValid();" action="Details.jsp" method="GET">
 						<input type="search" name="input" id="box" placeholder="Enter search terms">
 						<button id="button" type="button" onclick="validate()" style="float: right;">Search</button>
 						<p>
