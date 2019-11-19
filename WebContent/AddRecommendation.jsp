@@ -15,7 +15,7 @@
 			font-size: 20px;
 			width: 40%;
 			border-radius: 10px;
-			height: 30px;
+			height: 40px;
 			background: transparent;
 			background-color: #E9EEE7;
 			background-size: cover;
@@ -66,6 +66,7 @@
 		 else { %>
 			 <body onload="noUser()">
 		 <% } %>
+		<div id="logo"><a href="HomePage.jsp">TrojanEats</a></div>
 		<div id="main">
 			<div id="noUserError"></div>
 			<a href="Login.jsp"><div id="askLogin"></div></a>
@@ -79,9 +80,9 @@
 				<form name="myform" onsubmit="return isValid();" action="Details.jsp" method="GET">
 				<input type="text" name="usernames" id="box" placeholder="Enter usernames here">
 				<div id="reviewText">
-					<textarea id="enterText" placeholder="Type your review here"></textarea>
+					<textarea id="enterText" placeholder="Type your message here"></textarea>
 				</div>
-				<p><br><div id="error"></div><br><p>
+				<p><div id="error"></div><br>
 				<button id="button" type="button" onclick="validate()" style="float: right;">Submit</button>
 				</form>
 			</div>
