@@ -1,0 +1,47 @@
+.results {
+	float: left;
+	width: 40%;
+	margin-left: 7%;
+	background-color: #E9EEE7;
+	background-size: cover;
+	border-radius: 25px;
+	padding-left: 20px;
+	height: 63vh;
+}
+.map {
+	width: 40%;
+	float: right;
+}
+#searchResults {
+	width: 40%;
+	color: gray;
+}
+#searchResults td {
+	border-bottom: 1px solid lightgray;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 15px;
+	text-align: left;
+}
+#mapResults {
+	position: fixed;
+	float: right;
+	padding: 20% 10%;
+	margin-top: 5%;
+	right: 5%;
+	width: 40%;
+	height: 60%;
+	border: 1px solid lightgray;
+	text-align: center;
+}
+h1 {
+	font-weight: normal;
+	margin-left: 7%;
+}
+body {
+	font-family: 'Josefin Sans', sans-serif;
+	color: gray;
+	background-color: white;
+	background-size: cover;
+	margin: 0;
+}
