@@ -31,7 +31,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i&display=swap" rel="stylesheet">
 		<link href='main.css' rel='stylesheet'>
 		<link href='header.css' rel='stylesheet'>
-		<link href='results.css' rel='stylesheet'>
+		<link href='details.css' rel='stylesheet'>
 		<style>
 			#main {
 				width: 1200px;
