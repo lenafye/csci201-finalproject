@@ -11,8 +11,6 @@
 			#main {
 				font-family: 'Josefin Sans', sans-serif;
 				font-color: gray;
-				background-image: url("img/bg.jpeg");
-				background-size: cover;
 				height: 78vh;
 				width: 100%;
 				position: relative;
@@ -39,6 +37,11 @@
 				width: 70%;
 				margin: auto;
 			}
+			body {
+				background-image: url("img/bg.jpeg");
+				background-size: cover;
+				margin: 0;
+			}
 			h1{
 				text-align: center;
 			}
@@ -55,8 +58,8 @@
 		  		var hasError = false;
 		  		document.getElementById("error").innerHTML = "";
 			  	var xhttp = new XMLHttpRequest();
-			  	xhttp.open("GET", "ValidateSearch?searchInput="+document.myform.searchInput.value
-			  			+"&searchOption="+document.myform.searchOption.value, false);
+			  	xhttp.open("GET", "SearchRestaurant?searchInput="+document.myform.input.value
+			  			+"&searchOption="+document.myform.filter.value, false);
 	
 			  	xhttp.send();
 			  	if(xhttp.responseText.trim().length > 0) {
@@ -84,18 +87,18 @@
 	</head>
 	<body>
 		<%@ page import='lenaye_CSCI201L_TrojanEats.DatabaseJDBC' %>
-		 <% String username = (String)session.getAttribute("username");
-		 if(username != null) {
+		<% String username = (String)session.getAttribute("username");
+		if(username != null) {
 			if(username.length() >= 0) { %>
 				<body onload="hasUser()">
 			<% }
 			else { %>
 				<body onload="noUser()">
 			<% }
-		 }
-		 else { %>
-			 <body onload="noUser()">
-		 <% } %>
+		}
+		else { %>
+			<body onload="noUser()">
+		<% } %>
 		<div id="header">
 			<div class="logo">
 				<a href="HomePage.jsp">TrojanEats</a>
@@ -103,7 +106,7 @@
 			<div class="links">
 				<div class="search">
 					<div class="bar">
-						<form name="myform" onsubmit="return isValid();" action="Results.jsp" method="GET">
+						<form name="myform" onsubmit="return isValid();" action="Details.jsp" method="GET">
 						<input type="search" name="input" id="box" placeholder="Enter search terms">
 						<button id="button" type="button" onclick="validate()" style="float: right;">Search</button>
 						<p>
