@@ -55,7 +55,7 @@
 			<div class="links">
 				<div class="search">
 					<div class="bar">
-						<form name="myform" onsubmit="return isValid();" action="Results.jsp" method="GET">
+						<form name="myform" onsubmit="return isValid();" action="Details.jsp" method="GET">
 						<input type="search" name="input" id="box" placeholder="Enter search terms">
 						<button id="button" type="button" onclick="validate()" style="float: right;">Search</button>
 						<p>
