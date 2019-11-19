@@ -1,0 +1,35 @@
+#main {
+	font-family: 'Josefin Sans', sans-serif;
+	font-color: gray;
+	height: 78vh;
+	width: 100%;
+}
+#container {
+	background-color: white;
+	height: 50vh;
+	width: 40%;
+	background-size: cover;
+	margin: auto;
+	margin-top: 9%;
+	border-radius: 25px;
+}
+#text {
+	padding-top: 20px;
+	padding-left: 20px;
+	padding-bottom: 20px;
+}
+body {
+	background-image: url("img/bg.jpeg");
+	background-size: cover;
+}
+h1 {
+	font-weight: normal;
+	text-align: center;
+}
+a {
+	text-decoration: none;
+	color: gray;
+}
+body {
+	margin: 0;
+}
