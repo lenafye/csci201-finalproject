@@ -35,7 +35,7 @@
 	<body onload="ifError()">
 		<div id="nav">
 			<nav class="navbar navbar-light bg-light">
-				<div class="logo">TrojanEats</div>
+				<div class="logo"><a href="HomePage.jsp">TrojanEats</a></div>
 			  	<form class="form-inline">
 			  	<% String loggedIn = (String) request.getSession().getAttribute("loggedIn");
 			  	if(loggedIn == null || loggedIn == "false") { %>
