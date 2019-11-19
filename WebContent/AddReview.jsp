@@ -8,12 +8,67 @@
 	</head>
 	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet">
 	<link href='interact.css' rel='stylesheet'>
+	<style type="text/css">
+		.rating {
+			display: inline-block;
+			position: relative;
+			height: 50px;
+			line-height: 50px;
+			font-size: 50px;
+		}
+		.rating label {
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 100%;
+		  	cursor: pointer;
+		}
+		.rating label:last-child {
+			position: static;
+		}
+		.rating label:nth-child(1) {
+		  	z-index: 5;
+		}
+		.rating label:nth-child(2) {
+		  	z-index: 4;
+		}
+		.rating label:nth-child(3) {
+		  	z-index: 3;
+		}
+		.rating label:nth-child(4) {
+		  	z-index: 2;
+		}
+		.rating label:nth-child(5) {
+		  	z-index: 1;
+		}
+		.rating label input {
+			position: absolute;
+		  	top: 0;
+		  	left: 0;
+		  	opacity: 0;
+		}
+		.rating label .icon {
+			float: left;
+			color: transparent;
+		}
+		.rating label:last-child .icon {
+			color: gray;
+		}
+		.rating:not(:hover) label input:checked ~ .icon,
+		.rating:hover label:hover input ~ .icon {
+		  	color: #ffc700;
+		}
+		.rating label input:focus:not(:checked) ~ .icon:last-child {
+		  	color: #000;
+		  	text-shadow: 0 0 5px #09f;
+		}
+	</style>
 	<script>
 		function isValid() {
 	  		var hasError = false;
 	  		document.getElementById("error").innerHTML = "";
 		  	var xhttp = new XMLHttpRequest();
-		  	xhttp.open("GET", "AddReview?rating="+document.myform.rating.value
+		  	xhttp.open("GET", "AddReview?rating="+document.myform.stars.value
 		  			+"&text="+document.myform.enterText.value, false);
 
 		  	xhttp.send();
@@ -62,9 +117,38 @@
 					<a href="Profile.jsp"><img src="img/user.png"></a>
 				</div>
 				<form name="myform" onsubmit="return isValid();" action="Review.jsp" method="GET">
-				<% for(int i = 0; i < 5; i++) { %>
-					<img src="img/star.png" height="50px" style="align: left;">
-				<% } %>
+				<div class="rating">
+					<label>
+				    <input type="radio" name="stars" value="1" />
+				    <span class="icon">★</span>
+					</label>
+					<label>
+				    <input type="radio" name="stars" value="2" />
+				    <span class="icon">★</span>
+				    <span class="icon">★</span>
+				  	</label>
+				  	<label>
+				    <input type="radio" name="stars" value="3" />
+				    <span class="icon">★</span>
+				    <span class="icon">★</span>
+				    <span class="icon">★</span>   
+				  	</label>
+				  	<label>
+				    <input type="radio" name="stars" value="4" />
+				    <span class="icon">★</span>
+				    <span class="icon">★</span>
+				    <span class="icon">★</span>
+				    <span class="icon">★</span>
+				  	</label>
+				  	<label>
+				    <input type="radio" name="stars" value="5" />
+				    <span class="icon">★</span>
+				    <span class="icon">★</span>
+				    <span class="icon">★</span>
+				    <span class="icon">★</span>
+				    <span class="icon">★</span>
+				  	</label>
+				</div>
 				<div id="reviewText">
 					<textarea id="enterText" name="enterText" placeholder="Type your review here"></textarea>
 				</div>
