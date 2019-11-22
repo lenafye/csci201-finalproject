@@ -35,33 +35,29 @@
 	<body>
 		<div id="nav">
 			<nav class="navbar navbar-light bg-light">
-				<div class="logo"><a href="HomePage.jsp">TrojanEats</a></div>
+				<div class="logo"><a href="HomePage.jsp" style = "color: black">TrojanEats</a></div>
 				<img src = "img/user.png" alt = "profilePic" id = "profilePic" onclick = "window.location = 'Profile.jsp'">
-				<script>
-					//if(document.cookie == "")
-					//{
-					//	document.getElementById("profilePic").style.display = "none";
-					//}
-				</script>
 			</nav>
 		</div>
 		
-		<div id = "tabs">
-			<ul class="nav nav-tabs">
-  				<li class="nav-item" id = "inactive"> <a class="nav-link" href="Login.jsp">Sign In</a> </li>
-  				<li class="nav-item" id = "active"> <a class="nav-link active" href="#">Sign Up</a> </li>
-			</ul>
+		<div id = "box">
+			<div id = "tabs">
+				<div id = "loginTab"> <a href = "Login.jsp"> Sign In </a> </div>
+				<div id = registerTab> Sign Up </div>
+				<br>
+				<form name = "registerForm" class = "registerForm" method = "GET" action = "Register" onsubmit = "return validate();">
+					<br>
+					<div id = "unfield"> <p id = "un">Username <input type = "text" name = "username" class = "usernameInput"> </p> <br> </div>
+					<div id = "pwfield"> <p id = "pw">Password <input type = "password" name = "password" class = "passwordInput"> </p> <br> </div>
+					<div id = "cpwfield"> <p id = "confirm_pw">Confirm Password <input type = "password" name = "passwordConfirmation" class = "passwordConfirmationInput"> </p> <br> </div>
+					<div id = "button"> <input type = "submit" name = "submit" value = "Enter" class = "registerButton" style="margin-left: 35%"> </div>
+				</form>
+			</div>
 			
-			<form name = "registerForm" class = "registerForm" method = "GET" action = "Register" onsubmit = "return validate();">
-				<p id = "un">Username <input type = "text" name = "username" class = "usernameInput"> </p> <br>
-				<p id = "pw">Password <input type = "password" name = "password" class = "passwordInput"> </p> <br>
-				<p id = "confirm_pw">Confirm Password <input type = "password" name = "passwordConfirmation" class = "passwordConfirmationInput"> </p> <br>
-				<input type = "submit" name = "submit" value = "Register" class = "registerButton">
-			</form>
-		
 			<div id = "error"> <%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %> </div>
-		
 		</div>
+		
+		
 		
 		
 		

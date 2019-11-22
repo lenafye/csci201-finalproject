@@ -18,6 +18,27 @@
 	text-decoration: none;
 }
 
+a:link
+{
+	color: white;
+}
+
+a:visited
+{
+	color: white;
+}
+
+a:hover
+{
+	color: white;
+}
+
+a:active:
+{
+	coloer: white;
+}
+
+
 body
 {
 	font-family: 'Josefin Sans', sans-serif;
@@ -50,41 +71,103 @@ body
 #tabs
 {
 	float: top;
-	padding: 200px;
-	top: 30%;
-	left: 40%;
-	
+	padding-left: 30%;
+	padding-top: 15%;
 	border-radius: 25px;
+	border-color: black;
 	padding-top: 100px;
 }
 
 a
 {
 	text-decoration: none;
-	color: gray;
+	color: white;
 }
 
-#inactive
+#loginTab
 {
-	
+	float: left;
 	background-color: #129675;
 	border-radius: 25px 25px 0px 0px;
 	width: 120px;
+	height: 30px;
+	text-align: center;
+	text-decoration: none;
+	color: white;
 }
 
-#active
+#registerTab
 {
+	float: left;
 	background-color: #1be4b3;
 	border-radius: 25px 25px 0px 0px;
 	width: 120px;
+	height: 30px;
+	text-align: center;
+	text-decoration: none;
+	color: white;
 }
 
 .registerForm
 {
-	float: left;
+	float: top;
 	left: 20%;
 	background-color: #1be4b3;
 	width: 90vh;
-	height: 40vh;
+	height: 50vh;
 	border-radius: 0px 25px 25px;
+	align: center;
+}
+
+#unfield
+{
+	margin: 0 auto;
+    width: 80%;
+    text-decoration: none;
+	color: white;
+}
+
+.usernameInput
+{
+	width: 80%;
+}
+
+#pwfield
+{
+	margin: 0 auto;
+    width: 80%;
+    text-decoration: none;
+	color: white;
+}
+
+.passwordInput
+{
+	width: 80%;
+}
+
+#cpwfield
+{
+	margin: 0 auto;
+    width: 80%;
+    text-decoration: none;
+	color: white;
+}
+
+.passwordConfirmationInput
+{
+	width: 65%;
+}
+
+#button
+{
+	float: top;
+	left: 30%;
+}
+
+.registerButton
+{
+	float: top;
+	width: 30%;
+	border-radius: 25px 25px 25px 25px;
+	left: 30%;
 }
