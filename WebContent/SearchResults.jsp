@@ -100,6 +100,7 @@
 				<% String searchBy = request.getParameter("searchBy"); %>
 				<% Integer numResults = (Integer) request.getAttribute("numResults"); %>
 				<% ArrayList<Restaurant> r = (ArrayList<Restaurant>) request.getAttribute("restaurantList"); %>
+				<%int i;%>
 				
 				var placeholder = "<%= searchTerm %>";
 				var searchBy = "<%= searchBy %>";
@@ -119,8 +120,9 @@
 				var suff = "https://maps.googleapis.com/maps/api/staticmap?center=University+Of+Southern+California,Los+Angeles,CA&zoom=15&size=350x450&maptype=roadmap";
 				for(var i = 0; i < numResults; i++) {
 					
-					lat = r.get(i).getLatitude();
-					lon = r.get(i).getLongitude();
+					<% i = %> i;
+					lat = <%=r.get(i).getLatitude()%>;
+					lon = <%=r.get(i).getLongitude()%>;
 					suff += "&markers=color:red%7Clabel:S%7C" + lat + "," + lon;
 					
 				}
@@ -145,7 +147,7 @@
 					
 					for(var i = 0; i < numResults; i++) {
 						
-						<% int i = %> i;
+						<% i = %> i;
 						
 						let row = document.createElement("tr");
 						document.querySelector("#searchResults").appendChild(row);
