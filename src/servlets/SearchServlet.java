@@ -1,6 +1,7 @@
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,11 +31,6 @@ public class SearchServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String searchTerm = request.getParameter("search");
-	
-		//for determining login status
-		//String isLoggedIn = request.getParameter("login");
-		
-		//request.setAttribute("loggedIn", isLoggedIn);
 		
 		if(searchTerm.equals("") || searchTerm == null) {
 			
@@ -46,12 +42,11 @@ public class SearchServlet extends HttpServlet {
 		
 		String searchBy = request.getParameter("searchBy");
 		
+		ArrayList<Restaurant> r = new ArrayList<Restaurant>();
+		r = search(searchTerm, 0, searchBy);
 		
-		//receive the database input from searching "searchTerm" via "searchBy"
-		//
-		//
-		//
-		
+		request.setAttribute("numResults", r.size());
+		request.setAttribute("restaurantList", r);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("SearchResults.jsp");
 		dispatcher.forward(request, response);
