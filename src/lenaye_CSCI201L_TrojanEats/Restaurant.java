@@ -7,13 +7,15 @@ public class Restaurant {
 	private boolean swipes;
 	private boolean diningDollars;
 	private int cost;
-	private int[][] hours;
+	private String hours;
 	private String address;
+	private double latitude;
+	private double longitude;
 	private double avgRating;
 	
 	
 	public Restaurant(int id, String name, String cuisine, boolean swipes, boolean diningDollars, int cost,
-						int[][] hours, String address, double avgRating)
+						String hours, String address, double latitude, double longitude, double avgRating)
 	{
 		restaurantId = id;
 		this.name = name;
@@ -23,6 +25,8 @@ public class Restaurant {
 		this.cost = cost;
 		this.hours = hours;
 		this.address = address;
+		this.latitude = latitude;
+		this.longitude = longitude;
 		this.avgRating = avgRating;
 		
 	}
@@ -52,53 +56,22 @@ public class Restaurant {
 	{
 		return cost;
 	}
-	public int[][] getHours()
+	public String getHours()
 	{
 		return hours;
 	}
-	public String hoursToString()
-	{
-		String s ="";
-		for(int i=0; i<7; i++)
-		{
-			switch(i)
-			{
-				case(0):
-					s+="Monday: ";
-					break;
-				case(1):
-					s+="Tuesday: ";
-					break;
-				case(2):
-					s+="Wednesday: ";
-					break;
-				case(3):
-					s+="Thursday: ";
-					break;
-				case(4):
-					s+="Friday: ";
-					break;
-				case(5):
-					s+="Saturday: ";
-					break;
-				case(6):
-					s+="Sunday: ";
-					break;
-			}
-			if(hours[i][0] == -1)
-			{
-				s += "closed\n";
-			} else {
-				s += hours[i][0] + " - " + hours[i][1] + "\n";
-			}
-			
-				
-		}
-		return s;
-	}
+	
 	public String getAddress()
 	{
 		return address;
+	}
+	public double getLatitude()
+	{
+		return latitude;
+	}
+	public double getLongitude()
+	{
+		return longitude;
 	}
 	public double getRating()
 	{
