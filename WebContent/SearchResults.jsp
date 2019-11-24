@@ -90,18 +90,26 @@
 				<table id="searchResults">
 				</table>
 			</div>
-			<div class="map"></div>
+			<div class="map">
+			</div>
 		</div>
 		<script>
 			function getSearchResults() {
+				
 			 	<% String searchTerm = request.getParameter("search"); %>
 				<% String searchBy = request.getParameter("searchBy"); %>
+				<% Integer numResults = (Integer) request.getAttribute("numResults"); %>
+				<% ArrayList<Restaurant> r = (ArrayList<Restaurant>) request.getAttribute("restaurantList"); %>
+				<%int i;%>
 				
 				var placeholder = "<%= searchTerm %>";
 				var searchBy = "<%= searchBy %>";
+				var numResults = "<%= numResults %>";
 				var searchTerm = "";
-				//assume this is the number of results from Array of results
-				var numResults = 0;
+				var lat;
+				var lon;
+				
+				
 				for(var i = 0; i < placeholder.length; i++) {
 					if(placeholder.charAt(i) == " ") {
 						searchTerm += "+";
@@ -111,7 +119,12 @@
 				}
 				var suff = "https://maps.googleapis.com/maps/api/staticmap?center=University+Of+Southern+California,Los+Angeles,CA&zoom=15&size=350x450&maptype=roadmap";
 				for(var i = 0; i < numResults; i++) {
-					suff += "&markers=color:red%7Clabel:S%7C" + arraylist[i][3] + "," + arraylist[i][4];
+					
+					<% i = %> i;
+					lat = <%=r.get(i).getLatitude()%>;
+					lon = <%=r.get(i).getLongitude()%>;
+					suff += "&markers=color:red%7Clabel:S%7C" + lat + "," + lon;
+					
 				}
 				suff += "&key=AIzaSyAxkitpbRuPGhv0Y4mHpVBfgNXU01wH7kw";
 				
@@ -120,34 +133,37 @@
 				image.setAttribute("src", suff);
 				document.querySelector(".map").appendChild(image);
 				
-				//Use database search to display restaraunts
-				//var arraylist;
+				
 				if(numResults == 0) {
+					
 					let row = document.createElement("tr");
 					document.querySelector("#searchResults").appendChild(row);
 					let name = document.createElement("td");
 					name.classList.add("restaurant");
 					name.innerHTML = "No results found";
 					row.appendChild(name);
-				} /* else {
+					
+				} else {
+					
 					for(var i = 0; i < numResults; i++) {
+						
+						<% i = %> i;
+						
 						let row = document.createElement("tr");
 						document.querySelector("#searchResults").appendChild(row);
 					
 						let numItem = document.createElement("td");
 						numItem.classList.add("restaurant");
 						let a = document.createElement("a");
-						a.setAttribute("href", "Details.jsp?final=" arraylist[i][1] + "&search=" + searchTerm + "&searchBy=" + searchBy);
-						a.innerHTML = "<h2>" + i + ")</h2>";
+						a.setAttribute("href", "Details.jsp?final=" + r.get(i).getId());
+						a.innerHTML = "<h2>" + (i+1) + ". " + <%=r.get(i).getName()%> + "</h2><br><br>Average Rating: " + <%=r.get(i).getRating%> + "<br>Address: " + <%=r.get(i).getAddress()%> + "<br>Cost: " + <%=r.get(i).getCost()%> + "<br><br>";
 						numItem.appendChild(a);
 						row.appendChild(numItem); 
 						
-						let name = document.createElement("td");
-						name.classList.add("restaurant");
-						name.innerHTML = "<h3>" + arraylist[i][1] + "</h3><br><br><i>" + arraylist[i][2] + "</i><br>";
-						row.appendChild(name);
 					}
-				} */
+					
+				} 
+				
 			}
 		</script>
 	</body>
