@@ -1,4 +1,4 @@
-package trojaneats;
+package lenaye_CSCI201L_TrojanEats;
 
 public class Restaurant {
 	private int restaurantId;

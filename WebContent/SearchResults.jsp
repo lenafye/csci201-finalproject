@@ -99,7 +99,7 @@
 			 	<% String searchTerm = request.getParameter("search"); %>
 				<% String searchBy = request.getParameter("searchBy"); %>
 				<% Integer numResults = (Integer) request.getAttribute("numResults"); %>
-				<% ArrayList<Restaurant> r = (ArrayList<Restaurant>) request.getAttribute("restaurantList"); %>
+				<%ArrayList<lenaye_CSCI201L_TrojanEats.Restaurant> r = (ArrayList<lenaye_CSCI201L_TrojanEats.Restaurant>) request.getAttribute("restaurantList");%>
 				<%int i;%>
 				
 				var placeholder = "<%= searchTerm %>";
