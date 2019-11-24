@@ -16,7 +16,7 @@ public class DatabaseJDBC {
 		ResultSet rs = null;
 		PreparedStatement ps = null;
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneats201&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=emma&password=trojaneats");
+			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
 			ps = conn.prepareStatement("SELECT username FROM Users WHERE username=?");
 			ps.setString(1, username);
 			rs = ps.executeQuery();
@@ -53,7 +53,7 @@ public class DatabaseJDBC {
 		PreparedStatement ps = null;
 		try {
 			// Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneats201&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=emma&password=trojaneats");
+			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
 			ps = conn.prepareStatement("SELECT userId FROM Users WHERE username=?");
 			ps.setString(1, username);
 			rs = ps.executeQuery();
@@ -65,6 +65,7 @@ public class DatabaseJDBC {
 				ps = conn.prepareStatement("SELECT * FROM Users WHERE username=? AND password=?");
 				ps.setString(1, username);
 				ps.setString(2, password);
+				rs = ps.executeQuery();
 				if(rs.next()) {
 					return 1;
 				}
@@ -96,7 +97,7 @@ public class DatabaseJDBC {
 		ResultSet rs = null;
 		ArrayList<Restaurant> r = new ArrayList<Restaurant>();
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneats201&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=emma&password=trojaneats");
+			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
 			ps = conn.prepareStatement("SELECT * FROM Restaurant");
 		} catch(SQLException sqle) {
 			System.out.println(sqle.getMessage());
@@ -120,35 +121,35 @@ public class DatabaseJDBC {
 	public static ArrayList<Review> getReviews(String username) {
 		Connection conn = null;
 		PreparedStatement ps = null;
-		PreparedStatement ps2 = null;
 		ResultSet rs = null;
 		ResultSet rs2 = null;
 		ArrayList<Review> reviews = new ArrayList<Review>();
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneats201&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=emma&password=trojaneats");
+			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
 			ps = conn.prepareStatement("SELECT userId FROM Users WHERE username=?");
 			ps.setString(1, username);
 			rs = ps.executeQuery();
+			rs.next();
+			int userId = rs.getInt("userId");
+			ps = conn.prepareStatement("SELECT * FROM Reviews WHERE userId=?");
+			ps.setInt(1, userId);
+			rs = ps.executeQuery();
 			while(rs.next()) {
-				int userId = rs.getInt("userId");
-				ps = conn.prepareStatement("SELECT * FROM Reviews WHERE userId=?");
-				ps.setInt(1, userId);
-				while(rs.next()) {
-					int reviewId = rs.getInt("reviewId");
-					int restaurantId = rs.getInt("restaurantId");
-					int rating = rs.getInt("rating");
-					String text = rs.getString("text");
-					int score = rs.getInt("score");
-					ps2 = conn.prepareStatement("SELECT name FROM Restaurants WHERE restaurantId = ?");
-					ps2.setInt(1, restaurantId);
-					rs2 = ps2.executeQuery();
-					while(rs2.next()) {
-						String restaurantName = rs2.getString("name");
-						Review r = new Review(reviewId, username, restaurantId, restaurantName, rating, text, score);
-						reviews.add(r);
-					}
-				}
+				int reviewId = rs.getInt("reviewId");
+				int restaurantId = rs.getInt("restaurantId");
+				int rating = rs.getInt("rating");
+				String text = rs.getString("text");
+				int score = rs.getInt("score");
+				ps = conn.prepareStatement("SELECT name FROM Restaurants WHERE restaurantId = ?");
+				ps.setInt(1, restaurantId);
+				rs2 = ps.executeQuery();
+				rs2.next();
+				String restaurantName = rs2.getString("name");
+				Review r = new Review(reviewId, username, restaurantId, restaurantName, rating, text, score);
+				reviews.add(r);
+				
 			}
+			
 		} catch(SQLException sqle) {
 			System.out.println(sqle.getMessage());
 		} finally {
@@ -175,7 +176,7 @@ public class DatabaseJDBC {
 		ResultSet rs = null;
 		ResultSet rs2 = null;
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneats201&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=emma&password=trojaneats");
+			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
 			ps = conn.prepareStatement("SELECT restaurantId FROM Restaurants WHERE name=?");
 			ps.setString(1, restaurantName);
 			rs = ps.executeQuery();
@@ -220,7 +221,7 @@ public class DatabaseJDBC {
 		ResultSet rs = null;
 		int score = 0;
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneats201&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=emma&password=trojaneats");
+			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
 			ps = conn.prepareStatement("SELECT * FROM Reviews WHERE reviewId=?");
 			ps.setInt(1, reviewId);
 			rs = ps.executeQuery();
