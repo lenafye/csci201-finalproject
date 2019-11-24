@@ -228,7 +228,7 @@
 				      }
 						
 				      </script>
-					<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBJeteA79gY_qxZS-2wMcVbvVaWCEC5u4&callback=initMap" type="text/javascript"></script>
+					<script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" type="text/javascript"></script>
 				
 				<div class='clearfloat'></div>
 			</div> <!-- #restaurant -->
