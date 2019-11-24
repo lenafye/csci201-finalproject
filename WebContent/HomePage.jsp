@@ -37,11 +37,11 @@
 			<nav class="navbar navbar-light bg-light">
 				<div class="logo"><a href="HomePage.jsp">TrojanEats</a></div>
 			  	<form class="form-inline">
-			  	<% String loggedIn = (String) request.getSession().getAttribute("loggedIn");
-			  	if(loggedIn == null || loggedIn == "false") { %>
+			  	<% String username = (String) request.getSession().getAttribute("username");
+			  	if(username == null || username == "") { %>
 			  	<a href="Register.jsp" class="btn btn-outline-success" role="button">Register</a>
 			  	<a href="Login.jsp" class="btn btn-success" role="button">Login</a>
-			    <% } else if (loggedIn.equals("true")){ %>
+			    <% } else { %>
 			    <a href="Profile.jsp" class="btn btn-outline-success" role="button">Profile</a>
 			  	<a href="Logout" class="btn btn-success" role="button">Sign Out</a>
 			    <% } %>
@@ -54,7 +54,8 @@
 				<div class="input-group mb-3">
 			  		<input type="text" class="form-control" placeholder="Enter search terms" aria-label="Query" aria-describedby="button-addon2">
 				  	<div class="input-group-append">
-				    	<button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+				  		<a href="SearchServlet" class="btn btn-outline-secondary" role="button">Search</a>
+				    	
 				  	</div>
 				</div><br>
 				<div class="row">
