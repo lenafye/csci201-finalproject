@@ -26,7 +26,7 @@
 		   pandaHours[6][1]  = -1;
 		%>
 		<%
-			lenaye_CSCI201L_TrojanEats.Restaurant currRes = new lenaye_CSCI201L_TrojanEats.Restaurant(1, "Panda Express", "Chinese", false, true, 2, pandaHours, "3607 Trousdale Parkway Los Angeles, CA 90089", 2.0);
+			Restaurant currRes = new Restaurant(1, "Panda Express", "Chinese", false, true, 2, pandaHours, "3607 Trousdale Parkway Los Angeles, CA 90089", 2.0);
 		%>
 		<% String resName = currRes.getName(); %>
 		<title><%=resName%> Details | TrojanEats</title>
