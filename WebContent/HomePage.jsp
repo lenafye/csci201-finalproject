@@ -31,17 +31,26 @@
 		  		return !hasError;
 		  	}
 		</script>
+		<!-- <script>
+		function ifError(){
+			var error = sessionStorage.getItem("error")
+			document.getElementById("error").innerHTML = error;
+			error = "";
+			sessionStorage.setItem("error", "");
+			
+		}
+		</script> -->
 	</head>
-	<body onload="ifError()">
+	<body> <!-- onload="ifError()"> -->
 		<div id="nav">
 			<nav class="navbar navbar-light bg-light">
 				<div class="logo"><a href="HomePage.jsp">TrojanEats</a></div>
 			  	<form class="form-inline">
-			  	<% String username = (String) request.getSession().getAttribute("username");
-			  	if(username == null || username == "") { %>
+			  	<% String username = (String)session.getAttribute("username");
+			  	if(username == null || username.length() == 0) { %>
 			  	<a href="Register.jsp" class="btn btn-outline-success" role="button">Register</a>
 			  	<a href="Login.jsp" class="btn btn-success" role="button">Login</a>
-			    <% } else { %>
+			    <% } else{ %>
 			    <a href="Profile.jsp" class="btn btn-outline-success" role="button">Profile</a>
 			  	<a href="Logout" class="btn btn-success" role="button">Sign Out</a>
 			    <% } %>
