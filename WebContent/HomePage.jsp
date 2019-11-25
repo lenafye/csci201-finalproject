@@ -47,7 +47,7 @@
 				<div class="logo"><a href="HomePage.jsp">TrojanEats</a></div>
 			  	<form class="form-inline">
 			  	<% String username = (String)session.getAttribute("username");
-			  	if(username == null || username.length() == 0) { %>
+			  	if(username == null || username.trim().length() == 0) { %>
 			  	<a href="Register.jsp" class="btn btn-outline-success" role="button">Register</a>
 			  	<a href="Login.jsp" class="btn btn-success" role="button">Login</a>
 			    <% } else{ %>
