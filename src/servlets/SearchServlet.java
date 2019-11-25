@@ -43,10 +43,15 @@ public class SearchServlet extends HttpServlet {
 			
 		}
 		
-		String searchBy = request.getParameter("searchBy");
+		String cuisine = request.getParameter("cuisine");
+		String price = request.getParamter("price");
+		boolean dollars = true;
+		if(request.getParameter("dollars") == null) dollars = false;
+		boolean swipes = true;
+		if(request.getParameter("swipes") == null) swipes = false;
 		
 		ArrayList<Restaurant> r = new ArrayList<Restaurant>();
-		r = DatabaseJDBC.search(searchTerm, 0, searchBy);
+		r = DatabaseJDBC.search(searchTerm, cuisine, price, dollars, swipes);
 		
 		request.setAttribute("numResults", r.size());
 		request.setAttribute("restaurantList", r);
