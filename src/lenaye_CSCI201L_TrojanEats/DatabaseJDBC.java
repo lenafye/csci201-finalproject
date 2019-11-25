@@ -425,5 +425,48 @@ public class DatabaseJDBC {
 			}
 		}
 	}
+	
+	public static String getRecommendation(int recommendationID)
+	{
+		String r = "";
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try
+		{
+			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
+			ps = conn.prepareStatement("SELECT * FROM Recommendations WHERE recommendationID=?");
+			ps.setInt(1, recommendationID);
+			rs = ps.executeQuery();
+			int restaurantID = 0;
+			int senderID = 0;
+			if(rs.next())
+			{
+				senderID = rs.getInt("senderID");
+				restaurantID = rs.getInt("restaurantID");
+			}
+			rs.close();
+			ps = conn.prepareStatement("SELECT * FROM Restaurants WHERE restaurantID=?");
+			ps.setInt(1,  restaurantID);
+			rs = ps.executeQuery();
+			if(rs.next()) { r += rs.getString("restaurantName") + "~"; }
+			rs.close();
+			ps = conn.prepareStatement("SELECT * FROM Users WHERE userID=?");
+			ps.setInt(1,  senderID);
+			rs = ps.executeQuery();
+			if(rs.next()) { r += rs.getString("username"); }
+		}
+		catch (SQLException sqle) { System.out.println(sqle.getMessage()); }
+		finally
+		{
+			try
+			{
+				if (rs != null) { rs.close(); }
+				if (conn != null) { conn.close(); }
+			}
+			catch (SQLException sqle) { System.out.println(sqle.getMessage()); }
+		}
+		return r;
+	}
 }
 

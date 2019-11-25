@@ -90,12 +90,16 @@
 				</div>
 			</div>
 		
+		
+		<% int recID = Integer.parseInt(request.getParameter("recommendationID")); %>
+		<% String params[] = DatabaseJDBC.getRecommendation(recID).split("~"); %>
+		
 		</div>
 		<div id="main">
 			<div id="container">
 				<div id="text">
-					<h1>Panda Express</h1>
-					<p align="center">From: User<p>
+					<h1> <%= params[0] %></h1>
+					<p align="center">From: <%= params[1] %><p>
 					Check out this restaurant! <p>
 				</div>
 			</div>
