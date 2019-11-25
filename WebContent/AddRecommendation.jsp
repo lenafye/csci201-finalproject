@@ -79,7 +79,7 @@
 					<textarea id="enterText" name="enterText" placeholder="Type your message here"></textarea>
 				</div>
 				<p><div id="error"></div><br>
-				<button id="button" type="button" onclick="validate()" style="float: right;">Submit</button>
+				<button id="button" type="submit" style="float: right;">Submit</button>
 				</form>
 			</div>
 		</div>
