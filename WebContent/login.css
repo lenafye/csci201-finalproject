@@ -1,0 +1,168 @@
+.navbar
+{
+	font-family: 'Josefin Sans', sans-serif;
+}
+
+.header
+{
+	font-family: 'Josefin Sans', sans-serif;
+	padding: 10px;
+ 	text-align: left;
+	background: white;
+	color: black;
+}
+
+.header a
+{
+	color: black;
+	text-decoration: none;
+}
+
+a:link
+{
+	color: white;
+}
+
+a:visited
+{
+	color: white;
+}
+
+a:hover
+{
+	color: white;
+}
+
+a:active:
+{
+	coloer: white;
+}
+
+
+body
+{
+	font-family: 'Josefin Sans', sans-serif;
+    background-image: url("img/bg.jpeg");
+    background-size: cover;
+    background-color: black;
+    background-repeat: no-repeat;
+    color:white;
+    line-height: 20px;
+    margin:0px;
+}
+
+.logo
+{
+	padding-top: 38px;
+	margin-left: -8px;
+	float: left;
+	font-size: 50px;
+	color: gray;
+}
+
+#nav
+{
+	height: 22vh;
+	background-color: white;
+	background-size: cover;
+	
+}
+
+#tabs
+{
+	float: top;
+	padding-left: 30%;
+	padding-top: 15%;
+	border-radius: 25px;
+	border-color: black;
+	padding-top: 100px;
+}
+
+a
+{
+	text-decoration: none;
+	color: white;
+}
+
+#registerTab
+{
+	float: left;
+	background-color: #129675;
+	border-radius: 25px 25px 0px 0px;
+	width: 120px;
+	height: 30px;
+	text-align: center;
+	text-decoration: none;
+	color: white;
+}
+
+#loginTab
+{
+	float: left;
+	background-color: #1be4b3;
+	border-radius: 25px 25px 0px 0px;
+	width: 120px;
+	height: 30px;
+	text-align: center;
+	text-decoration: none;
+	color: white;
+}
+
+.loginForm
+{
+	float: top;
+	left: 20%;
+	background-color: #1be4b3;
+	width: 90vh;
+	height: 50vh;
+	border-radius: 0px 25px 25px;
+	align: center;
+}
+
+#unfield
+{
+	margin: 0 auto;
+    width: 80%;
+    text-decoration: none;
+	color: white;
+}
+
+.usernameInput
+{
+	width: 80%;
+}
+
+#pwfield
+{
+	margin: 0 auto;
+    width: 80%;
+    text-decoration: none;
+	color: white;
+}
+
+.passwordInput
+{
+	width: 80%;
+}
+
+#cpwfield
+{
+	margin: 0 auto;
+    width: 80%;
+    text-decoration: none;
+	color: white;
+}
+
+#button
+{
+	float: top;
+	left: 30%;
+}
+
+.loginButton
+{
+	float: top;
+	width: 30%;
+	border-radius: 25px 25px 25px 25px;
+	left: 30%;
+}

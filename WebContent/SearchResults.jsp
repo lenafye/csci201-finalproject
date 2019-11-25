@@ -93,13 +93,15 @@
 			<div class="map">
 			</div>
 		</div>
+		<%@ page import='java.util.ArrayList' %>
+		<%@ page import='lenaye_CSCI201L_TrojanEats.Restaurant' %>
 		<script>
 			function getSearchResults() {
 				
 			 	<% String searchTerm = request.getParameter("search"); %>
 				<% String searchBy = request.getParameter("searchBy"); %>
 				<% Integer numResults = (Integer) request.getAttribute("numResults"); %>
-				<% ArrayList<Restaurant> r = (ArrayList<Restaurant>) request.getAttribute("restaurantList"); %>
+				<%ArrayList<Restaurant> r = (ArrayList<Restaurant>) request.getAttribute("restaurantList");%>
 				<%int i;%>
 				
 				var placeholder = "<%= searchTerm %>";
@@ -156,7 +158,7 @@
 						numItem.classList.add("restaurant");
 						let a = document.createElement("a");
 						a.setAttribute("href", "Details.jsp?final=" + r.get(i).getId());
-						a.innerHTML = "<h2>" + (i+1) + ". " + <%=r.get(i).getName()%> + "</h2><br><br>Average Rating: " + <%=r.get(i).getRating%> + "<br>Address: " + <%=r.get(i).getAddress()%> + "<br>Cost: " + <%=r.get(i).getCost()%> + "<br><br>";
+						a.innerHTML = "<h2>" + (i+1) + ". " + <%=r.get(i).getName()%> + "</h2><br><br>Average Rating: " + <%=r.get(i).getRating()%> + "<br>Address: " + <%=r.get(i).getAddress()%> + "<br>Cost: " + <%=r.get(i).getCost()%> + "<br><br>";
 						numItem.appendChild(a);
 						row.appendChild(numItem); 
 						

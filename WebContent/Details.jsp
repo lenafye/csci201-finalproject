@@ -9,23 +9,10 @@
 		<% //ArrayList<Restaurant> restaurants = (ArrayList<Restaurant>) session.getAttribute("restaurants"); %>
 		<% //int resNum = Integer.parseInt(request.getParameter("resNum")); %>
 		<% //Restaurant currRes  = //restaurants.get(resNum); %>
-		<% int[][] pandaHours = new int[7][2]; %>
-		<% pandaHours[0][0]  = 10;
-		   pandaHours[0][1]  = 8;
-		   pandaHours[1][0]  = 10;
-		   pandaHours[1][1]  = 8;
-		   pandaHours[2][0]  = 10;
-		   pandaHours[2][1]  = 8;
-		   pandaHours[3][0]  = 10;
-		   pandaHours[3][1]  = 8;
-		   pandaHours[4][0]  = 10;
-		   pandaHours[4][1]  = 5;
-		   pandaHours[5][0]  = -1;
-		   pandaHours[5][1]  = -1;
-		   pandaHours[6][0]  = -1;
-		   pandaHours[6][1]  = -1;
+		<% String pandaHours = "Monday: 10am-8pm\nTuesday: 10am-8pm\nWednesday: 10am-8pm\nThursday: 10am-8pm\nFriday: 10am-5pm\nSaturday: CLOSED\nSunday: CLOSED"; %>
+		<%
+			Restaurant currRes = new Restaurant(1, "Panda Express", "Chinese", false, true, 2, pandaHours, "3607 Trousdale Parkway Los Angeles, CA 90089", 34.020377, -118.286377, 2.0);
 		%>
-		<%  Restaurant currRes = new Restaurant(1, "Panda Express", "Chinese", false, true, 2, pandaHours, "3607 Trousdale Parkway Los Angeles, CA 90089", 2.0); %>
 		<% String resName = currRes.getName(); %>
 		<title><%=resName%> Details | TrojanEats</title>
 		<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i&display=swap" rel="stylesheet">
@@ -44,23 +31,26 @@
 				margin-right: auto;
 				background-color: rgb(239, 246, 238);
 				border-radius: 15px;
+				overflow: hidden;
 			}
 			#resMap {
-				width: 300px;
+				width: 500px;
 				display: block;
-				float: left;
+				float: right;
 				margin-left: 100px;
+				height: 440px;
 			}
 			#hours {
-				width: 150px;
+				width: 170px;
 				float: left;
 				margin-top: 1em;
 				margin-left: 10px;
 			}
 			#resInfo {
 				float: left;
-				width: 700px;
-				margin-bottom: 20px;
+				width: 500px;
+				padding: 20px;
+				height: 400px;
 			}
 			#favRem{
 				float: left;
@@ -174,7 +164,7 @@
 					<h1><%=currRes.getName()%></h1>
 					<p>Address: <%= currRes.getAddress() %></p>
 					<% int cost = currRes.getCost(); %>
-					<p>Cost: <%for(int i=0; i<cost; i++) { %> $ <%} %> </p>
+					<p>Cost: <%for(int i=0; i<cost; i++) { %>$<%} %> </p>
 					<% boolean dollars = currRes.getDD(); 
 						String acceptsDD = "No";
 						if(dollars)
@@ -194,27 +184,54 @@
 					%>
 					<p>Accepts Swipes: <%=acceptsSwipes%></p>
 					<p>Cuisine: <%=currRes.getCuisine()%></p>
-					<p style='float: left'>Hours: </p><div id='hours'><%=currRes.hoursToString()%></div>
+					<p style='float: left'>Hours: </p><div id='hours'><%=currRes.getHours()%></div>
 					<div class='clearfloat'></div>
 				</div> <!-- #resInfo -->
 				<div id='resMap' > </div> <!-- #resMap -->
 					<script>
-					// Initialize and add the map
-					function initMap() {
-					  // The location of Uluru
-					  var uluru = {lat: -25.344, lng: 131.036};
-					  // The map, centered at Uluru
-					  var map = new google.maps.Map(
-					      document.getElementById('resMap'), {zoom: 4, center: uluru});
-					  // The marker, positioned at Uluru
-					  var marker = new google.maps.Marker({position: uluru, map: map});
-					}
-					</script>
-					<script async defer src="https://maps.googleapis.com/maps/api/js?key=<took_out_for_security>&callback=initMap" type="text/javascript"></script>
-				
+					var map, infoWindow;
+				      function initMap() {
+				        map = new google.maps.Map(document.getElementById('resMap'), {
+				          center: {lat: 34.022288, lng: -118.285344},
+				          zoom: 15
+				        });
+				        infoWindow = new google.maps.InfoWindow;
+						var resCoord = new google.maps.LatLng(<%=currRes.getLatitude()%>, <%=currRes.getLongitude()%>);
+						var marker = new google.maps.Marker({position: resCoord, map: map});
+				        // Try HTML5 geolocation.
+				        if (navigator.geolocation) {
+				          navigator.geolocation.getCurrentPosition(function(position) {
+				            var pos = {
+				              lat: position.coords.latitude,
+				              lng: position.coords.longitude
+				            };
+
+				            infoWindow.setPosition(pos);
+				            infoWindow.setContent('Location found.');
+				            infoWindow.open(map);
+				            map.setCenter(pos);
+				          }, function() {
+				            handleLocationError(true, infoWindow, map.getCenter());
+				          });
+				        } else {
+				          // Browser doesn't support Geolocation
+				          handleLocationError(false, infoWindow, map.getCenter());
+				        }
+				      }
+
+				      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+				        infoWindow.setPosition(pos);
+				        infoWindow.setContent(browserHasGeolocation ?
+				                              'Error: The Geolocation service failed.' :
+				                              'Error: Your browser doesn\'t support geolocation.');
+				        infoWindow.open(map);
+				      }
+						
+				      </script>
+					<script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" type="text/javascript"></script>
 				
 				<div class='clearfloat'></div>
 			</div> <!-- #restaurant -->
-		</div>
+		</div> <!--  #main -->
 	</body>
 </html>

@@ -169,7 +169,8 @@ public class DatabaseJDBC {
 		}
 		return reviews;
 	}
-	
+
+
 	public static void addReview(String restaurantName, String username, int rating, String text) {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -250,3 +251,4 @@ public class DatabaseJDBC {
 		}
 	}
 }
+
