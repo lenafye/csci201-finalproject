@@ -95,10 +95,31 @@ public class DatabaseJDBC {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		String query = "SELECT * FROM Restaurant WHERE";
 		ArrayList<Restaurant> r = new ArrayList<Restaurant>();
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
-			ps = conn.prepareStatement("SELECT * FROM Restaurant");
+			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneats201&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=emma&password=trojaneats");
+			query += " Name=" + input;
+			if(!cuisine.contentEquals("none")) {
+				query += " AND Cuisine=" + cuisine;
+			}
+			if(!price.contentEquals("none")) {
+				if(price.contentEquals("one")) {
+					query += " AND Price=1";
+				} else if(price.contentEquals("two")) {
+					query += " AND Price=2";
+				} else {
+					query += " AND Price=3";
+				}
+			}
+			if(dollars) query += " AND Dollars=1";
+			if(swipes) query += " AND Swipes=1";
+			ps = conn.prepareStatement(query);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				Restaurant rest = new Restaurant(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getBoolean(4), rs.getBoolean(5), rs.getInt(6), rs.getArray(7), rs.getString(8), rs.getDouble(9));
+				r.add(rest);
+			}
 		} catch(SQLException sqle) {
 			System.out.println(sqle.getMessage());
 		} finally {
