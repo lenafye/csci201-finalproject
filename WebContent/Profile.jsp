@@ -89,7 +89,7 @@
 	</head>
 	<body>
 		<%@ page import='lenaye_CSCI201L_TrojanEats.DatabaseJDBC'
-		import='Review.java'%>
+		import='lenaye_CSCI201L_TrojanEats.Review'%>
 		<% String username = (String)session.getAttribute("username");
 		if(username != null) {
 			if(username.length() >= 0) { %>
@@ -152,7 +152,7 @@
 					<h1><% out.println(username); %>'s Reviews</h1>
 					<hr><p>
 					<div class="text">
-					<%ArrayList<Review> reviews = DatabaseJDBC.displayProfile(username);
+					<%ArrayList<Review> reviews = DatabaseJDBC.getReviews(username);
 					for(int i =0; i < reviews.size(); i++)
 					{%>
 					<h2><%=reviews.get(i).getRestaurantName()%></h2>
