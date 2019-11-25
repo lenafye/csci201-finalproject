@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-
 public class DatabaseJDBC {
 	
 	public static final long serialVersionUID = 1;
@@ -172,31 +171,24 @@ public class DatabaseJDBC {
 	}
 
 
-	public static void addReview(String restaurantName, String username, int rating, String text) {
+	public static void addReview(int restaurantId, String username, int rating, String text) {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		ResultSet rs2 = null;
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
-			ps = conn.prepareStatement("SELECT restaurantId FROM Restaurants WHERE name=?");
-			ps.setString(1, restaurantName);
+			ps = conn.prepareStatement("SELECT userId FROM Users WHERE username=?");
+			ps.setString(1, username);
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				int resId = rs.getInt("restaurantId");
-				ps = conn.prepareStatement("SELECT userId FROM Users WHERE username=?");
-				ps.setString(1, username);
-				rs2 = ps.executeQuery();
-				while(rs2.next()) {
-					int userId = rs2.getInt("userId");
-					ps = conn.prepareStatement("INSERT INTO Reviews (userId, restaurantId, rating, text, score) VALUES (?,?,?,?,?)");
-					ps.setInt(1, userId);
-					ps.setInt(2, resId);
-					ps.setInt(3, rating);
-					ps.setString(4, text);
-					ps.setInt(5, 0);
-					ps.executeUpdate();
-				}
+				int userId = rs.getInt("userId");
+				ps = conn.prepareStatement("INSERT INTO Reviews (userId, restaurantId, rating, text, score) VALUES (?,?,?,?,?)");
+				ps.setInt(1, userId);
+				ps.setInt(2, restaurantId);
+				ps.setInt(3, rating);
+				ps.setString(4, text);
+				ps.setInt(5, 0);
+				ps.executeUpdate();
 			}
 		} catch (SQLException sqle) {
 			System.out.println(sqle.getMessage());
@@ -204,9 +196,6 @@ public class DatabaseJDBC {
 			try {
 				if (rs!=null) {
 					rs.close();
-				}
-				if(rs2!=null) {
-					rs2.close();
 				}
 				if (conn!=null) {
 					conn.close();
@@ -252,6 +241,53 @@ public class DatabaseJDBC {
 		}
 	}
 	
+	// returns all reviews for a restaurant
+	// displayed on restaurant details page
+	public static ArrayList<Review> getReviewsForRes(int restaurantId, String restaurantName) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ResultSet rs2 = null;
+		ArrayList<Review> reviews = new ArrayList<Review>();
+		try {
+			conn = DriverManager.getConnection(
+			"jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
+			ps = conn.prepareStatement("SELECT * FROM Reviews WHERE restaurantId=?");
+			ps.setInt(1, restaurantId);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				int reviewId = rs.getInt("reviewId");
+				int userId = rs.getInt("userId");
+				ps = conn.prepareStatement("SELECT username FROM Users WHERE userId=?");
+				ps.setInt(1, userId);
+				rs2 = ps.executeQuery();
+				rs2.next();
+				String username = rs2.getString("username");
+				int rating = rs.getInt("rating");
+				String text = rs.getString("text");
+				int score = rs.getInt("score");
+				Review r = new Review(reviewId, username, restaurantId, restaurantName, rating, text, score);
+				reviews.add(r);
+			}
+		} catch (SQLException sqle) {
+			System.out.println(sqle.getMessage());
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (rs2 != null) {
+					rs2.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println(sqle.getMessage());
+			}
+		}
+		return reviews;
+	}
 	
 	public static ArrayList<Notification> getNotifications(String username) {
 		Connection conn = null;
@@ -334,6 +370,54 @@ public class DatabaseJDBC {
 					rs.close();
 				}
 				if (conn!=null) {
+					conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println(sqle.getMessage());
+			}
+		}
+	}
+	
+	public static void addRecommendation(String sender, ArrayList<String> receivers, int restaurantId) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ResultSet rs2 = null;
+		try {
+			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
+			ps = conn.prepareStatement("SELECT userId FROM Users WHERE username=?");
+			ps.setString(1, sender);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				int senderId = rs.getInt("userId");
+				int receiverId = 0;
+				for(int i = 0; i < receivers.size(); i++) {
+					ps = conn.prepareStatement("SELECT userId FROM Users WHERE username=?");
+					ps.setString(1, receivers.get(i));
+					rs2 = ps.executeQuery();
+					while(rs2.next()) {
+						receiverId = rs.getInt("userId");
+					}
+				}
+				ps = conn.prepareStatement("INSERT INTO Recommendations (notificationId, receiverId, senderId, restaurantId) VALUES (?,?,?,?)");
+				ps.setInt(1, 1);
+				ps.setInt(2, receiverId);
+				ps.setInt(3, senderId);
+				ps.setInt(4, restaurantId);
+				ps.setInt(5, 0);
+				ps.executeUpdate();
+			}
+		} catch (SQLException sqle) {
+			System.out.println(sqle.getMessage());
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (rs2 != null) {
+					rs2.close();
+				}
+				if (conn != null) {
 					conn.close();
 				}
 			} catch (SQLException sqle) {
