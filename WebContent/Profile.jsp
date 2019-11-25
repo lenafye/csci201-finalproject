@@ -152,7 +152,7 @@
 					<h1><% out.println(username); %>'s Reviews</h1>
 					<hr><p>
 					<div class="text">
-					<%ArrayList<Review> reviews = DatabaseJDBC.getReviews(username);
+					<%ArrayList<Review> reviews = DatabaseJDBC.getReviewsForUser(username);
 					for(int i =0; i < reviews.size(); i++)
 					{%>
 					<h2><%=reviews.get(i).getRestaurantName()%></h2>
