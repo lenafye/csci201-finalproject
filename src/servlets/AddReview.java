@@ -29,14 +29,12 @@ public class AddReview extends HttpServlet {
     }
     
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	//String restaurantName = request.getParameter("restaurantName");
-    	String restaurantName = "Panda Express";
     	HttpSession session = request.getSession();
+    	int restaurantId = Integer.parseInt(request.getParameter("restaurantId"));
     	String username = (String)session.getAttribute("username");
     	Integer rating = Integer.parseInt((String)request.getParameter("rating").trim());
     	String text = request.getParameter("text");
     	String error = "";
-    	String next = "/Profile.jsp";
     	
     	if(rating == null) {
     		error += "Please add a rating.";
@@ -45,7 +43,7 @@ public class AddReview extends HttpServlet {
     		error += "Please add a review.";
     	}
     	if(error.isEmpty()) {
-    		DatabaseJDBC.addReview(restaurantName, username, rating, text);
+    		DatabaseJDBC.addReview(restaurantId, username, rating, text);
     	}
     	request.setAttribute("error", error);
     }
