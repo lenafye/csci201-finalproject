@@ -113,7 +113,7 @@
 				<div id="profile">
 					<a href="Profile.jsp"><img src="img/user.png"></a>
 				</div>
-				<form name="myform" onsubmit="return isValid();" action="Review.jsp" method="GET">
+				<form name="myform" onsubmit="return isValid();" action="Profile.jsp" method="GET">
 				<div class="rating">
 					<label>
 				    <input type="radio" name="stars" value="1" />
@@ -150,7 +150,7 @@
 					<textarea id="enterText" name="enterText" placeholder="Type your review here"></textarea>
 				</div>
 				<p><div id="error"></div>
-				<button id="button" type="button" onclick="validate()" style="float: right;">Submit</button>
+				<button id="button" type="submit" style="float: right;">Submit</button>
 				</form>
 			</div>
 		</div>

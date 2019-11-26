@@ -31,17 +31,26 @@
 		  		return !hasError;
 		  	}
 		</script>
+		<!-- <script>
+		function ifError(){
+			var error = sessionStorage.getItem("error")
+			document.getElementById("error").innerHTML = error;
+			error = "";
+			sessionStorage.setItem("error", "");
+			
+		}
+		</script> -->
 	</head>
-	<body onload="ifError()">
+	<body> <!-- onload="ifError()"> -->
 		<div id="nav">
 			<nav class="navbar navbar-light bg-light">
 				<div class="logo"><a href="HomePage.jsp">TrojanEats</a></div>
 			  	<form class="form-inline">
-			  	<% String loggedIn = (String) request.getSession().getAttribute("loggedIn");
-			  	if(loggedIn == null || loggedIn == "false") { %>
+			  	<% String username = (String)session.getAttribute("username");
+			  	if(username == null || username.trim().length() == 0) { %>
 			  	<a href="Register.jsp" class="btn btn-outline-success" role="button">Register</a>
 			  	<a href="Login.jsp" class="btn btn-success" role="button">Login</a>
-			    <% } else if (loggedIn.equals("true")){ %>
+			    <% } else{ %>
 			    <a href="Profile.jsp" class="btn btn-outline-success" role="button">Profile</a>
 			  	<a href="Logout" class="btn btn-success" role="button">Sign Out</a>
 			    <% } %>
@@ -54,7 +63,8 @@
 				<div class="input-group mb-3">
 			  		<input type="text" class="form-control" placeholder="Enter search terms" aria-label="Query" aria-describedby="button-addon2">
 				  	<div class="input-group-append">
-				    	<button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+				  		<a href="SearchServlet" class="btn btn-outline-secondary" role="button">Search</a>
+				    	
 				  	</div>
 				</div><br>
 				<div class="row">

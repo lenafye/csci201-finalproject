@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="lenaye_CSCI201L_TrojanEats.Notification"%>
+<%@ page import="lenaye_CSCI201L_TrojanEats.DatabaseJDBC"%>
+<%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -154,6 +157,14 @@
 					Review for Panda Express received a like
 					</div>
 					<hr>
+					<ul id = "userNotifications"></ul>	
+					<%
+						ArrayList<Notification> notifications = DatabaseJDBC.getNotifications(username);
+						for (int i = 0; i < notifications.size(); i++){ %>
+							<script type="text/javascript">
+							   profileLoad("<%=notifications.get(i)%>");
+							</script>
+					<%} %>
 				</div>
 			</div>
 		</div>
