@@ -148,8 +148,6 @@
 		</div>
 		
 		<div id='main'>
-		<% String currUser = (String) session.getAttribute("currUser"); %>
-		<% if(currUser == null) { currUser = "";} %>
 		<h1>Details</h1>
 		<div id='restaurant'>
 				<div id='resInfo'>

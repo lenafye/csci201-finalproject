@@ -476,18 +476,20 @@ public class DatabaseJDBC {
 			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
 			ps = conn.prepareStatement("SELECT * FROM Restaurants WHERE restaurantId=?");
 			ps.setInt(1, restaurantId);
-			rs.next();
-			String name = rs.getString("name");
-			String cuisine = rs.getString("cuisine");
-			boolean swipes  = rs.getBoolean("swipes");
-			boolean diningDollars = rs.getBoolean("diningDollars");
-			int cost = rs.getInt("cost");
-			String hours = rs.getString("hours");
-			String address = rs.getString("address");
-			double avgRating  = rs.getDouble("avgRating");
-			double latitude = rs.getDouble("latitude");
-			double longitude = rs.getDouble("longitude");
-			r = new Restaurant(restaurantId, name, cuisine, swipes, diningDollars, cost, hours, address, latitude, longitude, avgRating);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				String name = rs.getString("name");
+				String cuisine = rs.getString("cuisine");
+				boolean swipes  = rs.getBoolean("swipes");
+				boolean diningDollars = rs.getBoolean("diningDollars");
+				int cost = rs.getInt("cost");
+				String hours = rs.getString("hours");
+				String address = rs.getString("address");
+				double avgRating  = rs.getDouble("avgRating");
+				double latitude = rs.getDouble("latitude");
+				double longitude = rs.getDouble("longitude");
+				r = new Restaurant(restaurantId, name, cuisine, swipes, diningDollars, cost, hours, address, latitude, longitude, avgRating);
+			}
 		} catch(SQLException sqle)
 		{
 			System.out.println(sqle.getMessage());}
