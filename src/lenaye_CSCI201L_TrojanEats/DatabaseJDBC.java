@@ -444,7 +444,7 @@ public class DatabaseJDBC {
 		}
 	}
 	
-	public Restaurant getRestaurant(int restaurantId)
+	public static Restaurant getRestaurant(int restaurantId)
 	{
 		Restaurant r = null;
 		Connection conn = null;

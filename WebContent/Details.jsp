@@ -4,15 +4,10 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<%@ page import='java.util.ArrayList' %>
+		<%@ page import='lenaye_CSCI201L_TrojanEats.DatabaseJDBC' %>
 		<%@ page import='lenaye_CSCI201L_TrojanEats.Restaurant' %>
-		<% //ArrayList<Restaurant> restaurants = (ArrayList<Restaurant>) session.getAttribute("restaurants"); %>
-		<% //int resNum = Integer.parseInt(request.getParameter("resNum")); %>
-		<% //Restaurant currRes  = //restaurants.get(resNum); %>
-		<% String pandaHours = "Monday: 10am-8pm\nTuesday: 10am-8pm\nWednesday: 10am-8pm\nThursday: 10am-8pm\nFriday: 10am-5pm\nSaturday: CLOSED\nSunday: CLOSED"; %>
-		<%
-			Restaurant currRes = new Restaurant(1, "Panda Express", "Chinese", false, true, 2, pandaHours, "3607 Trousdale Parkway Los Angeles, CA 90089", 34.020377, -118.286377, 2.0);
-		%>
+		<% int resId = Integer.parseInt(request.getParameter("restaurantId"));%>
+		<% Restaurant currRes  = DatabaseJDBC.getRestaurant(resId); %>
 		<% String resName = currRes.getName(); %>
 		<title><%=resName%> Details | TrojanEats</title>
 		<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i&display=swap" rel="stylesheet">
