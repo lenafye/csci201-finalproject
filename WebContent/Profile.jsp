@@ -37,6 +37,8 @@
 			.text {
 				width: 70%;
 				margin: auto;
+				height: 39vh;
+				overflow: auto;
 			}
 			body {
 				background-image: url("img/bg.jpeg");
@@ -152,13 +154,13 @@
 					<h1><% out.println(username); %>'s Reviews</h1>
 					<hr><p>
 					<div class="text">
-					<%ArrayList<Review> reviews = DatabaseJDBC.getReviewsForUser(username);
-					for(int i =0; i < reviews.size(); i++)
-					{%>
-					<h2><%=reviews.get(i).getRestaurantName()%></h2>
-					Rating: <%=reviews.get(i).getRating()%> /5 <br>
-					Rating text: <%=reviews.get(i).getRating()%><p>
-					<%} %>
+						<%ArrayList<Review> reviews = DatabaseJDBC.getReviewsForUser(username);
+						for(int i =0; i < reviews.size(); i++)
+						{%>
+						<h2><%=reviews.get(i).getRestaurantName()%></h2>
+						Rating: <%=reviews.get(i).getRating()%> /5 <br>
+						Rating text: <%=reviews.get(i).getRating()%><p>
+						<%} %>
 					</div>
 					<hr>
 				</div>
