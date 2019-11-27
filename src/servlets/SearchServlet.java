@@ -44,7 +44,7 @@ public class SearchServlet extends HttpServlet {
 		}
 		
 		String cuisine = request.getParameter("cuisine");
-		String price = request.getParamter("price");
+		String price = request.getParameter("price");
 		boolean dollars = true;
 		if(request.getParameter("dollars") == null) dollars = false;
 		boolean swipes = true;
