@@ -241,6 +241,20 @@ public class DatabaseJDBC {
 				ps.setInt(5, 0);
 				ps.executeUpdate();
 			}
+			ps = conn.prepareStatement("SELECT COUNT(*) AS numReviews FROM Reviews WHERE restaurantId=?");
+			ps.setInt(1, restaurantId);
+			rs = ps.executeQuery();
+			rs.next();
+			int numReviews = rs.getInt("numReviews");
+			ps = conn.prepareStatement("SELECT avgRating FROM Restaurants WHERE restaurantId=?");
+			rs = ps.executeQuery();
+			rs.next();
+			double currRating = rs.getDouble("avgRating");
+			double avgRating = (currRating + rating) / (double) numReviews;
+			ps = conn.prepareStatement("UPDATE Restaurant SET avgRating=? WHERE restaurantId=?");
+			ps.setDouble(1, avgRating);
+			ps.setInt(2, restaurantId);
+			ps.executeUpdate();
 		} catch (SQLException sqle) {
 			System.out.println(sqle.getMessage());
 		} finally {
