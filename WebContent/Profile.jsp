@@ -159,7 +159,7 @@
 						{%>
 						<h2><%=reviews.get(i).getRestaurantName()%></h2>
 						Rating: <%=reviews.get(i).getRating()%> /5 <br>
-						Rating text: <%=reviews.get(i).getRating()%><p>
+						Rating text: <%=reviews.get(i).getText()%><p>
 						<%} %>
 					</div>
 					<hr>
