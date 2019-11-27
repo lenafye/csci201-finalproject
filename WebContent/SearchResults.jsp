@@ -97,28 +97,13 @@
 		<%@ page import='lenaye_CSCI201L_TrojanEats.Restaurant' %>
 		<script>
 			function getSearchResults() {
-				
-			 	<% String searchTerm = request.getParameter("search"); %>
-				<% String searchBy = request.getParameter("searchBy"); %>
+			
 				<% Integer numResults = (Integer) request.getAttribute("numResults"); %>
 				<%ArrayList<Restaurant> r = (ArrayList<Restaurant>) request.getAttribute("restaurantList");%>
 				<%int i;%>
-				
-				var placeholder = "<%= searchTerm %>";
-				var searchBy = "<%= searchBy %>";
 				var numResults = "<%= numResults %>";
-				var searchTerm = "";
 				var lat;
 				var lon;
-				
-				
-				for(var i = 0; i < placeholder.length; i++) {
-					if(placeholder.charAt(i) == " ") {
-						searchTerm += "+";
-					} else {
-						searchTerm += placeholder.charAt(i);
-					}
-				}
 				var suff = "https://maps.googleapis.com/maps/api/staticmap?center=University+Of+Southern+California,Los+Angeles,CA&zoom=15&size=350x450&maptype=roadmap";
 				for(var i = 0; i < numResults; i++) {
 					

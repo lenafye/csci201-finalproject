@@ -1,8 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,39 +11,50 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import lenaye_CSCI201L_TrojanEats.DatabaseJDBC;
-import lenaye_CSCI201L_TrojanEats.Review;
 
 /**
- * Servlet implementation class AddReview
+ * Servlet implementation class AddRecommendation
  */
-@WebServlet("/AddReview")
-public class AddReview extends HttpServlet {
+@WebServlet("/AddRecommendation")
+public class AddRecommendation extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddReview() {
+    public AddRecommendation() {
         super();
         // TODO Auto-generated constructor stub
     }
     
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	HttpSession session = request.getSession();
-    	int restaurantId = Integer.parseInt(request.getParameter("restaurantId"));
-    	String username = (String)session.getAttribute("username");
-    	Integer rating = Integer.parseInt((String)request.getParameter("rating").trim());
-    	String text = request.getParameter("text");
+    	// int restaurantId = Integer.parseInt(request.getParameter("restaurantId"));
+    	int restaurantId = 1;
+    	String sender = (String)session.getAttribute("username");
+    	String receiver = (String)request.getParameter("usernames");
+    	String text = (String)request.getParameter("text");
     	String error = "";
+    	String hold = "";
+    	ArrayList<String> receivers = new ArrayList<String>();
     	
-    	if(rating == null) {
-    		error += "Please add a rating.";
+    	for(int i = 0; i < receiver.length(); i++) {
+    		if(receiver.charAt(i) == ',') {
+    			receivers.add(hold);
+    			hold = "";
+    		}
+    		else if(receiver.charAt(i) != ' ') {
+    			hold += receiver.charAt(i);
+    		}
+    	}
+    	if(receiver.isEmpty()) {
+    		error += "Please add a recipient.";
     	}
     	if(text.isEmpty()) {
-    		error += "Please add a review.";
+    		error += "Please add a message.";
     	}
     	if(error.isEmpty()) {
-    		DatabaseJDBC.addReview(restaurantId, username, rating, text);
+    		DatabaseJDBC.addRecommendation(sender, receivers, restaurantId);
     	}
     	request.setAttribute("error", error);
     }

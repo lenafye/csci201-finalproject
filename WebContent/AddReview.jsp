@@ -64,12 +64,12 @@
 		}
 	</style>
 	<script>
-		function isValid() {
+		function isValid(restaurantId) {
 	  		var hasError = false;
 	  		document.getElementById("error").innerHTML = "";
 		  	var xhttp = new XMLHttpRequest();
 		  	xhttp.open("GET", "AddReview?rating="+document.myform.stars.value
-		  			+"&text="+document.myform.enterText.value, false);
+		  			+"&text="+document.myform.enterText.value+"&restaurantId="+restaurantId, false);
 		  	xhttp.send();
 		  	if(xhttp.responseText.trim().length > 0) {
 		  		document.getElementById("error").innerHTML = xhttp.responseText;
@@ -101,7 +101,9 @@
 		 }
 		 else { %>
 			 <body onload="noUser()">
-		 <% } %>
+		 <% }
+		// int restaurantId = Integer.parseInt(request.getParameter("restaurantId")); 
+		int restaurantId = 4; %>
 		<div id="logo"><a href="HomePage.jsp">TrojanEats</a></div>
 		<div id="main">
 			<div id="noUserError"></div>
@@ -113,7 +115,8 @@
 				<div id="profile">
 					<a href="Profile.jsp"><img src="img/user.png"></a>
 				</div>
-				<form name="myform" onsubmit="return isValid();" action="Profile.jsp" method="GET">
+				<form name="myform" onsubmit="return isValid(<%= restaurantId %>);" action=
+				"Details.jsp?restaurantId=<%= restaurantId %>" method="GET">
 				<div class="rating">
 					<label>
 				    <input type="radio" name="stars" value="1" />
