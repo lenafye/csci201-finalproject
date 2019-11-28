@@ -24,16 +24,17 @@
 			#restaurant {
 				margin-left: auto;
 				margin-right: auto;
-				background-color: rgb(239, 246, 238);
+				background-color: white;
 				border-radius: 15px;
 				overflow: hidden;
+				margin-top: 50px;
 			}
 			#resMap {
 				width: 500px;
 				display: block;
 				float: right;
 				margin-left: 100px;
-				height: 440px;
+				height: 450px;
 			}
 			#hours {
 				width: 170px;
@@ -44,8 +45,8 @@
 			#resInfo {
 				float: left;
 				width: 500px;
+				height: 410px;
 				padding: 20px;
-				height: 400px;
 			}
 			#favRem{
 				float: left;
@@ -56,6 +57,39 @@
 				border-radius: 3px;
 				width: 10%;
 				background-color: #A1A1A1;
+			}
+			.stars {
+				float: left;
+				margin-top: 10px;
+				margin-bottom: 10px;
+			}
+			.ratingStar {
+				height: 20px;
+				float: left;
+				margin-right: 5px;
+			}
+			#reviews {
+				margin-left: auto;
+				margin-right: auto;
+				background-color: white;
+				border-radius: 15px;
+				overflow: hidden;
+				margin-top: 50px;
+				padding: 20px;
+				margin-bottom: 20px;
+			}
+			.review h3{
+				margin-top: 5px;
+				margin-bottom: 5px;
+			}
+			.review {
+				width: 600px;
+				margin-right: auto;
+				margin-left: auto;
+				padding: 10px;
+				border-radius: 15px;
+				background-color: rgb(239, 246, 238);
+				margin-top: 20px;
 			}
 		</style>
 		<script>
@@ -148,13 +182,13 @@
 		</div>
 		
 		<div id='main'>
-		<h1>Details</h1>
 		<div id='restaurant'>
+		
 				<div id='resInfo'>
+				<h1>Details</h1>
 				
 				
-				
-					<h1><%=currRes.getName()%></h1>
+					<h2><%=currRes.getName()%></h2>
 					<p>Address: <%= currRes.getAddress() %></p>
 					<% int cost = currRes.getCost(); %>
 					<p>Cost: <%for(int i=0; i<cost; i++) { %>$<%} %> </p>
@@ -191,33 +225,7 @@
 				        infoWindow = new google.maps.InfoWindow;
 						var resCoord = new google.maps.LatLng(<%=currRes.getLatitude()%>, <%=currRes.getLongitude()%>);
 						var marker = new google.maps.Marker({position: resCoord, map: map});
-				        // Try HTML5 geolocation.
-				        if (navigator.geolocation) {
-				          navigator.geolocation.getCurrentPosition(function(position) {
-				            var pos = {
-				              lat: position.coords.latitude,
-				              lng: position.coords.longitude
-				            };
-
-				            infoWindow.setPosition(pos);
-				            infoWindow.setContent('Location found.');
-				            infoWindow.open(map);
-				            map.setCenter(pos);
-				          }, function() {
-				            handleLocationError(true, infoWindow, map.getCenter());
-				          });
-				        } else {
-				          // Browser doesn't support Geolocation
-				          handleLocationError(false, infoWindow, map.getCenter());
-				        }
-				      }
-
-				      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-				        infoWindow.setPosition(pos);
-				        infoWindow.setContent(browserHasGeolocation ?
-				                              'Error: The Geolocation service failed.' :
-				                              'Error: Your browser doesn\'t support geolocation.');
-				        infoWindow.open(map);
+				        
 				      }
 						
 				      </script>
@@ -225,6 +233,47 @@
 				
 				<div class='clearfloat'></div>
 			</div> <!-- #restaurant -->
+			<%@ page import='java.util.ArrayList' %>
+			<%@ page import='lenaye_CSCI201L_TrojanEats.Review' %>
+			<%ArrayList<Review> reviews = DatabaseJDBC.getReviewsForRes(resId, resName); %>
+			<div id='reviews'>
+			<h1>Reviews</h1>
+				<%for(int i=0; i<reviews.size(); i++) { 
+					Review currRev = reviews.get(i);
+					%>
+					<div class='review'>
+						<h3><%=currRev.getUsername()%></h3>
+						<div class='stars'>
+							<%int rating = currRev.getRating(); 
+							for(int j=0; j<5; j++)
+							{
+								if(rating >0){
+									if(rating-1 >= 0)
+									{
+										%><img class='ratingStar' src='img/star.png'><%
+									}
+									else
+									{
+										%><img class='ratingStar' src='img/emptystar.png'><%	
+									}
+									rating=  rating - 1;
+								}
+								else
+								{
+									%><img class='ratingStar' src='img/emptystar.png'><%
+								}
+							
+							}
+						%>
+						</div> <!--  .star -->	
+						<div class='clearfloat'></div>
+						<div class='revText'><%=currRev.getText() %></div>	
+						<div class='vote'></div>	
+						<div class='vote'></div>	
+				</div> <!-- .review -->
+				<%} %>
+				
+			</div> <!--  #reviews -->
 		</div> <!--  #main -->
 	</body>
 </html>
