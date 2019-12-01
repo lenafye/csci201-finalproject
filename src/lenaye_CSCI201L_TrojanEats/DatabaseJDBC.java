@@ -91,7 +91,7 @@ public class DatabaseJDBC {
 	}
 
 	// TODO
-	public static ArrayList<Restaurant> search(String input, int choice, String option) {
+	public static ArrayList<Restaurant> search(String input, String cuisine, String price, boolean dollars, boolean swipes) {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
