@@ -117,7 +117,18 @@ public class DatabaseJDBC {
 			ps = conn.prepareStatement(query);
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				Restaurant rest = new Restaurant(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getBoolean(4), rs.getBoolean(5), rs.getInt(6), rs.getArray(7), rs.getString(8), rs.getDouble(9));
+				int restaurantId = rs.getInt("restaurantId");
+				String name = rs.getString("name");
+				String cuisine1 = rs.getString("cuisine");
+				boolean swipes1  = rs.getBoolean("swipes");
+				boolean diningDollars = rs.getBoolean("diningDollars");
+				int cost = rs.getInt("cost");
+				String hours = rs.getString("hours");
+				String address = rs.getString("address");
+				double avgRating  = rs.getDouble("avgRating");
+				double latitude = rs.getDouble("latitude");
+				double longitude = rs.getDouble("longitude");
+				Restaurant rest = new Restaurant(restaurantId, name, cuisine1, swipes1, diningDollars, cost, hours, address, latitude, longitude, avgRating);
 				r.add(rest);
 			}
 		} catch(SQLException sqle) {
