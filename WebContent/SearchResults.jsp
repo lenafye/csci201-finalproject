@@ -90,35 +90,54 @@
 				<table id="searchResults">
 				</table>
 			</div>
-			<div class="map">
+			<div id="resMap">
 			</div>
 		</div>
 		<%@ page import='java.util.ArrayList' %>
 		<%@ page import='lenaye_CSCI201L_TrojanEats.Restaurant' %>
+		
+		<% Integer numResults = (Integer) request.getAttribute("numResults"); %>
+		<%ArrayList<Restaurant> r = (ArrayList<Restaurant>) request.getAttribute("restaurantList");%>
 		<script>
-			function getSearchResults() {
-			
-				<% Integer numResults = (Integer) request.getAttribute("numResults"); %>
-				<%ArrayList<Restaurant> r = (ArrayList<Restaurant>) request.getAttribute("restaurantList");%>
-				<%int i;%>
-				var numResults = "<%= numResults %>";
-				var lat;
-				var lon;
-				var suff = "https://maps.googleapis.com/maps/api/staticmap?center=University+Of+Southern+California,Los+Angeles,CA&zoom=15&size=350x450&maptype=roadmap";
-				for(var i = 0; i < numResults; i++) {
-					
-					<% i = %> i;
-					lat = <%=r.get(i).getLatitude()%>;
-					lon = <%=r.get(i).getLongitude()%>;
-					suff += "&markers=color:red%7Clabel:S%7C" + lat + "," + lon;
-					
-				}
-				suff += "&key=AIzaSyAxkitpbRuPGhv0Y4mHpVBfgNXU01wH7kw";
+		var map, infoWindow;
+	      function initMap() {
+	    	  map = new google.maps.Map(document.getElementById('resMap'), {
+		          center: {lat: 34.022288, lng: -118.285344},
+		          zoom: 15
+		        });
+	        infoWindow = new google.maps.InfoWindow;
+	        
+	     
+	        for(var i=0; i<<%=numResults%>; i++)  {
+				var lat = <%=r.get(i).getLatitude()%>;
+				var lng = <%=r.get(i).getLongitude()%>;
+				var resCoord = new google.maps.LatLng(lat, lng);
 				
-				let image = document.createElement("img");
-				image.setAttribute("id", "map");
-				image.setAttribute("src", suff);
-				document.querySelector(".map").appendChild(image);
+				var marker = new google.maps.Marker({position: resCoord, map: map, label:i});
+				 var infowincontent = document.createElement('div');
+		            var strong = document.createElement('strong');
+		            strong.textContent = <%r.get(i).getName()%>;
+		            infowincontent.appendChild(strong);
+		            infowincontent.appendChild(document.createElement('br'));
+
+		            var text = document.createElement('text');
+		            text.textContent = <%=r.get(i).getAddress()%>;
+		            infowincontent.appendChild(text);
+		            google.maps.event.addListener(map, 'click', function() {
+			       		infoWindow.setContent(infowincontent);
+			        	infoWindow.open(map, marker);
+			             
+			         });
+			
+			}
+			
+	        
+	      }
+	      
+			function getSearchResults() {
+				<%int i;%>
+				var numResults = <%= numResults %>;
+				
 				
 				
 				if(numResults == 0) {
