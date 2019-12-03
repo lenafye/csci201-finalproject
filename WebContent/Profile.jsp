@@ -27,6 +27,15 @@
   				border-radius: 25px;
   				transform: translate(-50%, -50%);
 			}
+			#otherContainer {
+				background-color: white;
+				height: 8%;
+				width: 12%;
+				margin-top: 3%;
+				margin-left: 2%;
+				border-radius: 5px;
+				text-align: center;
+			}
 			#noUserError {
 				text-align: center;
 			}
@@ -34,11 +43,14 @@
 				text-align: center;
 				line-height: 30px;
 			}
+			.textContainer {
+				height: 55vh;
+				overflow: auto;
+			}
 			.text {
+				overflow: auto;
 				width: 70%;
 				margin: auto;
-				height: 39vh;
-				overflow: auto;
 			}
 			body {
 				background-image: url("img/bg.jpeg");
@@ -124,7 +136,10 @@
 								<option value="none"></option>
 								<option value="american">American</option>
 								<option value="asian">Asian</option>
+								<option value="cafe">Cafe</option>
+								<option value="cafeteria">Cafeteria</option>
 								<option value="mexican">Mexican</option>
+								<option value="pizza">Pizza</option>
 							</select> Cuisine
 							Hours <input type="time" name="hours" id="time" step="900">
 						</div>
@@ -151,20 +166,25 @@
 				<div id="noUserError"></div>
 				<a href="Login.jsp"><div id="askLogin"></div></a>
 				<div id="content">
+					<div class="textContainer">
 					<h1><% out.println(username); %>'s Reviews</h1>
 					<hr><p>
-					<div class="text">
 						<%ArrayList<Review> reviews = DatabaseJDBC.getReviewsForUser(username);
 						for(int i =0; i < reviews.size(); i++)
 						{%>
+						<div class="text">
 						<h2><%=reviews.get(i).getRestaurantName()%></h2>
-						Rating: <%=reviews.get(i).getRating()%> /5 <br>
+						Rating: <%=reviews.get(i).getRating()%>/5 <br>
 						Rating text: <%=reviews.get(i).getText()%><p>
+						</div>
+						<hr>
 						<%} %>
 					</div>
-					<hr>
 				</div>
 			</div>
+			<a href="Notifications.jsp">
+			<div id="otherContainer"><br>View notifications?
+			</div></a>
 		</div>
 	</body>
 </html>

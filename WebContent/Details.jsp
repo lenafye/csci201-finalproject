@@ -59,7 +59,6 @@
 				background-color: #A1A1A1;
 			}
 			.stars {
-				float: left;
 				margin-top: 10px;
 				margin-bottom: 10px;
 			}
@@ -90,6 +89,15 @@
 				border-radius: 15px;
 				background-color: rgb(239, 246, 238);
 				margin-top: 20px;
+			}
+			#addReview{
+				height: 5%;
+				padding-left: 5px;
+				width: 8%;
+				background-color: rgb(156,201,186);
+				color: white;
+				border-radius: 10px;
+				display: block;
 			}
 		</style>
 		<script>
@@ -122,6 +130,16 @@
 				document.getElementById("content").style.display = "none";
 				document.getElementById("noUserError").innerHTML = "Error: No user logged in.";
 				document.getElementById("askLogin").innerHTML = "Login now?";
+			}
+			function Like(reviewId) {
+				var xhttp = new XMLHttpRequest();
+			  	xhttp.open("GET", "LikeDislike?value=like&id=" + reviewId, false);
+			  	xhttp.send();
+			}
+			function Dislike(reviewId) {
+				var xhttp = new XMLHttpRequest();
+			  	xhttp.open("GET", "LikeDislike?value=like&id=" + reviewId, false);
+			  	xhttp.send();
 			}
 		</script>
 	</head>
@@ -159,7 +177,11 @@
 								<option value="none"></option>
 								<option value="american">American</option>
 								<option value="asian">Asian</option>
+								<option value="cafe">Cafe</option>
+								<option value="cafeteria">Cafeteria</option>
 								<option value="mexican">Mexican</option>
+								<option value="pizza">Pizza</option>
+								
 							</select> Cuisine
 							Hours <input type="time" name="hours" id="time" step="900">
 						</div>
@@ -192,6 +214,34 @@
 					<p>Address: <%= currRes.getAddress() %></p>
 					<% int cost = currRes.getCost(); %>
 					<p>Cost: <%for(int i=0; i<cost; i++) { %>$<%} %> </p>
+					<div class='stars'>
+						<% double avgRating =currRes.getRating();
+						
+						for(int i=0; i<5; i++)
+							{
+								if(avgRating >0){
+									if(avgRating-1 >= 0)
+									{
+										%><img class='ratingStar' src='img/star.png'><%
+									}
+									else if(Math.abs(avgRating-1) > 0 && (Math.abs(avgRating-1)<1))
+									{
+										%><img class='ratingStar' src='img/halfstar.png'><%	
+									}
+									else
+									{
+										%><img class='ratingStar' src='img/emptystar.png'><%	
+									}
+									avgRating=  avgRating - 1;
+								}
+								else
+								{
+									%><img class='ratingStar' src='img/emptystar.png'><%
+								}
+							
+							}%>
+							</div> <!-- .stars -->
+							<br><br>
 					<% boolean dollars = currRes.getDD(); 
 						String acceptsDD = "No";
 						if(dollars)
@@ -238,6 +288,7 @@
 			<%ArrayList<Review> reviews = DatabaseJDBC.getReviewsForRes(resId, resName); %>
 			<div id='reviews'>
 			<h1>Reviews</h1>
+				<a id='addReview' href='AddReview.jsp?restaurantId=<%=resId%>'>Add Review</a>
 				<%for(int i=0; i<reviews.size(); i++) { 
 					Review currRev = reviews.get(i);
 					%>
@@ -256,7 +307,7 @@
 									{
 										%><img class='ratingStar' src='img/emptystar.png'><%	
 									}
-									rating=  rating - 1;
+									rating--;
 								}
 								else
 								{
@@ -267,9 +318,13 @@
 						%>
 						</div> <!--  .star -->	
 						<div class='clearfloat'></div>
-						<div class='revText'><%=currRev.getText() %></div>	
-						<div class='vote'></div>	
-						<div class='vote'></div>	
+						<div class='revText'><%=currRev.getText() %></div>
+						<form name ="interact" onsubmit="Like(<%=currRev.getId() %>)" action="HomePage.jsp">
+							<button id="like" value="like">▲</button>	
+						</form>
+						<form name ="interact" onsubmit="Dislike(<%=currRev.getId() %>)" action="HomePage.jsp">
+							<button id="dislike" value="dislike">▼</button>
+						</form>	
 				</div> <!-- .review -->
 				<%} %>
 				

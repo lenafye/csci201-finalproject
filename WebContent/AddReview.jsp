@@ -102,21 +102,22 @@
 		 else { %>
 			 <body onload="noUser()">
 		 <% }
-		// int restaurantId = Integer.parseInt(request.getParameter("restaurantId")); 
-		int restaurantId = 4; %>
+		int restaurantId = Integer.parseInt(request.getParameter("restaurantId")); 
+		String restaurantName = DatabaseJDBC.getRestaurant(restaurantId).getName();
+		%>
 		<div id="logo"><a href="HomePage.jsp">TrojanEats</a></div>
 		<div id="main">
 			<div id="noUserError"></div>
 			<a href="Login.jsp"><div id="askLogin"></div></a>
 			<div id="text">
 				<div id="title">
-					<h1>Panda Express</h1>
+					<h1><%= restaurantName %></h1>
 				</div>
 				<div id="profile">
 					<a href="Profile.jsp"><img src="img/user.png"></a>
 				</div>
 				<form name="myform" onsubmit="return isValid(<%= restaurantId %>);" action=
-				"Details.jsp?restaurantId=<%= restaurantId %>" method="GET">
+				"Profile.jsp" method="GET">
 				<div class="rating">
 					<label>
 				    <input type="radio" name="stars" value="1" />

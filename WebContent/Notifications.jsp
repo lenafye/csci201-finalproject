@@ -38,7 +38,12 @@
 				text-align: center;
 				line-height: 30px;
 			}
+			.textContainer {
+				height: 55vh;
+				overflow: auto;
+			}
 			.text {
+				overflow: auto;
 				width: 70%;
 				margin: auto;
 			}
@@ -150,21 +155,21 @@
 				<div id="noUserError"></div>
 				<a href="Login.jsp"><div id="askLogin"></div></a>
 				<div id="content">
+					<div class="textContainer">
 					<h1><% out.println(username); %>'s Notifications</h1>
-					<hr><p>
-					<div class="text">
-					new <span style="float: right;">49m ago</span> <p>
-					Review for Panda Express received a like
-					</div>
 					<hr>
-					<ul id = "userNotifications"></ul>	
-					<%
-						ArrayList<Notification> notifications = DatabaseJDBC.getNotifications(username);
-						for (int i = 0; i < notifications.size(); i++){ %>
-							<script type="text/javascript">
-							   profileLoad("<%=notifications.get(i)%>");
-							</script>
+					<%ArrayList<Notification> notifications = DatabaseJDBC.getNotifications(username);
+						for(int i =0; i < notifications.size(); i++)
+						{%>
+							<div class="text">
+							<% out.println(notifications.get(i).checkRead()); %> 
+							<span style="float: right;"><% out.println(notifications.get(i).getTime()); %><p>
+							Review for <% out.println(notifications.get(i).getRestaurant()); %> received a 
+							<% out.println(notifications.get(i).getUpvote()); %>
+							</div>
+							<hr>
 					<%} %>
+					</div>
 				</div>
 			</div>
 		</div>
