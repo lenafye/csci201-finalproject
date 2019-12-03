@@ -162,7 +162,7 @@
 						for(int i =0; i < notifications.size(); i++)
 						{%>
 							<div class="text">
-							<% out.println(notifications.get(i).checkRead()); %> 
+							Notification
 							<span style="float: right;"><% out.println(notifications.get(i).getTime()); %></span><p>
 							Review for <a href="Details.jsp?restaurantId=<%=notifications.get(i).getRestaurantId()%>">
 							<% out.println(notifications.get(i).getRestaurant()); %></a> received a 
