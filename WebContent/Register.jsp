@@ -35,7 +35,7 @@
 	<body>
 		<div id="nav">
 			<nav class="navbar navbar-light bg-light">
-				<div class="logo"><a href="HomePage.jsp" style = "color: black">TrojanEats</a></div>
+				<div class="logo"><a href="HomePage.jsp" style = "color: #008000">TrojanEats</a></div>
 				<img src = "img/user.png" alt = "profilePic" id = "profilePic" onclick = "window.location = 'Profile.jsp'">
 			</nav>
 		</div>
