@@ -63,7 +63,7 @@
 	<body onload="ifError()"> 
 		<div id="nav">
 			<nav class="navbar navbar-light bg-light">
-				<div class="logo"><a href="HomePage.jsp">TrojanEats</a></div>
+				<div class="logo"><a href="HomePage.jsp" style = "color: #008000">TrojanEats</a></div>
 			  	<form class="form-inline">
 			  	<% String username = (String)session.getAttribute("username");
 			  	if(username == null || username.trim().length() == 0) { %>
