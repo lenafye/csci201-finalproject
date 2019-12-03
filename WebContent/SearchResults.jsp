@@ -17,15 +17,24 @@
 		  		var hasError = false;
 		  		var searchQuery = document.getElementById('box').value;
 		  		
-		  		var swipes = document.getElementById("swipes").value;
-		  		var dollars = document.getElementById("dollars").value;
+		  		var swipes = document.getElementById("swipes").checked;
+		  		var dollars = document.getElementById("dollars").checked;
 		  		
 		  		var c = document.getElementById("cuisine");
-		  		var cuisine = c.options[c.selectedIndex].value;
+		  		if(c != null) {
+		  			var cuisine = c.options[c.selectedIndex].value;
+		  		}
+		  		else {
+		  			var cuisine = "";
+		  		}
 		  		var p = document.getElementById("price");
-		  		var price = p.options[p.selectedIndex].value;
+		  		if(p != null) {
+		  			var price = p.options[p.selectedIndex].value;
+		  		}
+		  		else {
+		  			p = "";
+		  		}
 		  		
-		  		console.log(hours);
 		  		sessionStorage.setItem("searchQuery", searchQuery);
 		  		sessionStorage.setItem("swipes", swipes);
 		  		sessionStorage.setItem("dollars", dollars);
@@ -37,8 +46,7 @@
 			  	var xhttp = new XMLHttpRequest();
 			  	xhttp.open("POST", "SearchServlet?searchQuery="+searchQuery
 		  			+"&swipes="+swipes+"&dollars="+dollars
-		  			+"&cuisine="+cuisine+"&price="+price
-		  			+"&hours="+hours, false);
+		  			+"&cuisine="+cuisine+"&price="+price, false);
 			  	xhttp.send(); 
 	
 			  	if(xhttp.responseText.trim().length > 0) {
@@ -53,15 +61,9 @@
 		  	}
 			function hasUser() {
 				document.getElementById("profile").style.display = "block";
-				document.getElementById("content").style.display = "block";
-				document.getElementById("noUserError").innerHTML = "";
-				document.getElementById("askLogin").innerHTML = "";
 			}
 			function noUser() {
 				document.getElementById("profile").style.display = "none";
-				document.getElementById("content").style.display = "none";
-				document.getElementById("noUserError").innerHTML = "Error: No user logged in.";
-				document.getElementById("askLogin").innerHTML = "Login now?";
 				alert("getSearchResults");
 			}
 		</script>
@@ -70,10 +72,10 @@
 		<% String username = (String)session.getAttribute("username");
 		if(username != null) {
 			if(username.length() >= 0) { %>
-				<body onload="getSearchResults(); hasUser();">
+				<body onload="hasUser();">
 			<% }
 			else { %>
-				<body onload="getSearchResults(); noUser();">
+				<body onload="noUser();">
 			<% }
 		}
 		else { %>
