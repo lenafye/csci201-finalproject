@@ -232,7 +232,7 @@
 		<% } %>
 		<div id="header">
 			<div class="logo">
-				<a href="HomePage.jsp">TrojanEats</a>
+				<a href="HomePage.jsp" style = "color: #008000">TrojanEats</a>
 			</div>
 			<div class="links">
 				<div class="search">
