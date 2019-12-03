@@ -26,6 +26,47 @@
 				document.getElementById("askLogin").innerHTML = "Login now?";
 				alert("getSearchResults");
 			}
+			function isValid() {
+				var searchQuery = document.getElementById("searchTerms").value;
+				
+				HttpSession session = request.getSession();
+				
+		  		var hasError = false;
+		  		var searchQuery = document.getElementById('searchQuery').value;
+		  		var swipes = document.getElementById("swipes").value;
+		  		var dollars = document.getElementById("dollars").value;
+		  		
+		  		var c = document.getElementById("cuisine");
+		  		var cuisine = c.options[c.selectedIndex].value;
+		  		var p = document.getElementById("price");
+		  		var price = p.options[p.selectedIndex].value;
+		  		
+		  		sessionStorage.setItem("searchQuery", searchQuery);
+		  		sessionStorage.setItem("swipes", swipes);
+		  		sessionStorage.setItem("dollars", dollars);
+		  		sessionStorage.setItem("cuisine", cuisine);
+		  		sessionStorage.setItem("price", price);
+		  		sessionStorage.setItem("hours", hours);
+		  		
+		  		document.getElementById("error").innerHTML = "";
+			  	
+		  		var xhttp = new XMLHttpRequest();
+			  	xhttp.open("POST", "SearchServlet?searchQuery="+searchQuery
+		  			+"&swipes="+swipes+"&dollars="+dollars
+		  			+"&cuisine="+cuisine+"&price="+price,false);
+			  	xhttp.send();
+			  	
+			  	if(xhttp.responseText.trim().length > 0) {
+			  		sessionStorage.setItem("error", xhttp.responseText);
+			  		document.getElementById("error").innerHTML = "Please enter restaurant name or search requirements.";
+					error = "";
+					sessionStorage.setItem("error", "");
+					return false;
+			  	}
+			  	location.href = "SearchResults.jsp"
+			  	
+		  		return true;
+		  	}
 		</script>
 	</head>
 	<body>
@@ -50,35 +91,38 @@
 			</div>
 			<div class="links">
 				<div class="search">
+					<form name="myform" onsubmit="return isValid();" action="SearchResults.jsp" method="GET">
 					<div class="bar">
-						<form name="myform" onsubmit="return isValid();" action="SearchResults.jsp" method="GET">
-						<input type="search" name="input" id="box" placeholder="Enter search terms">
-						<button id="button" type="button" onclick="validate()" style="float: right;">Search</button>
+						<input type="search" name="input" id="searchTerms" placeholder="Enter search terms">
+						<input type="submit" value="Submit" style="color:gray;">
 						<p>
 						<div id="error"></div>
 					</div>
 					<div class="row">
 						<div class="column">
-							<input type="checkbox" name="swipes"> Dining Swipes<br>
-							<select name="cuisine">
+							<input type="checkbox" id="swipes" name="swipes"> Dining Swipes<br>
+							<select name="cuisine" id="cuisine">
 								<option value="none"></option>
 								<option value="american">American</option>
 								<option value="asian">Asian</option>
 								<option value="mexican">Mexican</option>
+								<option value="cafe">Cafe</option>
+								<option value="cafeteria">Cafeteria</option>
+								<option value="pizza">Pizza</option>
 							</select> Cuisine
-							Hours <input type="time" name="hours" id="time" step="900">
 						</div>
 						<div class="column">
-							<input type="checkbox" name="dollars"> Dining Dollars <br>
-							<select name="price">
+							<input type="checkbox" id="dollars" name="dollars"> Dining Dollars <br>
+							<select name="price" id="price">
 								<option value="none"></option>
 								<option value="one">$</option>
 								<option value="two">$$</option>
 								<option value="three">$$$</option>
 							</select> Price
-							</form>
+							
 						</div>
 					</div>
+					</form>
 				</div>
 				<div id="profile">
 					<a href="Profile.jsp"><img src="img/user.png" height="100px"></a>
