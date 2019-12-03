@@ -1,166 +1,491 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+package lenaye_CSCI201L_TrojanEats;
 
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>HomePage</title>
-		<meta charset="utf-8">
-	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<link rel="stylesheet" type="text/css" href="homepage.css" />
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-		<link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet">
-		<script type="text/javascript">
-			function isValid() {
-		  		var hasError = false;
-		  		var searchQuery = document.getElementById('searchQuery').value;
-		  		
-		  		if (searchQuery == "Lemonade") {
-		  			var xhttp = new XMLHttpRequest();
-				  	xhttp.open("GET", "SearchServlet?searchQuery="+searchQuery, false);
-				  	xhttp.send();
-				  	location.href = "SearchResults.jsp"
-				  	return true;
-		  		}
-		  		
-		  		var swipes = $("#customSwitch2").is(":checked"); 
-		  		var dollars = $("#customSwitch1").is(":checked"); 
-		  		var cuisine = $("input[name='cuisine']:checked").val();
-		  		var price = $("input[name='price']:checked").val();
-		  		var hours = null /* $("input[name='time']:checked").val(); */
-		  		
-		  		console.log(hours);
-		  		sessionStorage.setItem("searchQuery", searchQuery);
-		  		sessionStorage.setItem("swipes", swipes);
-		  		sessionStorage.setItem("dollars", dollars);
-		  		sessionStorage.setItem("cuisine", cuisine);
-		  		sessionStorage.setItem("price", price);
-		  		sessionStorage.setItem("hours", hours);
-		  		
-		  		document.getElementById("error").innerHTML = "";
-			  	
-			  	var xhttp = new XMLHttpRequest();
-			  	xhttp.open("POST", "SearchServlet?searchQuery="+searchQuery
-		  			+"&swipes="+swipes+"&dollars="+dollars
-		  			+"&cuisine="+cuisine+"&price="+price
-		  			+"&hours="+hours, false);
-			  	xhttp.send(); 
-			  	location.href = "SearchResults.jsp"
-			  	
-			  	if(xhttp.responseText.trim().length > 0) {
-			  		sessionStorage.setItem("error", xhttp.responseText);
-			  		document.getElementById("error").innerHTML = "Please enter restaurant name or search requirements.";
-					error = "";
-					sessionStorage.setItem("error", "");
-					return false;
-			  	}
-			  	
-		  		return true;
-		  	}
-		</script>
-		<script>
-		function ifError(){
-			var error = sessionStorage.getItem("error")
-			document.getElementById("error").innerHTML = error;
-			error = "";
-			sessionStorage.setItem("error", "");
-			
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+public class DatabaseJDBC {
+
+	public static final long serialVersionUID = 1;
+
+	public static int register(String username, String password) {
+		Connection conn = null;
+		;
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		try {
+			conn = DriverManager.getConnection(
+					"jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
+			ps = conn.prepareStatement("SELECT username FROM Users WHERE username=?");
+			ps.setString(1, username);
+			rs = ps.executeQuery();
+			if (!rs.next()) {
+				ps = conn.prepareStatement("INSERT INTO Users (username, password) VALUES (?,?)");
+				ps.setString(1, username);
+				ps.setString(2, password);
+				ps.executeUpdate();
+				return 1;
+			} else {
+				return 0;
+			}
+		} catch (SQLException sqle) {
+			System.out.println(sqle.getMessage());
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println(sqle.getMessage());
+			}
 		}
-		</script>
-	</head>
-	<body onload="ifError()"> 
-		<div id="nav">
-			<nav class="navbar navbar-light bg-light">
-				<div class="logo"><a href="HomePage.jsp">TrojanEats</a></div>
-			  	<form class="form-inline">
-			  	<% String username = (String)session.getAttribute("username");
-			  	if(username == null || username.trim().length() == 0) { %>
-			  	<a href="Register.jsp" class="btn btn-outline-success" role="button">Register</a>
-			  	<a href="Login.jsp" class="btn btn-success" role="button">Login</a>
-			    <% } else{ %>
-			    <a href="Profile.jsp" class="btn btn-outline-success" role="button">Profile</a>
-			  	<a href="Logout" class="btn btn-success" role="button">Sign Out</a>
-			    <% } %>
-			  </form>
-			</nav>
-		</div>
-		<div class="myform">
-			<div class="alert alert-light" role="alert">
-				<h1 style="font-weight:normal;text-align:center; padding:30px;">TrojanEats: Find a place to eat near campus!</h1><br>
-				<div class="input-group mb-3">
-			  		<input type="text" class="form-control" id="searchQuery" placeholder="Enter restaurant name" aria-label="Query" aria-describedby="button-addon2">
-				  	<div class="input-group-append">
-				  		<a href="#" class="btn btn-outline-secondary" onclick="isValid()" role="button">Search</a>
-				    	
-				  	</div>
-				</div><br>
-				<div class="row">
-					<div class="column">
-						<fieldset class="form-group">
-							<div class="row">
-								<legend class="col-form-label col-sm-2 pt-0"></legend>
-							    <div class="col-sm-10">
-							    	
-							    	<div class="form-check">
-							        	Price <!-- <select name="price"> -->
-											<!-- <option name="price" value="none"></option>
-											<option name="price" value="one">$</option>
-											<option name="price" value="two">$$</option>
-											<option name="price" value="three">$$$</option> -->
-													<input type="radio" name="price" value="$"> $ 
-												  	<input type="radio" name="price" value="$$"> $$ 
-													<input type="radio" name="price" value="$$$"> $$$ 
-									
-										<!-- </select> -->
-							        </div>
-							        <div class="form-check">
-							        	Cuisine <!-- <select name="cuisine"> -->
-											<input type="radio" name="cuisine" value="american"> American 
-										  	<input type="radio" name="cuisine" value="asian"> Asian 
-										  	<input type="radio" name="cuisine" value="cafe">Cafe
-										  	<input type="radio" name="cuisine" value="cafeteria">Cafeteria
-											<input type="radio" name="cuisine" value="mexican"> Mexican 
-											<input type="radio" name="cuisine" value="pizza"> Pizza
-											<!-- <option value="none"></option>
-											<option value="american">American</option>
-											<option value="asian">Asian</option>
-											<option value="cafe">Cafe</option>
-											<option value="cafeteria">Cafeteria</option>
-											<option value="mexican">Mexican</option>
-											<option value="pizza">Pizza</option>
-										</select>
+		return 0;
+	}
 
-											<option value="mexican">Mexican</option> -->
-										<!-- </select> -->
+	public static int login(String username, String password) {
+		Connection conn = null;
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		try {
+			// Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(
+					"jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
+			ps = conn.prepareStatement("SELECT userId FROM Users WHERE username=?");
+			ps.setString(1, username);
+			rs = ps.executeQuery();
+			// no user for that username
+			if (!rs.next()) {
+				return -1;
+			} else {
+				ps = conn.prepareStatement("SELECT * FROM Users WHERE username=? AND password=?");
+				ps.setString(1, username);
+				ps.setString(2, password);
+				rs = ps.executeQuery();
+				if (rs.next()) {
+					return 1;
+				} else {
+					return 0;
+				}
+			}
+		} catch (SQLException sqle) {
+			System.out.println(sqle.getMessage());
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println(sqle.getMessage());
+			}
+		}
+		return 0;
+	}
 
-							        </div>
-							        <div class="form-check disabled">
-							        	Hours <input type="time" name="hours" id="time" step="900">
-							        </div>
-								</div>
-							</div>
-						</fieldset>
-					</div>
-					<div class="column">
-						
-						<div class="custom-control custom-switch">
-							<input type="checkbox" class="custom-control-input" id="customSwitch1" name="dollars">
-						  	<label class="custom-control-label" for="customSwitch1">Dining Dollars</label>
-						</div>
-						<div class="custom-control custom-switch">
-							<input type="checkbox" class="custom-control-input" id="customSwitch2" name="swipes">
-						  	<label class="custom-control-label" for="customSwitch2">Dining Swipes</label>
-						</div>					  	
-					</div>
-					<div id="error"></div>
-				</div>
-			</div>
-		</div>
+	// TODO
+	public static ArrayList<Restaurant> search(String input, String cuisine, String price, boolean dollars, boolean swipes) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String query = "SELECT * FROM Restaurants WHERE";
+		ArrayList<Restaurant> r = new ArrayList<Restaurant>();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(
+					"jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
+			if(!input.isEmpty()) {
+				query += " name LIKE '%" + input + "%'";
+			}
+			if(cuisine.length() > 0) {
+				if(query.length() > 32) {
+					query += " AND";
+				}
+				query += " cuisine LIKE '%" + cuisine + "%'";
+			}
+			if(price.length () > 0) {
+				if(query.length() > 32) {
+					query += " AND";
+				}
+				if(price.contentEquals("one")) {
+					query += "cost = '1'";
+				} else if(price.contentEquals("two")) {
+					query += " cost = '2'";
+				} else {
+					query += " cost = '3'";
+				}
+			}
+			if(dollars) {
+				if(query.length() > 32) {
+					query += " AND";
+				}
+				query += " diningDollars = '1'";
+			}
+			if(swipes) {
+				if(query.length() > 32) {
+					query += " AND";
+				}
+				query += " swipes = '1'";
+			}
+			ps = conn.prepareStatement(query);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				int restaurantId = rs.getInt("restaurantId");
+				String name = rs.getString("name");
+				String cuisine1 = rs.getString("cuisine");
+				boolean swipes1  = rs.getBoolean("swipes");
+				boolean diningDollars = rs.getBoolean("diningDollars");
+				int cost = rs.getInt("cost");
+				String hours = rs.getString("hours");
+				String address = rs.getString("address");
+				double avgRating  = rs.getDouble("avgRating");
+				double latitude = rs.getDouble("latitude");
+				double longitude = rs.getDouble("longitude");
+				Restaurant rest = new Restaurant(restaurantId, name, cuisine1, swipes1, diningDollars, cost, hours, address, latitude, longitude, avgRating);
+				r.add(rest);
+			}
+		} catch(SQLException sqle) {
+			System.out.println(sqle.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println(sqle.getMessage());
+			}
+		}
+		return r;
+	}
+
+	// returns all reviews for a user
+	// displayed on profile page
+	public static ArrayList<Review> getReviewsForUser(String username) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ResultSet rs2 = null;
+		ArrayList<Review> reviews = new ArrayList<Review>();
+		try {
+			conn = DriverManager.getConnection(
+					"jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
+			ps = conn.prepareStatement("SELECT userId FROM Users WHERE username=?");
+			ps.setString(1, username);
+			rs = ps.executeQuery();
+			rs.next();
+			int userId = rs.getInt("userId");
+			ps = conn.prepareStatement("SELECT * FROM Reviews WHERE userId=?");
+			ps.setInt(1, userId);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				int reviewId = rs.getInt("reviewId");
+				int restaurantId = rs.getInt("restaurantId");
+				int rating = rs.getInt("rating");
+				String text = rs.getString("text");
+				int score = rs.getInt("score");
+				ps = conn.prepareStatement("SELECT name FROM Restaurants WHERE restaurantId=?");
+				ps.setInt(1, restaurantId);
+				rs2 = ps.executeQuery();
+				rs2.next();
+				String restaurantName = rs2.getString("name");
+				Review r = new Review(reviewId, username, restaurantId, restaurantName, rating, text, score);
+				reviews.add(r);
+
+			}
+
+		} catch (SQLException sqle) {
+			System.out.println(sqle.getMessage());
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (rs2 != null) {
+					rs2.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println(sqle.getMessage());
+			}
+		}
+		return reviews;
+	}
+
+	// returns all reviews for a restaurant
+	// displayed on restaurant details page
+	public static ArrayList<Review> getReviewsForRes(int restaurantId, String restaurantName) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ResultSet rs2 = null;
+		ArrayList<Review> reviews = new ArrayList<Review>();
+		try {
+			conn = DriverManager.getConnection(
+					"jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
+			ps = conn.prepareStatement("SELECT * FROM Reviews WHERE restaurantId=?");
+			ps.setInt(1, restaurantId);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				int reviewId = rs.getInt("reviewId");
+				int userId = rs.getInt("userId");
+				ps = conn.prepareStatement("SELECT username FROM Users WHERE userId=?");
+				ps.setInt(1, userId);
+				rs2 = ps.executeQuery();
+				rs2.next();
+				String username = rs2.getString("username");
+				int rating = rs.getInt("rating");
+				String text = rs.getString("text");
+				int score = rs.getInt("score");
+				Review r = new Review(reviewId, username, restaurantId, restaurantName, rating, text, score);
+				reviews.add(r);
+
+			}
+
+		} catch (SQLException sqle) {
+			System.out.println(sqle.getMessage());
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (rs2 != null) {
+					rs2.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println(sqle.getMessage());
+			}
+		}
+		return reviews;
+	}
+
+	public static void addReview(int restaurantId, String username, int rating, String text) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ResultSet rs2 = null;
+		try {
+			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
+			ps = conn.prepareStatement("SELECT userId FROM Users WHERE username=?");
+			ps.setString(1, username);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				int userId = rs.getInt("userId");
+				ps = conn.prepareStatement("INSERT INTO Reviews (userId, restaurantId, rating, text, score) VALUES (?,?,?,?,?)");
+				ps.setInt(1, userId);
+				ps.setInt(2, restaurantId);
+				ps.setInt(3, rating);
+				ps.setString(4, text);
+				ps.setInt(5, 0);
+				ps.executeUpdate();
+			}
+			ps = conn.prepareStatement("SELECT COUNT(*) FROM Reviews WHERE restaurantId=?");
+			ps.setInt(1, restaurantId);
+			rs = ps.executeQuery();
+			rs.next();
+			int numReviews = rs.getInt(1);
+			ps = conn.prepareStatement("SELECT avgRating FROM Restaurants WHERE restaurantId=?");
+			ps.setInt(1, restaurantId);
+			rs2 = ps.executeQuery();
+			rs2.next();
+			double currRating = rs2.getDouble("avgRating");
+			currRating = currRating * numReviews;
+			double avgRating = (currRating + rating)/numReviews;
+			ps = conn.prepareStatement("UPDATE Restaurants SET avgRating=? WHERE restaurantId=?");
+			ps.setDouble(1, avgRating);
+			ps.setInt(2, restaurantId);
+			ps.executeUpdate();
+		} catch (SQLException sqle) {
+			System.out.println(sqle.getMessage());
+		} finally {
+			try {
+				if (rs!=null) {
+					rs.close();
+				}
+				if (conn!=null) {
+					conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println(sqle.getMessage());
+			}
+		}
+	}
+
+	public static void interactReview(int reviewId, int react) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		int score = 0;
+		try {
+			conn = DriverManager.getConnection(
+					"jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
+			ps = conn.prepareStatement("SELECT * FROM Reviews WHERE reviewId=?");
+			ps.setInt(1, reviewId);
+			rs = ps.executeQuery();
+			int userId = rs.getInt("userId");
+			while (rs.next()) {
+				score = rs.getInt("score");
+				score += react;
+			}
+			ps = conn.prepareStatement("UPDATE Reviews SET score=? WHERE reviewId=?");
+			ps.setInt(1, score);
+			ps.setInt(2, reviewId);
+			ps.executeUpdate();
+			
+			ps = conn.prepareStatement("INSERT INTO Votes (userId, reviewId, upvote) VALUES (?, ?, ?, ?");
+			ps.setInt(1, userId);
+			ps.setInt(2, reviewId);
+			if(react == 1) {
+				ps.setBoolean(3, true);
+			}
+			else {
+				ps.setBoolean(3, false);
+			}
+			ps.executeUpdate();
+		} catch (SQLException sqle) {
+			System.out.println(sqle.getMessage());
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println(sqle.getMessage());
+			}
+		}
+	}
+	
+	public static ArrayList<Notification> getNotifications(String username) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ResultSet rs2 = null;
+		ResultSet rs3 = null;
+		ArrayList<Notification> notifications = new ArrayList<Notification>();
+		try {
+			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
+			ps = conn.prepareStatement("SELECT userId FROM Users WHERE username=?");
+			ps.setString(1, username);
+			rs = ps.executeQuery();
+			rs.next();
+			int userId = rs.getInt("userId");
+			ps = conn.prepareStatement("SELECT * FROM Votes WHERE userId=?");
+			ps.setInt(1, userId);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				int notificationId = rs.getInt("voteId");
+				boolean read = rs.getBoolean("read");
+				String date = rs.getString("date");
+				boolean upvote = rs.getBoolean("upvote");
+				int restaurantId = rs.getInt("reviewId");
+				
+				ps = conn.prepareStatement("SELECT name FROM Restaurants WHERE restaurantId=?");
+				ps.setInt(1, restaurantId);
+				rs2 = ps.executeQuery();
+				rs2.next();
+				String name = rs2.getString("name");
+				Notification n = new Notification(notificationId, username, upvote, read, date, name);
+				notifications.add(n);
+			}
+			
+		} catch(SQLException sqle) {
+			System.out.println(sqle.getMessage());
+		} finally {
+			try {
+				if (rs!=null) {
+					rs.close();
+				}
+				if(rs2!=null) {
+					rs2.close();
+				}
+				if(rs3!=null) {
+					rs3.close();
+				}
+				if (conn!=null) {
+					conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println(sqle.getMessage());
+			}
+		}
+		return notifications;
+	}
+	
+	public static void readNotification(int notificationId) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
+			
+			ps = conn.prepareStatement("UPDATE Votes SET read='1' WHERE voteId=?");
+			ps.setInt(1, notificationId);
+			ps.executeUpdate();
 		
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-	    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	</body>
-</html>
+		} catch (SQLException sqle) {
+			System.out.println(sqle.getMessage());
+		} finally {
+			try {
+				if (rs!=null) {
+					rs.close();
+				}
+				if (conn!=null) {
+					conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println(sqle.getMessage());
+			}
+		}
+	}
+
+	public static Restaurant getRestaurant(int restaurantId)
+	{
+		Restaurant r = null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ResultSet rs2 = null;
+		try {
+			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
+			ps = conn.prepareStatement("SELECT * FROM Restaurants WHERE restaurantId=?");
+			ps.setInt(1, restaurantId);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				String name = rs.getString("name");
+				String cuisine = rs.getString("cuisine");
+				boolean swipes  = rs.getBoolean("swipes");
+				boolean diningDollars = rs.getBoolean("diningDollars");
+				int cost = rs.getInt("cost");
+				String hours = rs.getString("hours");
+				String address = rs.getString("address");
+				double avgRating  = rs.getDouble("avgRating");
+				double latitude = rs.getDouble("latitude");
+				double longitude = rs.getDouble("longitude");
+				r = new Restaurant(restaurantId, name, cuisine, swipes, diningDollars, cost, hours, address, latitude, longitude, avgRating);
+			}
+		} catch(SQLException sqle)
+		{
+			System.out.println(sqle.getMessage());}
+		return r;
+	}
+}
