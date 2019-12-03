@@ -37,6 +37,7 @@ public class SearchServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String searchTerm = request.getParameter("searchQuery");
 		String error = "";
+		String searchQuery = "";
 		
 		String cuisine = request.getParameter("cuisine");
 		if(cuisine.trim().contentEquals("undefined")) {
@@ -65,7 +66,35 @@ public class SearchServlet extends HttpServlet {
 		ArrayList<Restaurant> r = new ArrayList<Restaurant>();
 		r = DatabaseJDBC.search(searchTerm, cuisine, price, dollars, swipes);
 		
-		session.setAttribute("numResults", r.size());
+		if(searchTerm.length() > 0) {
+			searchQuery += "'" + searchTerm + "' ";
+		}
+		if(cuisine.length() > 0) {
+			if(searchQuery.length() > 0) {
+				searchQuery += " with ";
+			}
+			searchQuery += "cuisine " + cuisine + " ";
+		}
+		if(price.length() > 0) {
+			if(searchQuery.length() == 0) {
+				searchQuery += "restaurants ";
+			}
+			searchQuery += "with price " + price + " ";
+		}
+		if(dollars) {
+			if(searchQuery.length() == 0) {
+				searchQuery += "restaurants ";
+			}
+			searchQuery += "that take dining dollars ";
+		}
+		if(swipes) {
+			if(searchQuery.length() == 0) {
+				searchQuery += "restaurants ";
+			}
+			searchQuery += "that take swipes ";
+		}
+		
+		session.setAttribute("searchQuery", searchQuery);
 		session.setAttribute("restaurantList", r);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("SearchResults.jsp");
