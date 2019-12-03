@@ -102,37 +102,37 @@ public class DatabaseJDBC {
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
 			if(!input.isEmpty()) {
-				query += " name='" + input + "'";
+				query += " name LIKE '%" + input + "%'";
 			}
 			if(cuisine.length() > 0) {
 				if(query.length() > 32) {
-					query += " AND ";
+					query += " AND";
 				}
-				query += "cuisine='" + cuisine + "'";
+				query += " cuisine LIKE '%" + cuisine + "%'";
 			}
 			if(price.length () > 0) {
 				if(query.length() > 32) {
-					query += " AND ";
+					query += " AND";
 				}
 				if(price.contentEquals("one")) {
-					query += "cost=1";
+					query += "cost = '1'";
 				} else if(price.contentEquals("two")) {
-					query += "cost=2";
+					query += " cost = '2'";
 				} else {
-					query += "cost=3";
+					query += " cost = '3'";
 				}
 			}
 			if(dollars) {
 				if(query.length() > 32) {
-					query += " AND ";
+					query += " AND";
 				}
-				query += "diningDollars=1";
+				query += " diningDollars = '1'";
 			}
 			if(swipes) {
 				if(query.length() > 32) {
-					query += " AND ";
+					query += " AND";
 				}
-				query += "swipes=1";
+				query += " swipes = '1'";
 			}
 			ps = conn.prepareStatement(query);
 			rs = ps.executeQuery();
@@ -196,7 +196,7 @@ public class DatabaseJDBC {
 				int rating = rs.getInt("rating");
 				String text = rs.getString("text");
 				int score = rs.getInt("score");
-				ps = conn.prepareStatement("SELECT name FROM Restaurants WHERE restaurantId = ?");
+				ps = conn.prepareStatement("SELECT name FROM Restaurants WHERE restaurantId=?");
 				ps.setInt(1, restaurantId);
 				rs2 = ps.executeQuery();
 				rs2.next();
@@ -470,7 +470,7 @@ public class DatabaseJDBC {
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
 			
-			ps = conn.prepareStatement("UPDATE Votes SET read=1 WHERE voteId=?");
+			ps = conn.prepareStatement("UPDATE Votes SET read='1' WHERE voteId=?");
 			ps.setInt(1, notificationId);
 			ps.executeUpdate();
 		

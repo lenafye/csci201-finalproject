@@ -16,14 +16,6 @@
 		  		var hasError = false;
 		  		var searchQuery = document.getElementById('searchQuery').value;
 		  		
-		  		if (searchQuery == "Lemonade") {
-		  			var xhttp = new XMLHttpRequest();
-				  	xhttp.open("GET", "SearchServlet?searchQuery="+searchQuery, false);
-				  	xhttp.send();
-				  	location.href = "SearchResults.jsp"
-				  	return true;
-		  		}
-		  		
 		  		var swipes = $("#customSwitch2").is(":checked"); 
 		  		var dollars = $("#customSwitch1").is(":checked"); 
 		  		var cuisine = $("input[name='cuisine']:checked").val();
@@ -46,8 +38,7 @@
 		  			+"&cuisine="+cuisine+"&price="+price
 		  			+"&hours="+hours, false);
 			  	xhttp.send(); 
-			  	location.href = "SearchResults.jsp"
-			  	
+
 			  	if(xhttp.responseText.trim().length > 0) {
 			  		sessionStorage.setItem("error", xhttp.responseText);
 			  		document.getElementById("error").innerHTML = "Please enter restaurant name or search requirements.";
@@ -55,7 +46,7 @@
 					sessionStorage.setItem("error", "");
 					return false;
 			  	}
-			  	
+			  	location.href = "SearchResults.jsp"
 		  		return true;
 		  	}
 		</script>
