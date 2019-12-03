@@ -7,10 +7,3 @@ body {
 .clearfloat {
 	clear: both;
 }
-
-#error {
-	width: 200px;
-	background-color: rgb(191,2,2, 0.5);
-	color: #FFF;
-	padding: 10px;
-}
