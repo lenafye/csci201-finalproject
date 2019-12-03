@@ -126,7 +126,7 @@
 
 							        </div>
 							        <div class="form-check disabled">
-							        	Hours <input type="time" name="hours" id="time" step="900">
+							        	
 							        </div>
 								</div>
 							</div>
