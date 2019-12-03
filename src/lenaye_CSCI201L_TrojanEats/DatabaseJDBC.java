@@ -426,7 +426,7 @@ public class DatabaseJDBC {
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				int notificationId = rs.getInt("voteId");
-				boolean read = rs.getBoolean("read");
+				boolean read = rs.getBoolean("opened");
 				String date = rs.getString("date");
 				boolean upvote = rs.getBoolean("upvote");
 				int restaurantId = rs.getInt("reviewId");
@@ -436,7 +436,7 @@ public class DatabaseJDBC {
 				rs2 = ps.executeQuery();
 				rs2.next();
 				String name = rs2.getString("name");
-				Notification n = new Notification(notificationId, username, upvote, read, date, name);
+				Notification n = new Notification(notificationId, username, upvote, read, date, name, restaurantId);
 				notifications.add(n);
 			}
 			
@@ -470,7 +470,7 @@ public class DatabaseJDBC {
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
 			
-			ps = conn.prepareStatement("UPDATE Votes SET read='1' WHERE voteId=?");
+			ps = conn.prepareStatement("UPDATE Votes SET opened='1' WHERE voteId=?");
 			ps.setInt(1, notificationId);
 			ps.executeUpdate();
 		

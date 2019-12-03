@@ -13,17 +13,57 @@
 		crossorigin="anonymous">
 		</script>
 		<script>
+			function isValid() {
+		  		var hasError = false;
+		  		var searchQuery = document.getElementById('box').value;
+		  		
+		  		var swipes = document.getElementById("swipes").checked;
+		  		var dollars = document.getElementById("dollars").checked;
+		  		
+		  		var c = document.getElementById("cuisine");
+		  		if(c != null) {
+		  			var cuisine = c.options[c.selectedIndex].value;
+		  		}
+		  		else {
+		  			var cuisine = "";
+		  		}
+		  		var p = document.getElementById("price");
+		  		if(p != null) {
+		  			var price = p.options[p.selectedIndex].value;
+		  		}
+		  		else {
+		  			p = "";
+		  		}
+		  		
+		  		sessionStorage.setItem("searchQuery", searchQuery);
+		  		sessionStorage.setItem("swipes", swipes);
+		  		sessionStorage.setItem("dollars", dollars);
+		  		sessionStorage.setItem("cuisine", cuisine);
+		  		sessionStorage.setItem("price", price);
+		  		
+		  		document.getElementById("error").innerHTML = "";
+			  	
+			  	var xhttp = new XMLHttpRequest();
+			  	xhttp.open("POST", "SearchServlet?searchQuery="+searchQuery
+		  			+"&swipes="+swipes+"&dollars="+dollars
+		  			+"&cuisine="+cuisine+"&price="+price, false);
+			  	xhttp.send(); 
+	
+			  	if(xhttp.responseText.trim().length > 0) {
+			  		sessionStorage.setItem("error", xhttp.responseText);
+			  		document.getElementById("error").innerHTML = "Please enter restaurant name or search requirements.";
+					error = "";
+					sessionStorage.setItem("error", "");
+					return false;
+			  	}
+			  	location.href = "SearchResults.jsp"
+		  		return true;
+		  	}
 			function hasUser() {
 				document.getElementById("profile").style.display = "block";
-				document.getElementById("content").style.display = "block";
-				document.getElementById("noUserError").innerHTML = "";
-				document.getElementById("askLogin").innerHTML = "";
 			}
 			function noUser() {
 				document.getElementById("profile").style.display = "none";
-				document.getElementById("content").style.display = "none";
-				document.getElementById("noUserError").innerHTML = "Error: No user logged in.";
-				document.getElementById("askLogin").innerHTML = "Login now?";
 				alert("getSearchResults");
 			}
 		</script>
@@ -43,10 +83,10 @@
 		<% String username = (String)session.getAttribute("username");
 		if(username != null) {
 			if(username.length() >= 0) { %>
-				<body onload="getSearchResults(); hasUser();">
+				<body onload="hasUser();">
 			<% }
 			else { %>
-				<body onload="getSearchResults(); noUser();">
+				<body onload="noUser();">
 			<% }
 		}
 		else { %>
@@ -64,24 +104,26 @@
 					<div class="bar">
 						<form name="myform" onsubmit="return isValid();" action="SearchResults.jsp" method="GET">
 						<input type="search" name="input" id="box" placeholder="Enter search terms">
-						<button id="button" type="button" onclick="validate()" style="float: right;">Search</button>
+						<button id="button" type="submit" style="float: right;">Search</button>
 						<p>
 						<div id="error"></div>
 					</div>
 					<div class="row">
 						<div class="column">
-							<input type="checkbox" name="swipes"> Dining Swipes<br>
-							<select name="cuisine">
+							<input type="checkbox" name="swipes" id="swipes"> Dining Swipes<br>
+							<select name="cuisine" id="cuisine">
 								<option value="none"></option>
 								<option value="american">American</option>
 								<option value="asian">Asian</option>
 								<option value="mexican">Mexican</option>
+								<option value="cafe">Cafe</option>
+								<option value="cafeteria">Cafeteria</option>
+								<option value="pizza">Pizza</option>
 							</select> Cuisine
-							Hours <input type="time" name="hours" id="time" step="900">
 						</div>
 						<div class="column">
-							<input type="checkbox" name="dollars"> Dining Dollars <br>
-							<select name="price">
+							<input type="checkbox" id="dollars" name="dollars"> Dining Dollars <br>
+							<select name="price" id="price">
 								<option value="none"></option>
 								<option value="one">$</option>
 								<option value="two">$$</option>
@@ -199,7 +241,5 @@
 		</div>
 		<%@ page import='java.util.ArrayList' %>
 		<%@ page import='lenaye_CSCI201L_TrojanEats.Restaurant' %>
-		<script>
-		</script>
 	</body>
 </html>

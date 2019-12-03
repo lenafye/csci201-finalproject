@@ -7,14 +7,16 @@ public class Notification {
 	private String time;
 	private String restaurant;
 	private boolean upvote;
+	private int restaurantId;
 	
-	public Notification(int notificationId, String username, boolean upvote, boolean read, String time, String restaurant) {
+	public Notification(int notificationId, String username, boolean upvote, boolean read, String time, String restaurant, int restaurantId) {
 		this.notificationId = notificationId;
 		this.username = username;
 		this.read = read;
 		this.time = time;
 		this.upvote = upvote;
 		this.restaurant = restaurant;
+		this.restaurantId = restaurantId;
 	}
 	
 	public int getId() {
@@ -44,5 +46,8 @@ public class Notification {
 		else {
 			return "new";
 		}
+	}
+	public int getRestaurantId() {
+		return restaurantId;
 	}
 }

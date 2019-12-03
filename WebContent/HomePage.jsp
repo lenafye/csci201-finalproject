@@ -109,8 +109,8 @@
 							        	Cuisine <!-- <select name="cuisine"> -->
 											<input type="radio" name="cuisine" value="american"> American 
 										  	<input type="radio" name="cuisine" value="asian"> Asian 
-										  	<input type="radio" name="cuisine" value="cafe">Cafe
-										  	<input type="radio" name="cuisine" value="cafeteria">Cafeteria
+										  	<input type="radio" name="cuisine" value="cafe"> Cafe
+										  	<input type="radio" name="cuisine" value="cafeteria"> Cafeteria
 											<input type="radio" name="cuisine" value="mexican"> Mexican 
 											<input type="radio" name="cuisine" value="pizza"> Pizza
 											<!-- <option value="none"></option>
