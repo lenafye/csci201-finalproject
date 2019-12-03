@@ -273,6 +273,7 @@ public class DatabaseJDBC {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		ResultSet rs2 = null;
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
 			ps = conn.prepareStatement("SELECT userId FROM Users WHERE username=?");
@@ -288,17 +289,19 @@ public class DatabaseJDBC {
 				ps.setInt(5, 0);
 				ps.executeUpdate();
 			}
-			ps = conn.prepareStatement("SELECT COUNT(*) AS numReviews FROM Reviews WHERE restaurantId=?");
+			ps = conn.prepareStatement("SELECT COUNT(*) FROM Reviews WHERE restaurantId=?");
 			ps.setInt(1, restaurantId);
 			rs = ps.executeQuery();
 			rs.next();
-			int numReviews = rs.getInt("numReviews");
+			int numReviews = rs.getInt(1);
 			ps = conn.prepareStatement("SELECT avgRating FROM Restaurants WHERE restaurantId=?");
-			rs = ps.executeQuery();
-			rs.next();
-			double currRating = rs.getDouble("avgRating");
-			double avgRating = (currRating + rating) / (double) numReviews;
-			ps = conn.prepareStatement("UPDATE Restaurant SET avgRating=? WHERE restaurantId=?");
+			ps.setInt(1, restaurantId);
+			rs2 = ps.executeQuery();
+			rs2.next();
+			double currRating = rs2.getDouble("avgRating");
+			currRating = currRating * numReviews;
+			double avgRating = (currRating + rating)/numReviews;
+			ps = conn.prepareStatement("UPDATE Restaurants SET avgRating=? WHERE restaurantId=?");
 			ps.setDouble(1, avgRating);
 			ps.setInt(2, restaurantId);
 			ps.executeUpdate();
