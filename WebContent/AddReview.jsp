@@ -90,22 +90,22 @@
 	</script>
 	<body>
 		<%@ page import='lenaye_CSCI201L_TrojanEats.DatabaseJDBC' %>
-		 <% String username = (String)session.getAttribute("username");
+		<% String username = (String)session.getAttribute("username");
 		 if(username != null) {
-			if(username.length() >= 0) { %>
-				<body onload="hasUser()">
+			if(username.length() > 0) { %>
+				<body onload="hasUser();">
 			<% }
 			else { %>
-				<body onload="noUser()">
+				<body onload="noUser();">
 			<% }
 		 }
 		 else { %>
-			 <body onload="noUser()">
+			 <body onload="noUser();">
 		 <% }
 		int restaurantId = Integer.parseInt(request.getParameter("restaurantId")); 
 		String restaurantName = DatabaseJDBC.getRestaurant(restaurantId).getName();
 		%>
-		<div id="logo"><a href="HomePage.jsp" style = "color: #008000">TrojanEats</a></div>
+		<div id="logo"><a href="HomePage.jsp"  style = "color: #008000">TrojanEats</a></div>
 		<div id="main">
 			<div id="noUserError"></div>
 			<a href="Login.jsp"><div id="askLogin"></div></a>
