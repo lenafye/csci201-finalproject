@@ -1,5 +1,3 @@
-
-
 package servlets;
 
 import java.io.IOException;
@@ -39,32 +37,25 @@ public class SearchServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String searchTerm = request.getParameter("searchQuery");
 		String error = "";
-		log(searchTerm);
 		
-		if(searchTerm == null || searchTerm.length() == 0 || searchTerm.isEmpty()) {
+		String cuisine = request.getParameter("cuisine");
+		if(cuisine.trim().contentEquals("undefined")) {
+			cuisine = "";
+		}
+		String price = request.getParameter("price");
+		if(price.trim().contentEquals("undefined")) {
+			price = "";
+		}
+		boolean dollars = Boolean.parseBoolean(request.getParameter("dollars"));
+		boolean swipes = Boolean.parseBoolean(request.getParameter("swipes"));
+		
+		if(cuisine.length() == 0 && price.length() == 0 &&
+				(dollars == false && swipes == false && searchTerm.length() == 0)) {
+			error = "Please enter restaurant name or search requirements.";
 			RequestDispatcher dispatcher = request.getRequestDispatcher("HomePage.jsp");
 			dispatcher.forward(request, response);
 			return;
-			
 		}
-		
-		String cuisine = request.getParameter("cuisine");
-		String price = request.getParameter("price");
-		boolean dollars = true;
-		if(request.getParameter("dollars") == null) dollars = false;
-		boolean swipes = true;
-		if(request.getParameter("swipes") == null) swipes = false;
-		
-		log("cuisine: "+ cuisine);
-		log(price);
-		log(Boolean.toString(dollars));
-		log(Boolean.toString(swipes));
-		
-		if((cuisine == null || cuisine.length() == 0 || cuisine.isEmpty()) && 
-				(price == null || price.length() == 0 || price.isEmpty()) &&
-				(dollars == false && swipes == false)) {
-					error = "Please enter restaurant name or search requirements.";
-				}
 		
 		PrintWriter out = response.getWriter();
 		out.println(error);		

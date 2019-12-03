@@ -14,6 +14,21 @@
 		<script type="text/javascript">
 			function isValid() {
 		  		var hasError = false;
+<<<<<<< HEAD
+		  		document.getElementById("error").innerHTML = "";
+			  	var xhttp = new XMLHttpRequest();
+			  	xhttp.open("GET", "SearchServlet?searchInput="+document.myform.input.value
+			  			+"&swipes="+document.myform.swipes.value+"&dollars="+document.myform.dollars.value
+			  			+"&cuisine="+document.myform.cuisine.value+"&price="+document.myform.price.value
+			  			+"&hours="+document.myform.hours.value, false);
+			  	xhttp.send();
+			  	if(xhttp.responseText.trim().length > 0) {
+			  		document.getElementById("error").innerHTML = xhttp.responseText;
+			  		hasError = true;
+			  	}
+			  	if(hasError) {
+			  		window.location.href = "HomePage.jsp?error=" + xhttp.responseText;
+=======
 		  		var searchQuery = document.getElementById('searchQuery').value;
 		  		
 		  		if (searchQuery == "Lemonade") {
@@ -22,6 +37,7 @@
 				  	xhttp.send();
 				  	location.href = "SearchResults.jsp"
 				  	return true;
+>>>>>>> branch 'master' of https://github.com/lenafye/csci201-finalproject
 		  		}
 		  		
 		  		var swipes = $("#customSwitch2").is(":checked"); 
