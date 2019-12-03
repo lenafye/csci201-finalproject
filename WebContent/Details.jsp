@@ -117,21 +117,41 @@
 		<script>
 			function isValid() {
 		  		var hasError = false;
+		  		var searchQuery = document.getElementById('box').value;
+		  		
+		  		var swipes = document.getElementById("swipes").value;
+		  		var dollars = document.getElementById("dollars").value;
+		  		
+		  		var c = document.getElementById("cuisine");
+		  		var cuisine = c.options[c.selectedIndex].value;
+		  		var p = document.getElementById("price");
+		  		var price = p.options[p.selectedIndex].value;
+		  		
+		  		console.log(hours);
+		  		sessionStorage.setItem("searchQuery", searchQuery);
+		  		sessionStorage.setItem("swipes", swipes);
+		  		sessionStorage.setItem("dollars", dollars);
+		  		sessionStorage.setItem("cuisine", cuisine);
+		  		sessionStorage.setItem("price", price);
+		  		
 		  		document.getElementById("error").innerHTML = "";
+			  	
 			  	var xhttp = new XMLHttpRequest();
-			  	xhttp.open("GET", "SearchRestaurant?searchInput="+document.myform.input.value
-			  			+"&swipes="+document.myform.swipes.value+"&dollars="+document.myform.dollars.value
-			  			+"&cuisine="+document.myform.cuisine.value+"&price="+document.myform.price.value
-			  			+"&hours="+document.myform.hours.value, false);
-			  	xhttp.send();
+			  	xhttp.open("POST", "SearchServlet?searchQuery="+searchQuery
+		  			+"&swipes="+swipes+"&dollars="+dollars
+		  			+"&cuisine="+cuisine+"&price="+price
+		  			+"&hours="+hours, false);
+			  	xhttp.send(); 
+	
 			  	if(xhttp.responseText.trim().length > 0) {
-			  		document.getElementById("error").innerHTML = xhttp.responseText;
-			  		hasError = true;
+			  		sessionStorage.setItem("error", xhttp.responseText);
+			  		document.getElementById("error").innerHTML = "Please enter restaurant name or search requirements.";
+					error = "";
+					sessionStorage.setItem("error", "");
+					return false;
 			  	}
-			  	if(hasError) {
-			  		window.location.href = "HomePage.jsp?error=" + xhttp.responseText;
-		  		}
-		  		return !hasError;
+			  	location.href = "SearchResults.jsp"
+		  		return true;
 		  	}
 			function hasUser() {
 				document.getElementById("profile").style.display = "block";
@@ -211,28 +231,26 @@
 					<div class="bar">
 						<form name="myform" onsubmit="return isValid();" action="SearchResults.jsp" method="GET">
 						<input type="search" name="input" id="box" placeholder="Enter search terms">
-						<button id="button" type="button" onclick="validate()" style="float: right;">Search</button>
+						<button id="button" type="submit" style="float: right;">Search</button>
 						<p>
-						<!-- <div id="error"></div> -->
+						<div id="error"></div>
 					</div>
 					<div class="row">
 						<div class="column">
-							<input type="checkbox" name="swipes"> Dining Swipes<br>
-							<select name="cuisine">
+							<input type="checkbox" name="swipes" id="swipes"> Dining Swipes<br>
+							<select name="cuisine" id="cuisine">
 								<option value="none"></option>
 								<option value="american">American</option>
 								<option value="asian">Asian</option>
+								<option value="mexican">Mexican</option>
 								<option value="cafe">Cafe</option>
 								<option value="cafeteria">Cafeteria</option>
-								<option value="mexican">Mexican</option>
 								<option value="pizza">Pizza</option>
-								
 							</select> Cuisine
-							Hours <input type="time" name="hours" id="time" step="900">
 						</div>
 						<div class="column">
-							<input type="checkbox" name="dollars"> Dining Dollars <br>
-							<select name="price">
+							<input type="checkbox" id="dollars" name="dollars"> Dining Dollars <br>
+							<select name="price" id="price">
 								<option value="none"></option>
 								<option value="one">$</option>
 								<option value="two">$$</option>
