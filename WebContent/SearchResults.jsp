@@ -83,7 +83,8 @@
 			</div>
 		</div>
 		<div id="title">
-			<h1>Results for "<%= request.getParameter("searchQuery") %>"</h1>
+			<% String searchQuery = request.getParameter("searchQuery"); %>
+			<h1>Results for "<% out.println(searchQuery); %>"</h1>
 		</div>
 		<div id="main">
 			<div class="results">
@@ -96,8 +97,8 @@
 		<%@ page import='java.util.ArrayList' %>
 		<%@ page import='lenaye_CSCI201L_TrojanEats.Restaurant' %>
 		
-		<% Integer numResults = (Integer) request.getAttribute("numResults"); %>
-		<%ArrayList<Restaurant> r = (ArrayList<Restaurant>) request.getAttribute("restaurantList");%>
+		<% Integer numResults = (Integer)request.getAttribute("numResults"); %>
+		<%ArrayList<Restaurant> r = (ArrayList<Restaurant>)request.getAttribute("restaurantList");%>
 		<script>
 		var map, infoWindow;
 	      function initMap() {
@@ -107,21 +108,21 @@
 		        });
 	        infoWindow = new google.maps.InfoWindow;
 	        
-	     
-	        for(var i=0; i<<%=numResults%>; i++)  {
-				var lat = <%=r.get(i).getLatitude()%>;
-				var lng = <%=r.get(i).getLongitude()%>;
+	        for(var i = 0; i < <%= numResults %>; i++)  {
+	        	<% int i = %> i;
+				var lat = <%= r.get(i).getLatitude() %>;
+				var lng = <%= r.get(i).getLongitude() %>;
 				var resCoord = new google.maps.LatLng(lat, lng);
 				
 				var marker = new google.maps.Marker({position: resCoord, map: map, label:i});
 				 var infowincontent = document.createElement('div');
 		            var strong = document.createElement('strong');
-		            strong.textContent = <%r.get(i).getName()%>;
+		            strong.textContent = <%= r.get(i).getName() %>;
 		            infowincontent.appendChild(strong);
 		            infowincontent.appendChild(document.createElement('br'));
 
 		            var text = document.createElement('text');
-		            text.textContent = <%=r.get(i).getAddress()%>;
+		            text.textContent = <%= r.get(i).getAddress() %>;
 		            infowincontent.appendChild(text);
 		            google.maps.event.addListener(map, 'click', function() {
 			       		infoWindow.setContent(infowincontent);
@@ -135,7 +136,6 @@
 	      }
 	      
 			function getSearchResults() {
-				<%int i;%>
 				var numResults = <%= numResults %>;
 				
 				
