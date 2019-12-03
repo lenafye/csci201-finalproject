@@ -83,7 +83,7 @@
 			</div>
 		</div>
 		<div id="title">
-			<h1>Results for "<%= request.getParameter("search") %>"</h1>
+			<h1>Results for "<%= request.getParameter("searchQuery") %>"</h1>
 		</div>
 		<div id="main">
 			<div class="results">
