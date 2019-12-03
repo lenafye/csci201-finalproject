@@ -83,61 +83,40 @@
 			</div>
 		</div>
 		<div id="title">
-			<% String searchQuery = request.getParameter("searchQuery"); %>
-			<h1>Results for "<% out.println(searchQuery); %>"</h1>
+			<h1>Results for "<%=request.getParameter("searchQuery")%>"</h1>
 		</div>
 		<div id="main">
 			<div class="results">
 				<table id="searchResults">
 				</table>
 			</div>
-			<div id="resMap">
+			<div class="map">
 			</div>
 		</div>
 		<%@ page import='java.util.ArrayList' %>
 		<%@ page import='lenaye_CSCI201L_TrojanEats.Restaurant' %>
-		
-		<% Integer numResults = (Integer)request.getAttribute("numResults"); %>
-		<%ArrayList<Restaurant> r = (ArrayList<Restaurant>)request.getAttribute("restaurantList");%>
 		<script>
-		var map, infoWindow;
-	      function initMap() {
-	    	  map = new google.maps.Map(document.getElementById('resMap'), {
-		          center: {lat: 34.022288, lng: -118.285344},
-		          zoom: 15
-		        });
-	        infoWindow = new google.maps.InfoWindow;
-	        
-	        for(var i = 0; i < <%= numResults %>; i++)  {
-	        	<% int i = %> i;
-				var lat = <%= r.get(i).getLatitude() %>;
-				var lng = <%= r.get(i).getLongitude() %>;
-				var resCoord = new google.maps.LatLng(lat, lng);
-				
-				var marker = new google.maps.Marker({position: resCoord, map: map, label:i});
-				 var infowincontent = document.createElement('div');
-		            var strong = document.createElement('strong');
-		            strong.textContent = <%= r.get(i).getName() %>;
-		            infowincontent.appendChild(strong);
-		            infowincontent.appendChild(document.createElement('br'));
-
-		            var text = document.createElement('text');
-		            text.textContent = <%= r.get(i).getAddress() %>;
-		            infowincontent.appendChild(text);
-		            google.maps.event.addListener(map, 'click', function() {
-			       		infoWindow.setContent(infowincontent);
-			        	infoWindow.open(map, marker);
-			             
-			         });
-			
-			}
-			
-	        
-	      }
-	      
 			function getSearchResults() {
-				var numResults = <%= numResults %>;
+				<% Integer numResults = (Integer) request.getSession().getAttribute("numResults"); System.out.println("HERE:"+numResults);%>
+				<%ArrayList<Restaurant> r = (ArrayList<Restaurant>) request.getSession().getAttribute("restaurantList");%>
+				<%int j = 0;%>
+				var numResults = "<%= numResults %>";
+				var lat;
+				var lon;
+				var suff = "https://maps.googleapis.com/maps/api/staticmap?center=University+Of+Southern+California,Los+Angeles,CA&zoom=15&size=350x450&maptype=roadmap";
+				for(var i = 0; i < numResults; i++) {
+					<%= j %> = i;
+					lat = <%=r.get(j).getLatitude()%>;
+					lon = <%=r.get(j).getLongitude()%>;
+					suff += "&markers=color:red%7Clabel:S%7C" + lat + "," + lon;
+					
+				}
+				suff += "&key=AIzaSyAxkitpbRuPGhv0Y4mHpVBfgNXU01wH7kw";
 				
+				let image = document.createElement("img");
+				image.setAttribute("id", "map");
+				image.setAttribute("src", suff);
+				document.querySelector(".map").appendChild(image);
 				
 				
 				if(numResults == 0) {
@@ -150,10 +129,9 @@
 					row.appendChild(name);
 					
 				} else {
-					
 					for(var i = 0; i < numResults; i++) {
 						
-						<% i = %> i;
+						<%= j %> = i;
 						
 						let row = document.createElement("tr");
 						document.querySelector("#searchResults").appendChild(row);
@@ -161,15 +139,12 @@
 						let numItem = document.createElement("td");
 						numItem.classList.add("restaurant");
 						let a = document.createElement("a");
-						a.setAttribute("href", "Details.jsp?restaurantId=" + r.get(i).getId());
-						a.innerHTML = "<h2>" + (i+1) + ". " + <%=r.get(i).getName()%> + "</h2><br><br>Average Rating: " + <%=r.get(i).getRating()%> + "<br>Address: " + <%=r.get(i).getAddress()%> + "<br>Cost: " + <%=r.get(i).getCost()%> + "<br><br>";
+						a.setAttribute("href", "Details.jsp?final=" + r.get(i).getId());
+						a.innerHTML = "<h2>" + (i+1) + ". " + <%=r.get(j).getName()%> + "</h2><br><br>Average Rating: " + <%=r.get(j).getRating()%> + "<br>Address: " + <%=r.get(j).getAddress()%> + "<br>Cost: " + <%=r.get(j).getCost()%> + "<br><br>";
 						numItem.appendChild(a);
-						row.appendChild(numItem); 
-						
+						row.appendChild(numItem); 	
 					}
-					
 				} 
-				
 			}
 		</script>
 	</body>
