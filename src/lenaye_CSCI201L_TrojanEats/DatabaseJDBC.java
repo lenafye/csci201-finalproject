@@ -98,20 +98,22 @@ public class DatabaseJDBC {
 		String query = "SELECT * FROM Restaurants WHERE";
 		ArrayList<Restaurant> r = new ArrayList<Restaurant>();
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(
+					"jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
 			if(!input.isEmpty()) {
-				query += " name=" + input;
+				query += " name='" + input + "'";
 			}
-			if(query.length() > 32) {
-				query += " AND ";
+			if(cuisine.length() > 0) {
+				if(query.length() > 32) {
+					query += " AND ";
+				}
+				query += "cuisine='" + cuisine + "'";
 			}
-			if(!cuisine.contentEquals("none")) {
-				query += "cuisine=" + cuisine;
-			}
-			if(query.length() > 32) {
-				query += " AND ";
-			}
-			if(!price.contentEquals("none")) {
+			if(price.length () > 0) {
+				if(query.length() > 32) {
+					query += " AND ";
+				}
 				if(price.contentEquals("one")) {
 					query += "cost=1";
 				} else if(price.contentEquals("two")) {
@@ -120,21 +122,23 @@ public class DatabaseJDBC {
 					query += "cost=3";
 				}
 			}
-			if(query.length() > 32) {
-				query += " AND ";
-			}
 			if(dollars) {
+				if(query.length() > 32) {
+					query += " AND ";
+				}
 				query += "diningDollars=1";
 			}
-			if(query.length() > 32) {
-				query += " AND ";
+			if(swipes) {
+				if(query.length() > 32) {
+					query += " AND ";
+				}
+				query += "swipes=1";
 			}
-			if(swipes) query += "swipes=1";
 			ps = conn.prepareStatement(query);
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				int restaurantId = rs.getInt("restaurantId");
-				String name = rs.getString("restaurantName");
+				String name = rs.getString("name");
 				String cuisine1 = rs.getString("cuisine");
 				boolean swipes1  = rs.getBoolean("swipes");
 				boolean diningDollars = rs.getBoolean("diningDollars");
@@ -149,6 +153,9 @@ public class DatabaseJDBC {
 			}
 		} catch(SQLException sqle) {
 			System.out.println(sqle.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} finally {
 			try {
 				if (rs != null) {
