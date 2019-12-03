@@ -105,7 +105,7 @@
 		int restaurantId = Integer.parseInt(request.getParameter("restaurantId")); 
 		String restaurantName = DatabaseJDBC.getRestaurant(restaurantId).getName();
 		%>
-		<div id="logo"><a href="HomePage.jsp">TrojanEats</a></div>
+		<div id="logo"><a href="HomePage.jsp" style = "color: #008000">TrojanEats</a></div>
 		<div id="main">
 			<div id="noUserError"></div>
 			<a href="Login.jsp"><div id="askLogin"></div></a>
