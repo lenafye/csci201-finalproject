@@ -361,7 +361,7 @@
 				      }
 						
 				      </script>
-					<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1AgSzWcKOu5Tnm_XTgM6VipMtxS-efsk&callback=initMap" type="text/javascript"></script>
+					<script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" type="text/javascript"></script>
 				
 				<div class='clearfloat'></div>
 			</div> <!-- #restaurant -->
