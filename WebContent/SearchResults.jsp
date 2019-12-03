@@ -1,114 +1,211 @@
-package servlets;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import lenaye_CSCI201L_TrojanEats.DatabaseJDBC;
-import lenaye_CSCI201L_TrojanEats.Restaurant;
-
-/**
- * Servlet implementation class SearchServlet
- */
-@WebServlet("/SearchServlet")
-public class SearchServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public SearchServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		String searchTerm = request.getParameter("searchQuery");
-		String error = "";
-		String searchQuery = "";
-		
-		String cuisine = request.getParameter("cuisine");
-		if(cuisine.trim().contentEquals("undefined")) {
-			cuisine = "";
-		}
-		String price = request.getParameter("price");
-		if(price.trim().contentEquals("undefined")) {
-			price = "";
-		}
-		boolean dollars = Boolean.parseBoolean(request.getParameter("dollars"));
-		boolean swipes = Boolean.parseBoolean(request.getParameter("swipes"));
-		
-		if(cuisine.length() == 0 && price.length() == 0 &&
-				(dollars == false && swipes == false && searchTerm.length() == 0)) {
-			error = "Please enter restaurant name or search requirements.";
-			RequestDispatcher dispatcher = request.getRequestDispatcher("HomePage.jsp");
-			dispatcher.forward(request, response);
-			return;
-		}
-		
-		PrintWriter out = response.getWriter();
-		out.println(error);		
-		out.flush();
-		out.close();
-		
-		ArrayList<Restaurant> r = new ArrayList<Restaurant>();
-		r = DatabaseJDBC.search(searchTerm, cuisine, price, dollars, swipes);
-		
-		if(searchTerm.length() > 0) {
-			searchQuery += "'" + searchTerm + "' ";
-		}
-		if(cuisine.length() > 0) {
-			if(searchQuery.length() > 0) {
-				searchQuery += " with ";
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Search Results</title>
+		<link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet">
+		<link href='header.css' rel='stylesheet'>
+		<link href='results.css' rel='stylesheet'>
+		<script src="http://code.jquery.com/jquery-3.3.1.min.js" 
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous">
+		</script>
+		<script>
+			function hasUser() {
+				document.getElementById("profile").style.display = "block";
+				document.getElementById("content").style.display = "block";
+				document.getElementById("noUserError").innerHTML = "";
+				document.getElementById("askLogin").innerHTML = "";
 			}
-			searchQuery += "cuisine " + cuisine + " ";
-		}
-		if(price.length() > 0) {
-			if(searchQuery.length() == 0) {
-				searchQuery += "restaurants ";
+			function noUser() {
+				document.getElementById("profile").style.display = "none";
+				document.getElementById("content").style.display = "none";
+				document.getElementById("noUserError").innerHTML = "Error: No user logged in.";
+				document.getElementById("askLogin").innerHTML = "Login now?";
+				alert("getSearchResults");
 			}
-			searchQuery += "with price " + price + " ";
-		}
-		if(dollars) {
-			if(searchQuery.length() == 0) {
-				searchQuery += "restaurants ";
+		</script>
+		<style>
+			.results {
+				float: left;
+				width: 40%;
+				margin-left: 7%;
+				background-color: #E9EEE7;
+				background-size: cover;
+				border-radius: 25px;
+				padding-left: 20px;
+				height: 63vh;
 			}
-			searchQuery += "that take dining dollars ";
-		}
-		if(swipes) {
-			if(searchQuery.length() == 0) {
-				searchQuery += "restaurants ";
+			.map {
+				width: 40%;
+				float: right;
 			}
-			searchQuery += "that take swipes ";
+			.text {
+				padding-top: 20px;
+				margin: auto;
+  				height: 90%;
+  				width: 90%;
+  				overflow: auto;
+			}
+			.textContainer {
+				height: 50%;
+			}
+			#searchResults {
+				width: 40%;
+				color: gray;
+			}
+			#mapResults {
+				position: fixed;
+				float: right;
+				padding: 20% 10%;
+				margin-top: 5%;
+				right: 5%;
+				width: 40%;
+				height: 60%;
+				border: 1px solid lightgray;
+				text-align: center;
+			}
+			.ratingStar {
+				width: 20px;
+			}
+			h1 {
+				font-weight: normal;
+				margin-left: 7%;
+			}
+			body {
+				font-family: 'Josefin Sans', sans-serif;
+				color: gray;
+				background-color: white;
+				background-size: cover;
+				margin: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<% String username = (String)session.getAttribute("username");
+		if(username != null) {
+			if(username.length() >= 0) { %>
+				<body onload="getSearchResults(); hasUser();">
+			<% }
+			else { %>
+				<body onload="getSearchResults(); noUser();">
+			<% }
 		}
-		
-		session.setAttribute("searchQuery", searchQuery);
-		session.setAttribute("restaurantList", r);
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("SearchResults.jsp");
-		dispatcher.forward(request, response);
-		
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
-}
+		else { %>
+			<body onload="getSearchResults(); noUser();">
+		<% } %>
+		<%@ page import='lenaye_CSCI201L_TrojanEats.DatabaseJDBC'
+		import='lenaye_CSCI201L_TrojanEats.Restaurant'%>
+		<% ArrayList<Restaurant> r = (ArrayList<Restaurant>)session.getAttribute("restaurantList"); %>
+		<div id="header">
+			<div class="logo">
+				<a href="HomePage.jsp">TrojanEats</a>
+			</div>
+			<div class="links">
+				<div class="search">
+					<div class="bar">
+						<form name="myform" onsubmit="return isValid();" action="SearchResults.jsp" method="GET">
+						<input type="search" name="input" id="box" placeholder="Enter search terms">
+						<button id="button" type="button" onclick="validate()" style="float: right;">Search</button>
+						<p>
+						<div id="error"></div>
+					</div>
+					<div class="row">
+						<div class="column">
+							<input type="checkbox" name="swipes"> Dining Swipes<br>
+							<select name="cuisine">
+								<option value="none"></option>
+								<option value="american">American</option>
+								<option value="asian">Asian</option>
+								<option value="mexican">Mexican</option>
+							</select> Cuisine
+							Hours <input type="time" name="hours" id="time" step="900">
+						</div>
+						<div class="column">
+							<input type="checkbox" name="dollars"> Dining Dollars <br>
+							<select name="price">
+								<option value="none"></option>
+								<option value="one">$</option>
+								<option value="two">$$</option>
+								<option value="three">$$$</option>
+							</select> Price
+							</form>
+						</div>
+					</div>
+				</div>
+				<div id="profile">
+					<a href="Profile.jsp"><img src="img/user.png" height="100px"></a>
+				</div>
+			</div>
+		</div>
+		<div id="title">
+			<h1>Results for <%=request.getSession().getAttribute("searchQuery")%></h1>
+		</div>
+		<div id="main">
+			<div class="results">
+				<div class="text">
+				<hr>
+				<% for(int i =0; i < r.size(); i++) {%>
+					<div class="textContainer">
+					<h2><a href="Details.jsp?restaurantId=<%=r.get(i).getId()%>"><%=r.get(i).getName()%></a></h2>
+					Rating: <% double avgRating = r.get(i).getRating(); 
+					for(int j=0; j<5; j++)
+					{
+						if(avgRating >0){
+							if(avgRating-1 >= 0)
+							{
+								%><img class='ratingStar' src='img/star.png'><%
+							}
+							else if(Math.abs(avgRating-1) > 0 && (Math.abs(avgRating-1)<1))
+							{
+								%><img class='ratingStar' src='img/halfstar.png'><%	
+							}
+							else
+							{
+								%><img class='ratingStar' src='img/emptystar.png'><%	
+							}
+							avgRating=  avgRating - 1;
+						}
+						else
+						{
+							%><img class='ratingStar' src='img/emptystar.png'><%
+						}
+					
+					}%><p>
+					Cost: <% for(int j = 0; j < r.get(i).getCost(); j++) { %>
+					
+					<% } %>
+						<p>
+					Cuisine: <%= r.get(i).getCuisine() %><p>
+					Takes Dining Dollars: 
+					<% if(r.get(i).getDD()) {
+						out.println("Yes");
+					}
+					else {
+						out.println("No");
+					}
+					%><p>
+					Takes Swipes: 
+					<% if(r.get(i).getSwipes()) {
+						out.println("Yes");
+					}
+					else {
+						out.println("No");
+					}
+					%><p>
+					</div>
+					<hr>
+				<%} %>
+				</div>
+			</div>
+			<div class="map">
+			</div>
+		</div>
+		<%@ page import='java.util.ArrayList' %>
+		<%@ page import='lenaye_CSCI201L_TrojanEats.Restaurant' %>
+		<script>
+		</script>
+	</body>
+</html>
