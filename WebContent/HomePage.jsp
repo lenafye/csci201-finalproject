@@ -16,14 +16,6 @@
 		  		var hasError = false;
 		  		var searchQuery = document.getElementById('searchQuery').value;
 		  		
-		  		if (searchQuery == "Lemonade") {
-		  			var xhttp = new XMLHttpRequest();
-				  	xhttp.open("GET", "SearchServlet?searchQuery="+searchQuery, false);
-				  	xhttp.send();
-				  	location.href = "SearchResults.jsp"
-				  	return true;
-		  		}
-		  		
 		  		var swipes = $("#customSwitch2").is(":checked"); 
 		  		var dollars = $("#customSwitch1").is(":checked"); 
 		  		var cuisine = $("input[name='cuisine']:checked").val();
