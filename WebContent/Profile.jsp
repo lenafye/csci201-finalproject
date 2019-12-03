@@ -52,6 +52,9 @@
 				width: 70%;
 				margin: auto;
 			}
+			.ratingStar {
+				width: 20px;
+			}
 			body {
 				background-image: url("img/bg.jpeg");
 				background-size: cover;
@@ -92,12 +95,14 @@
 				document.getElementById("content").style.display = "block";
 				document.getElementById("noUserError").innerHTML = "";
 				document.getElementById("askLogin").innerHTML = "";
+				document.getElementById("otherContainer").style.display="block";
 			}
 			function noUser() {
 				document.getElementById("profile").style.display = "none";
 				document.getElementById("content").style.display = "none";
 				document.getElementById("noUserError").innerHTML = "Error: No user logged in.";
 				document.getElementById("askLogin").innerHTML = "Login now?";
+				document.getElementById("otherContainer").style.display="none";
 			}
 		</script>
 	</head>
@@ -106,7 +111,7 @@
 		import='lenaye_CSCI201L_TrojanEats.Review'%>
 		<% String username = (String)session.getAttribute("username");
 		if(username != null) {
-			if(username.length() >= 0) { %>
+			if(username.length() > 0) { %>
 				<body onload="hasUser()">
 			<% }
 			else { %>
@@ -173,8 +178,28 @@
 						for(int i =0; i < reviews.size(); i++)
 						{%>
 						<div class="text">
-						<h2><%=reviews.get(i).getRestaurantName()%></h2>
-						Rating: <%=reviews.get(i).getRating()%>/5 <br>
+						<h2><a href="Details.jsp?restaurantId=<%=reviews.get(i).getRestaurantId()%>"><%=reviews.get(i).getRestaurantName()%></a></h2>
+						Rating: <%int rating = reviews.get(i).getRating(); 
+							for(int j=0; j<5; j++)
+							{
+								if(rating >0){
+									if(rating-1 >= 0)
+									{
+										%><img class='ratingStar' src='img/star.png'><%
+									}
+									else
+									{
+										%><img class='ratingStar' src='img/emptystar.png'><%	
+									}
+									rating--;
+								}
+								else
+								{
+									%><img class='ratingStar' src='img/emptystar.png'><%
+								}
+							
+							}
+						%><br>
 						Rating text: <%=reviews.get(i).getText()%><p>
 						</div>
 						<hr>
