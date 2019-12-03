@@ -16,7 +16,7 @@
 		  		var hasError = false;
 		  		document.getElementById("error").innerHTML = "";
 			  	var xhttp = new XMLHttpRequest();
-			  	xhttp.open("GET", "SearchRestaurant?searchInput="+document.myform.input.value
+			  	xhttp.open("GET", "SearchServlet?searchInput="+document.myform.input.value
 			  			+"&swipes="+document.myform.swipes.value+"&dollars="+document.myform.dollars.value
 			  			+"&cuisine="+document.myform.cuisine.value+"&price="+document.myform.price.value
 			  			+"&hours="+document.myform.hours.value, false);

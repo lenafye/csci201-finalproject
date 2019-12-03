@@ -35,7 +35,7 @@ public class SearchServlet extends HttpServlet {
 		
 		String searchTerm = request.getParameter("search");
 		
-		if(searchTerm.equals("") || searchTerm == null) {
+		if(searchTerm == null || searchTerm.equals("")) {
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("HomePage.jsp");
 			dispatcher.forward(request, response);
