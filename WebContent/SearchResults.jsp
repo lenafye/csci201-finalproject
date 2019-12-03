@@ -104,6 +104,7 @@
 				</div>
 			</div>
 		</div>
+
 		<%@ page import='java.util.ArrayList' %>
 		<%@ page import='lenaye_CSCI201L_TrojanEats.Restaurant' %>
 		
@@ -111,6 +112,7 @@
 		<%ArrayList<Restaurant> r = (ArrayList<Restaurant>) request.getAttribute("restaurantList");%>
 		<div id="title"> 
 			<h1>Results for "<%= request.getParameter("search") %>"</h1>
+
 		</div>
 		<div id="main">
 			<div class="results">
@@ -158,10 +160,10 @@
 				<table id="searchResults">
 				</table>
 			</div>
-			<div id="resMap">
+			<div class="map">
 			</div>
 		</div>
-		
+
 		<script>
 		var map, infoWindow;
 	      function initMap() {
@@ -198,7 +200,6 @@
 	        
 	      }
 	      
-
 		</script>
 		<script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" type="text/javascript"></script>
 		
