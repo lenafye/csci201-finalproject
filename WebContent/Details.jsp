@@ -38,7 +38,7 @@
 				height: 490px;
 			}
 			#hours {
-				width: 350px;
+				width: 170px;
 				float: left;
 				margin-top: 1em;
 				margin-left: 10px;
@@ -92,15 +92,13 @@
 				margin-top: 20px;
 			}
 			#addReview{
-				height: 30px;
+				height: 5%;
 				padding-left: 5px;
-				width: 10%;
+				width: 8%;
 				background-color: rgb(156,201,186);
 				color: white;
 				border-radius: 10px;
 				display: block;
-				text-align: center;
-				padding-top: 10px;
 			}
 			.interact {
 				float: right;
@@ -222,19 +220,19 @@
 		
 		<% String username = (String)session.getAttribute("username");
 		if(username != null) {
-			if(username.length() >= 0) { %>
-				<body onload="hasUser()">
+			if(username.length() > 0) { %>
+				<body onload="hasUser();">
 			<% }
 			else { %>
-				<body onload="noUser()">
+				<body onload="noUser();">
 			<% }
 		}
 		else { %>
-			<body onload="noUser()">
+			<body onload="noUser();">
 		<% } %>
 		<div id="header">
 			<div class="logo">
-				<a href="HomePage.jsp" style = "color: #008000">TrojanEats</a>
+				<a href="HomePage.jsp"  style = "color: #008000">TrojanEats</a>
 			</div>
 			<div class="links">
 				<div class="search">
@@ -243,7 +241,7 @@
 						<input type="search" name="input" id="box" placeholder="Enter search terms">
 						<button id="button" type="submit" style="float: right;">Search</button>
 						<p>
-						
+						<div id="error"></div>
 					</div>
 					<div class="row">
 						<div class="column">
@@ -334,16 +332,7 @@
 					%>
 					<p>Accepts Swipes: <%=acceptsSwipes%></p>
 					<p>Cuisine: <%=currRes.getCuisine()%></p>
-					<%@page import='java.util.Scanner' %>
-					<p style='float: left'>Hours: </p><div id='hours'><%
-					
-					String hours  = currRes.getHours();
-					Scanner scnr = new Scanner(hours);
-					while(scnr.hasNextLine())
-					{
-						String line =  scnr.nextLine();
-						%> <%=line%> <br><%
-					} %></div>
+					<p style='float: left'>Hours: </p><div id='hours'><%=currRes.getHours()%></div>
 					<div class='clearfloat'></div>
 				</div> <!-- #resInfo -->
 				<div id='resMap' > </div> <!-- #resMap -->
@@ -361,7 +350,7 @@
 				      }
 						
 				      </script>
-					<script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" type="text/javascript"></script>
+					<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1AgSzWcKOu5Tnm_XTgM6VipMtxS-efsk&callback=initMap" type="text/javascript"></script>
 				
 				<div class='clearfloat'></div>
 			</div> <!-- #restaurant -->
