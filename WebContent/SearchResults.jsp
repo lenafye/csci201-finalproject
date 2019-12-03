@@ -236,7 +236,7 @@
 	      }
 	      
 		</script>
-		<script  defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1AgSzWcKOu5Tnm_XTgM6VipMtxS-efsk&callback=initMap" type="text/javascript"></script>
+		<script  defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" type="text/javascript"></script>
 		</div>
 		<%@ page import='java.util.ArrayList' %>
 		<%@ page import='lenaye_CSCI201L_TrojanEats.Restaurant' %>
