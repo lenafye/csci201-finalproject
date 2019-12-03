@@ -3,17 +3,17 @@ package lenaye_CSCI201L_TrojanEats;
 public class Notification {
 	private int notificationId;
 	private String username;
-	private int type;
 	private boolean read;
 	private String time;
 	private String restaurant;
+	private boolean upvote;
 	
-	public Notification(int notificationId, String username, int type, boolean read, String time, String restaurant) {
+	public Notification(int notificationId, String username, boolean upvote, boolean read, String time, String restaurant) {
 		this.notificationId = notificationId;
 		this.username = username;
-		this.type = type;
 		this.read = read;
 		this.time = time;
+		this.upvote = upvote;
 		this.restaurant = restaurant;
 	}
 	
@@ -29,11 +29,20 @@ public class Notification {
 	public String getRestaurant() {
 		return restaurant;
 	}
-	public int getType() {
-		return type;
+	public String getUpvote() {
+		if(upvote) {
+			return "like";
+		}
+		else {
+			return "dislike";
+		}
 	}
-	public boolean checkRead() {
-		return read;
+	public String checkRead() {
+		if(read) {
+			return "read";
+		}
+		else {
+			return "new";
+		}
 	}
 }
-
