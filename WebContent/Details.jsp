@@ -34,7 +34,7 @@
 				display: block;
 				float: right;
 				margin-left: 100px;
-				height: 450px;
+				height: 490px;
 			}
 			#hours {
 				width: 170px;
@@ -45,7 +45,7 @@
 			#resInfo {
 				float: left;
 				width: 500px;
-				height: 410px;
+				height: 450px;
 				padding: 20px;
 			}
 			#favRem{
@@ -241,7 +241,7 @@
 							
 							}%>
 							</div> <!-- .stars -->
-							<br><br>
+							<div class='clearfloat'></div>
 					<% boolean dollars = currRes.getDD(); 
 						String acceptsDD = "No";
 						if(dollars)
