@@ -95,26 +95,41 @@ public class DatabaseJDBC {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String query = "SELECT * FROM Restaurant WHERE";
+		String query = "SELECT * FROM Restaurants WHERE";
 		ArrayList<Restaurant> r = new ArrayList<Restaurant>();
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneats201&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
-			query += " name=" + input;
-
+			if(!input.isEmpty()) {
+				query += " name=" + input;
+			}
+			if(query.length() > 32) {
+				query += " AND ";
+			}
 			if(!cuisine.contentEquals("none")) {
-				query += " AND cuisine=" + cuisine;
+				query += "cuisine=" + cuisine;
+			}
+			if(query.length() > 32) {
+				query += " AND ";
 			}
 			if(!price.contentEquals("none")) {
 				if(price.contentEquals("one")) {
-					query += " AND cost=1";
+					query += "cost=1";
 				} else if(price.contentEquals("two")) {
-					query += " AND cost=2";
+					query += "cost=2";
 				} else {
-					query += " AND cost=3";
+					query += "cost=3";
 				}
 			}
-			if(dollars) query += " AND diningDollars=1";
-			if(swipes) query += " AND swipes=1";
+			if(query.length() > 32) {
+				query += " AND ";
+			}
+			if(dollars) {
+				query += "diningDollars=1";
+			}
+			if(query.length() > 32) {
+				query += " AND ";
+			}
+			if(swipes) query += "swipes=1";
 			ps = conn.prepareStatement(query);
 			rs = ps.executeQuery();
 			while(rs.next()) {
