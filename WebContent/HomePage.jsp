@@ -35,8 +35,7 @@
 			  	var xhttp = new XMLHttpRequest();
 			  	xhttp.open("POST", "SearchServlet?searchQuery="+searchQuery
 		  			+"&swipes="+swipes+"&dollars="+dollars
-		  			+"&cuisine="+cuisine+"&price="+price
-		  			+"&hours="+hours, false);
+		  			+"&cuisine="+cuisine+"&price="+price, false);
 			  	xhttp.send(); 
 
 			  	if(xhttp.responseText.trim().length > 0) {

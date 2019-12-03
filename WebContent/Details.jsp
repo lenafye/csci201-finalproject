@@ -243,7 +243,7 @@
 						<input type="search" name="input" id="box" placeholder="Enter search terms">
 						<button id="button" type="submit" style="float: right;">Search</button>
 						<p>
-						<div id="error"></div>
+						
 					</div>
 					<div class="row">
 						<div class="column">
@@ -361,7 +361,7 @@
 				      }
 						
 				      </script>
-					<script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" type="text/javascript"></script>
+					<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1AgSzWcKOu5Tnm_XTgM6VipMtxS-efsk&callback=initMap" type="text/javascript"></script>
 				
 				<div class='clearfloat'></div>
 			</div> <!-- #restaurant -->

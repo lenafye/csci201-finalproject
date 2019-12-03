@@ -108,7 +108,7 @@ public class DatabaseJDBC {
 				if(query.length() > 32) {
 					query += " AND";
 				}
-				query += " cuisine LIKE '%" + cuisine + "%'";
+				query += " cuisine LIKE '" + cuisine + "'";
 			}
 			if(price.length () > 0) {
 				if(query.length() > 32) {
