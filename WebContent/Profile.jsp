@@ -124,7 +124,10 @@
 								<option value="none"></option>
 								<option value="american">American</option>
 								<option value="asian">Asian</option>
+								<option value="cafe">Cafe</option>
+								<option value="cafeteria">Cafeteria</option>
 								<option value="mexican">Mexican</option>
+								<option value="pizza">Pizza</option>
 							</select> Cuisine
 							Hours <input type="time" name="hours" id="time" step="900">
 						</div>

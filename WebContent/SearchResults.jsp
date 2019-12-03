@@ -27,6 +27,25 @@
 				alert("getSearchResults");
 			}
 		</script>
+		<style>
+			.stars {
+					float: left;
+					margin-top: 10px;
+					margin-bottom: 10px;
+			}
+			.ratingStar {
+				height: 20px;
+				float: left;
+				margin-right: 5px;
+			}
+			#resMap {
+				width: 500px;
+				display: block;
+				float: right;
+				margin-left: 100px;
+				height: 450px;
+			}	
+			</style>
 	</head>
 	<body>
 		<% String username = (String)session.getAttribute("username");
@@ -61,7 +80,10 @@
 								<option value="none"></option>
 								<option value="american">American</option>
 								<option value="asian">Asian</option>
+								<option value="cafe">Cafe</option>
+								<option value="cafeteria">Cafeteria</option>
 								<option value="mexican">Mexican</option>
+								<option value="pizza">Pizza</option>
 							</select> Cuisine
 							Hours <input type="time" name="hours" id="time" step="900">
 						</div>
@@ -82,22 +104,64 @@
 				</div>
 			</div>
 		</div>
-		<div id="title">
+		<%@ page import='java.util.ArrayList' %>
+		<%@ page import='lenaye_CSCI201L_TrojanEats.Restaurant' %>
+		
+		<% Integer numResults = (Integer) request.getAttribute("numResults"); %>
+		<%ArrayList<Restaurant> r = (ArrayList<Restaurant>) request.getAttribute("restaurantList");%>
+		<div id="title"> 
 			<h1>Results for "<%= request.getParameter("search") %>"</h1>
 		</div>
 		<div id="main">
 			<div class="results">
+			
+			<%for(int i=0; i<r.size(); i++) { %>
+				<div class='restaurant'>
+					<%Restaurant currRes = r.get(i); %>
+					<h2><%=i%>. <%=currRes.getName()%></h2>
+					<h4><%=currRes.getCuisine() %></h4>
+					<% int cost = currRes.getCost(); %>
+					<p>Cost: <%for(int i=0; i<cost; i++) { %>$<%} %> </p>
+					<div  class='stars'>
+						<% double avgRating =currRes.getRating();
+						
+						for(int j=0; j<5; j++)
+							{
+								if(avgRating >0){
+									if(avgRating-1 >= 0)
+									{
+										%><img class='ratingStar' src='img/star.png'><%
+									}
+									else if(Math.abs(avgRating-1) > 0 && (Math.abs(avgRating-1)<1))
+									{
+										%><img class='ratingStar' src='img/halfstar.png'><%	
+									}
+									else
+									{
+										%><img class='ratingStar' src='img/emptystar.png'><%	
+									}
+									avgRating=  avgRating - 1;
+								}
+								else
+								{
+									%><img class='ratingStar' src='img/emptystar.png'><%
+								}
+							
+							}%>
+							</div> <!-- .stars -->
+				</div><!-- .restaurant -->
+			<%} %>
+			<%if(r.size()==0)
+				{%>
+				<div>Your search yielded no results.</div>
+				<%} %>
 				<table id="searchResults">
 				</table>
 			</div>
 			<div id="resMap">
 			</div>
 		</div>
-		<%@ page import='java.util.ArrayList' %>
-		<%@ page import='lenaye_CSCI201L_TrojanEats.Restaurant' %>
 		
-		<% Integer numResults = (Integer) request.getAttribute("numResults"); %>
-		<%ArrayList<Restaurant> r = (ArrayList<Restaurant>) request.getAttribute("restaurantList");%>
 		<script>
 		var map, infoWindow;
 	      function initMap() {
@@ -108,69 +172,35 @@
 	        infoWindow = new google.maps.InfoWindow;
 	        
 	     
-	        for(var i=0; i<<%=numResults%>; i++)  {
-				var lat = <%=r.get(i).getLatitude()%>;
-				var lng = <%=r.get(i).getLongitude()%>;
-				var resCoord = new google.maps.LatLng(lat, lng);
+		        for(var i=0; i<<%=numResults%>; i++)  {
+		        	var lat = <%=r.get(i).getLatitude()%>;
+		        	var lng = <%=r.get(i).getLongitude()%>;
+					var resCoord = new google.maps.LatLng(lat, lng);
+					
+					var marker = new google.maps.Marker({position: resCoord, map: map, label:i});
+					 var infowincontent = document.createElement('div');
+			            var strong = document.createElement('strong');
+			            strong.textContent = <%r.get(i).getName()%>;
+			            infowincontent.appendChild(strong);
+			            infowincontent.appendChild(document.createElement('br'));
+	
+			            var text = document.createElement('text');
+			            text.textContent = <%=r.get(i).getAddress()%>;
+			            infowincontent.appendChild(text);
+			            google.maps.event.addListener(map, 'click', function() {
+				       		infoWindow.setContent(infowincontent);
+				        	infoWindow.open(map, marker);
+				             
+				         });
 				
-				var marker = new google.maps.Marker({position: resCoord, map: map, label:i});
-				 var infowincontent = document.createElement('div');
-		            var strong = document.createElement('strong');
-		            strong.textContent = <%r.get(i).getName()%>;
-		            infowincontent.appendChild(strong);
-		            infowincontent.appendChild(document.createElement('br'));
-
-		            var text = document.createElement('text');
-		            text.textContent = <%=r.get(i).getAddress()%>;
-		            infowincontent.appendChild(text);
-		            google.maps.event.addListener(map, 'click', function() {
-			       		infoWindow.setContent(infowincontent);
-			        	infoWindow.open(map, marker);
-			             
-			         });
-			
-			}
+				}
 			
 	        
 	      }
 	      
-			function getSearchResults() {
-				<%int i;%>
-				var numResults = <%= numResults %>;
-				
-				
-				
-				if(numResults == 0) {
-					
-					let row = document.createElement("tr");
-					document.querySelector("#searchResults").appendChild(row);
-					let name = document.createElement("td");
-					name.classList.add("restaurant");
-					name.innerHTML = "No results found";
-					row.appendChild(name);
-					
-				} else {
-					
-					for(var i = 0; i < numResults; i++) {
-						
-						<% i = %> i;
-						
-						let row = document.createElement("tr");
-						document.querySelector("#searchResults").appendChild(row);
-					
-						let numItem = document.createElement("td");
-						numItem.classList.add("restaurant");
-						let a = document.createElement("a");
-						a.setAttribute("href", "Details.jsp?restaurantId=" + r.get(i).getId());
-						a.innerHTML = "<h2>" + (i+1) + ". " + <%=r.get(i).getName()%> + "</h2><br><br>Average Rating: " + <%=r.get(i).getRating()%> + "<br>Address: " + <%=r.get(i).getAddress()%> + "<br>Cost: " + <%=r.get(i).getCost()%> + "<br><br>";
-						numItem.appendChild(a);
-						row.appendChild(numItem); 
-						
-					}
-					
-				} 
-				
-			}
+
 		</script>
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" type="text/javascript"></script>
+		
 	</body>
 </html>
