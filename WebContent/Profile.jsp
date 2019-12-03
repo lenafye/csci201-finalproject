@@ -27,6 +27,15 @@
   				border-radius: 25px;
   				transform: translate(-50%, -50%);
 			}
+			#otherContainer {
+				background-color: white;
+				height: 8%;
+				width: 12%;
+				margin-top: 3%;
+				margin-left: 2%;
+				border-radius: 5px;
+				text-align: center;
+			}
 			#noUserError {
 				text-align: center;
 			}
@@ -173,6 +182,9 @@
 					</div>
 				</div>
 			</div>
+			<a href="Notifications.jsp">
+			<div id="otherContainer"><br>View notifications?
+			</div></a>
 		</div>
 	</body>
 </html>
