@@ -13,6 +13,44 @@
 		crossorigin="anonymous">
 		</script>
 		<script>
+			function isValid() {
+		  		var hasError = false;
+		  		var searchQuery = document.getElementById('box').value;
+		  		
+		  		var swipes = document.getElementById("swipes").value;
+		  		var dollars = document.getElementById("dollars").value;
+		  		
+		  		var c = document.getElementById("cuisine");
+		  		var cuisine = c.options[c.selectedIndex].value;
+		  		var p = document.getElementById("price");
+		  		var price = p.options[p.selectedIndex].value;
+		  		
+		  		console.log(hours);
+		  		sessionStorage.setItem("searchQuery", searchQuery);
+		  		sessionStorage.setItem("swipes", swipes);
+		  		sessionStorage.setItem("dollars", dollars);
+		  		sessionStorage.setItem("cuisine", cuisine);
+		  		sessionStorage.setItem("price", price);
+		  		
+		  		document.getElementById("error").innerHTML = "";
+			  	
+			  	var xhttp = new XMLHttpRequest();
+			  	xhttp.open("POST", "SearchServlet?searchQuery="+searchQuery
+		  			+"&swipes="+swipes+"&dollars="+dollars
+		  			+"&cuisine="+cuisine+"&price="+price
+		  			+"&hours="+hours, false);
+			  	xhttp.send(); 
+	
+			  	if(xhttp.responseText.trim().length > 0) {
+			  		sessionStorage.setItem("error", xhttp.responseText);
+			  		document.getElementById("error").innerHTML = "Please enter restaurant name or search requirements.";
+					error = "";
+					sessionStorage.setItem("error", "");
+					return false;
+			  	}
+			  	location.href = "SearchResults.jsp"
+		  		return true;
+		  	}
 			function hasUser() {
 				document.getElementById("profile").style.display = "block";
 				document.getElementById("content").style.display = "block";
@@ -26,47 +64,6 @@
 				document.getElementById("askLogin").innerHTML = "Login now?";
 				alert("getSearchResults");
 			}
-			function isValid() {
-				var searchQuery = document.getElementById("searchTerms").value;
-				
-				HttpSession session = request.getSession();
-				
-		  		var hasError = false;
-		  		var searchQuery = document.getElementById('searchQuery').value;
-		  		var swipes = document.getElementById("swipes").value;
-		  		var dollars = document.getElementById("dollars").value;
-		  		
-		  		var c = document.getElementById("cuisine");
-		  		var cuisine = c.options[c.selectedIndex].value;
-		  		var p = document.getElementById("price");
-		  		var price = p.options[p.selectedIndex].value;
-		  		
-		  		sessionStorage.setItem("searchQuery", searchQuery);
-		  		sessionStorage.setItem("swipes", swipes);
-		  		sessionStorage.setItem("dollars", dollars);
-		  		sessionStorage.setItem("cuisine", cuisine);
-		  		sessionStorage.setItem("price", price);
-		  		sessionStorage.setItem("hours", hours);
-		  		
-		  		document.getElementById("error").innerHTML = "";
-			  	
-		  		var xhttp = new XMLHttpRequest();
-			  	xhttp.open("POST", "SearchServlet?searchQuery="+searchQuery
-		  			+"&swipes="+swipes+"&dollars="+dollars
-		  			+"&cuisine="+cuisine+"&price="+price,false);
-			  	xhttp.send();
-			  	
-			  	if(xhttp.responseText.trim().length > 0) {
-			  		sessionStorage.setItem("error", xhttp.responseText);
-			  		document.getElementById("error").innerHTML = "Please enter restaurant name or search requirements.";
-					error = "";
-					sessionStorage.setItem("error", "");
-					return false;
-			  	}
-			  	location.href = "SearchResults.jsp"
-			  	
-		  		return true;
-		  	}
 		</script>
 	</head>
 	<body>
@@ -91,16 +88,16 @@
 			</div>
 			<div class="links">
 				<div class="search">
-					<form name="myform" onsubmit="return isValid();" action="SearchResults.jsp" method="GET">
 					<div class="bar">
-						<input type="search" name="input" id="searchTerms" placeholder="Enter search terms">
-						<input type="submit" value="Submit" style="color:gray;">
+						<form name="myform" onsubmit="return isValid();" action="SearchResults.jsp" method="GET">
+						<input type="search" name="input" id="box" placeholder="Enter search terms">
+						<button id="button" type="submit" style="float: right;">Search</button>
 						<p>
 						<div id="error"></div>
 					</div>
 					<div class="row">
 						<div class="column">
-							<input type="checkbox" id="swipes" name="swipes"> Dining Swipes<br>
+							<input type="checkbox" name="swipes" id="swipes"> Dining Swipes<br>
 							<select name="cuisine" id="cuisine">
 								<option value="none"></option>
 								<option value="american">American</option>
@@ -119,10 +116,9 @@
 								<option value="two">$$</option>
 								<option value="three">$$$</option>
 							</select> Price
-							
+							</form>
 						</div>
 					</div>
-					</form>
 				</div>
 				<div id="profile">
 					<a href="Profile.jsp"><img src="img/user.png" height="100px"></a>
@@ -194,7 +190,5 @@
 		</div>
 		<%@ page import='java.util.ArrayList' %>
 		<%@ page import='lenaye_CSCI201L_TrojanEats.Restaurant' %>
-		<script>
-		</script>
 	</body>
 </html>
