@@ -64,7 +64,6 @@
 			}
 			function noUser() {
 				document.getElementById("profile").style.display = "none";
-				alert("getSearchResults");
 			}
 		</script>
 		<style>
@@ -82,7 +81,7 @@
 	<body>
 		<% String username = (String)session.getAttribute("username");
 		if(username != null) {
-			if(username.length() >= 0) { %>
+			if(username.length() > 0) { %>
 				<body onload="hasUser();">
 			<% }
 			else { %>
@@ -90,7 +89,7 @@
 			<% }
 		}
 		else { %>
-			<body onload="getSearchResults(); noUser();">
+			<body onload="noUser();">
 		<% } %>
 		<%@ page import='lenaye_CSCI201L_TrojanEats.DatabaseJDBC'
 		import='lenaye_CSCI201L_TrojanEats.Restaurant'%>
@@ -237,7 +236,7 @@
 	      }
 	      
 		</script>
-		<script  defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" type="text/javascript"></script>
+		<script  defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1AgSzWcKOu5Tnm_XTgM6VipMtxS-efsk&callback=initMap" type="text/javascript"></script>
 		</div>
 		<%@ page import='java.util.ArrayList' %>
 		<%@ page import='lenaye_CSCI201L_TrojanEats.Restaurant' %>
