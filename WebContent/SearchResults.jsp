@@ -120,7 +120,7 @@
 					
 					}%><p>
 					Cost: <% for(int j = 0; j < r.get(i).getCost(); j++) { %>
-					
+						$
 					<% } %>
 						<p>
 					Cuisine: <%= r.get(i).getCuisine() %><p>
