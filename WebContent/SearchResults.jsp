@@ -161,7 +161,7 @@
 						let numItem = document.createElement("td");
 						numItem.classList.add("restaurant");
 						let a = document.createElement("a");
-						a.setAttribute("href", "Details.jsp?final=" + r.get(i).getId());
+						a.setAttribute("href", "Details.jsp?restaurantId=" + r.get(i).getId());
 						a.innerHTML = "<h2>" + (i+1) + ". " + <%=r.get(i).getName()%> + "</h2><br><br>Average Rating: " + <%=r.get(i).getRating()%> + "<br>Address: " + <%=r.get(i).getAddress()%> + "<br>Cost: " + <%=r.get(i).getCost()%> + "<br><br>";
 						numItem.appendChild(a);
 						row.appendChild(numItem); 

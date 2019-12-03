@@ -100,6 +100,7 @@ public class DatabaseJDBC {
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneats201&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
 			query += " name=" + input;
+
 			if(!cuisine.contentEquals("none")) {
 				query += " AND cuisine=" + cuisine;
 			}
@@ -118,7 +119,7 @@ public class DatabaseJDBC {
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				int restaurantId = rs.getInt("restaurantId");
-				String name = rs.getString("name");
+				String name = rs.getString("restaurantName");
 				String cuisine1 = rs.getString("cuisine");
 				boolean swipes1  = rs.getBoolean("swipes");
 				boolean diningDollars = rs.getBoolean("diningDollars");
