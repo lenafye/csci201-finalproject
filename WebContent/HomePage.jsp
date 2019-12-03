@@ -30,7 +30,6 @@
 		  		var price = $("input[name='price']:checked").val();
 		  		var hours = null /* $("input[name='time']:checked").val(); */
 		  		
-		  		console.log(hours);
 		  		sessionStorage.setItem("searchQuery", searchQuery);
 		  		sessionStorage.setItem("swipes", swipes);
 		  		sessionStorage.setItem("dollars", dollars);
@@ -118,22 +117,12 @@
 							        	Cuisine <!-- <select name="cuisine"> -->
 											<input type="radio" name="cuisine" value="american"> American 
 										  	<input type="radio" name="cuisine" value="asian"> Asian 
-										  	<input type="radio" name="cuisine" value="cafe">Cafe
-										  	<input type="radio" name="cuisine" value="cafeteria">Cafeteria
 											<input type="radio" name="cuisine" value="mexican"> Mexican 
-											<input type="radio" name="cuisine" value="pizza"> Pizza
 											<!-- <option value="none"></option>
 											<option value="american">American</option>
 											<option value="asian">Asian</option>
-											<option value="cafe">Cafe</option>
-											<option value="cafeteria">Cafeteria</option>
-											<option value="mexican">Mexican</option>
-											<option value="pizza">Pizza</option>
-										</select>
-
 											<option value="mexican">Mexican</option> -->
 										<!-- </select> -->
-
 							        </div>
 							        <div class="form-check disabled">
 							        	Hours <input type="time" name="hours" id="time" step="900">
