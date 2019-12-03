@@ -140,18 +140,18 @@
 		<% String username = (String)session.getAttribute("username");
 		if(username != null) {
 			if(username.length() > 0) { %>
-				<body onload="hasUser()">
+				<body onload="hasUser();">
 			<% }
 			else { %>
-				<body onload="noUser()">
+				<body onload="noUser();">
 			<% }
 		}
 		else { %>
-			<body onload="noUser()">
+			<body onload="noUser();">
 		<% } %>
 		<div id="header">
 			<div class="logo">
-				<a href="HomePage.jsp" style = "color: #008000">TrojanEats</a>
+				<a href="HomePage.jsp"  style = "color: #008000">TrojanEats</a>
 			</div>
 			<div class="links">
 				<div class="search">
