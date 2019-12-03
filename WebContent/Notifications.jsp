@@ -163,7 +163,7 @@
 						{%>
 							<div class="text">
 							<% out.println(notifications.get(i).checkRead()); %> 
-							<span style="float: right;"><% out.println(notifications.get(i).getTime()); %><p>
+							<span style="float: right;"><% out.println(notifications.get(i).getTime()); %></span><p>
 							Review for <% out.println(notifications.get(i).getRestaurant()); %> received a 
 							<% out.println(notifications.get(i).getUpvote()); %>
 							</div>
