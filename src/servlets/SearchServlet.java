@@ -40,11 +40,11 @@ public class SearchServlet extends HttpServlet {
 		String searchQuery = "";
 		
 		String cuisine = request.getParameter("cuisine");
-		if(cuisine.trim().contentEquals("undefined")) {
+		if(cuisine.trim().contentEquals("undefined") || cuisine.trim().contentEquals("none")) {
 			cuisine = "";
 		}
 		String price = request.getParameter("price");
-		if(price.trim().contentEquals("undefined")) {
+		if(price.trim().contentEquals("undefined") || price.trim().contentEquals("none")) {
 			price = "";
 		}
 		boolean dollars = Boolean.parseBoolean(request.getParameter("dollars"));
