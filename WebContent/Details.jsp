@@ -38,7 +38,7 @@
 				height: 490px;
 			}
 			#hours {
-				width: 170px;
+				width: 350px;
 				float: left;
 				margin-top: 1em;
 				margin-left: 10px;
@@ -92,13 +92,15 @@
 				margin-top: 20px;
 			}
 			#addReview{
-				height: 5%;
+				height: 30px;
 				padding-left: 5px;
-				width: 8%;
+				width: 10%;
 				background-color: rgb(156,201,186);
 				color: white;
 				border-radius: 10px;
 				display: block;
+				text-align: center;
+				padding-top: 10px;
 			}
 			.interact {
 				float: right;
@@ -306,7 +308,16 @@
 					%>
 					<p>Accepts Swipes: <%=acceptsSwipes%></p>
 					<p>Cuisine: <%=currRes.getCuisine()%></p>
-					<p style='float: left'>Hours: </p><div id='hours'><%=currRes.getHours()%></div>
+					<%@page import='java.util.Scanner' %>
+					<p style='float: left'>Hours: </p><div id='hours'><%
+					
+					String hours  = currRes.getHours();
+					Scanner scnr = new Scanner(hours);
+					while(scnr.hasNextLine())
+					{
+						String line =  scnr.nextLine();
+						%> <%=line%> <br><%
+					} %></div>
 					<div class='clearfloat'></div>
 				</div> <!-- #resInfo -->
 				<div id='resMap' > </div> <!-- #resMap -->

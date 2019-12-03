@@ -27,6 +27,17 @@
 				alert("getSearchResults");
 			}
 		</script>
+		<style>
+		#resMap {
+				width: 600px;
+				display: block;
+				float: left;
+				margin-left: 100px;
+				height: 63vh;
+				border-radius: 25px;
+			}
+		
+		</style>
 	</head>
 	<body>
 		<% String username = (String)session.getAttribute("username");
@@ -145,8 +156,46 @@
 				<%} %>
 				</div>
 			</div>
-			<div class="map">
+			<div id="resMap">
 			</div>
+			<script>
+		var map, infoWindow;
+	      function initMap() {
+	    	  map = new google.maps.Map(document.getElementById('resMap'), {
+		          center: {lat: 34.022288, lng: -118.285344},
+		          zoom: 15
+		        });
+	        infoWindow = new google.maps.InfoWindow;
+	        
+	     	var labels =['1','2','3','4','5','6','7','8,','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'];
+		        <%for(int i=0; i<r.size(); i++)  { %>
+		        	var lat = <%=r.get(i).getLatitude()%>;
+		        	var lng = <%=r.get(i).getLongitude()%>;
+		        	console.log(lat);
+		        	console.log(lng);
+					var resCoord = new google.maps.LatLng(lat, lng);
+					
+					var marker = new google.maps.Marker({position: resCoord, map: map, label : labels[<%=i%>]});
+					attachAddress(marker, "<%=r.get(i).getAddress()%>");
+					
+				
+				<%}%>
+			
+	        
+	      }
+	      
+	      function attachAddress(marker, address) {
+	    	  var infowindow = new google.maps.InfoWindow({
+	    		  content: address
+	    	  });
+	    	  
+	    	  marker.addListener('click', function() {
+	    		  infowindow.open(marker.get('map'), marker);
+	    	  });
+	      }
+	      
+		</script>
+		<script  defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1AgSzWcKOu5Tnm_XTgM6VipMtxS-efsk&callback=initMap" type="text/javascript"></script>
 		</div>
 		<%@ page import='java.util.ArrayList' %>
 		<%@ page import='lenaye_CSCI201L_TrojanEats.Restaurant' %>
