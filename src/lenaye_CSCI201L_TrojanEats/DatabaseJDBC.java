@@ -415,6 +415,7 @@ public class DatabaseJDBC {
 		ResultSet rs3 = null;
 		ArrayList<Notification> notifications = new ArrayList<Notification>();
 		try {
+			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
 			ps = conn.prepareStatement("SELECT userId FROM Users WHERE username=?");
 			ps.setString(1, username);
@@ -429,19 +430,27 @@ public class DatabaseJDBC {
 				boolean read = rs.getBoolean("opened");
 				String date = rs.getString("date");
 				boolean upvote = rs.getBoolean("upvote");
-				int restaurantId = rs.getInt("reviewId");
+				int reviewId = rs.getInt("reviewId");
 				
-				ps = conn.prepareStatement("SELECT name FROM Restaurants WHERE restaurantId=?");
-				ps.setInt(1, restaurantId);
+				ps = conn.prepareStatement("SELECT * FROM Reviews WHERE reviewId=?");
+				ps.setInt(1, reviewId);
 				rs2 = ps.executeQuery();
 				rs2.next();
-				String name = rs2.getString("name");
+				int restaurantId = rs2.getInt("restaurantId");
+				ps = conn.prepareStatement("SELECT * FROM Restaurants WHERE restaurantId=?");
+				ps.setInt(1,  restaurantId);
+				rs3 = ps.executeQuery();
+				rs3.next();
+				String name = rs3.getString("name");
 				Notification n = new Notification(notificationId, username, upvote, read, date, name, restaurantId);
 				notifications.add(n);
 			}
 			
 		} catch(SQLException sqle) {
 			System.out.println(sqle.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} finally {
 			try {
 				if (rs!=null) {
