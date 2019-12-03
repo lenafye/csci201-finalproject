@@ -164,6 +164,12 @@ a
 	left: 30%;
 }
 
+#error
+{
+	text-align: center;
+	color: red;
+}
+
 .registerButton
 {
 	float: top;

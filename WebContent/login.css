@@ -159,6 +159,12 @@ a
 	left: 30%;
 }
 
+#error
+{
+	text-align: center;
+	color: red;
+}
+
 .loginButton
 {
 	float: top;
