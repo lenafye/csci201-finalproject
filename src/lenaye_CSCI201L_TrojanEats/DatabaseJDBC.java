@@ -339,17 +339,17 @@ public class DatabaseJDBC {
 			ps = conn.prepareStatement("SELECT * FROM Reviews WHERE reviewId=?");
 			ps.setInt(1, reviewId);
 			rs = ps.executeQuery();
+			rs.next();
 			int userId = rs.getInt("userId");
-			while (rs.next()) {
-				score = rs.getInt("score");
-				score += react;
-			}
+			score = rs.getInt("score");
+			score += react;
+			
 			ps = conn.prepareStatement("UPDATE Reviews SET score=? WHERE reviewId=?");
 			ps.setInt(1, score);
 			ps.setInt(2, reviewId);
 			ps.executeUpdate();
 			
-			ps = conn.prepareStatement("INSERT INTO Votes (userId, reviewId, upvote) VALUES (?, ?, ?, ?");
+			ps = conn.prepareStatement("INSERT INTO Votes (userId, reviewId, upvote, opened) VALUES (?, ?, ?, ?)");
 			ps.setInt(1, userId);
 			ps.setInt(2, reviewId);
 			if(react == 1) {
@@ -358,6 +358,7 @@ public class DatabaseJDBC {
 			else {
 				ps.setBoolean(3, false);
 			}
+			ps.setBoolean(4, false);
 			ps.executeUpdate();
 		} catch (SQLException sqle) {
 			System.out.println(sqle.getMessage());
@@ -373,6 +374,37 @@ public class DatabaseJDBC {
 				System.out.println(sqle.getMessage());
 			}
 		}
+	}
+	
+	public static int getScore(int revId)
+	{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		int score = 0;
+		try {
+			conn = DriverManager.getConnection(
+					"jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
+			ps = conn.prepareStatement("SELECT score FROM Reviews WHERE reviewId=?");
+			ps.setInt(1,revId);
+			rs = ps.executeQuery();
+			rs.next();
+			score = rs.getInt("score");
+		} catch (SQLException sqle) {
+			System.out.println(sqle.getMessage());
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException sqle) {
+				System.out.println(sqle.getMessage());
+			}
+		}
+		return score;
 	}
 	
 	public static ArrayList<Notification> getNotifications(String username) {

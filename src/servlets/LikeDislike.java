@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -29,15 +30,33 @@ public class LikeDislike extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String likeDislike = request.getParameter("value");
 		String idString = request.getParameter("id");
-		int upvote;
-		int id = Integer.parseInt(idString);
-		if(likeDislike.contentEquals("like")) {
-			upvote = 1;
+		HttpSession session = request.getSession();
+		String username = (String) session.getAttribute("username");
+		String responseText = "";
+		if(username==null || username.isEmpty())
+		{
+			responseText +="Must sign in to vote";
 		}
 		else {
-			upvote = 0;
+			int upvote;
+			int id = Integer.parseInt(idString);
+			if(likeDislike.contentEquals("like")) {
+				upvote = 1;
+			}
+			else {
+				upvote = -1;
+			}
+			DatabaseJDBC.interactReview(id, upvote);
+			int score  = DatabaseJDBC.getScore(id);
+			responseText += score;
 		}
-		DatabaseJDBC.interactReview(id, upvote);
+		PrintWriter out = response.getWriter();
+		
+		System.out.println(responseText);
+		out.println(responseText);		
+		out.flush();
+		out.close();
+		
 	}
 
 	/**

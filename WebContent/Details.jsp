@@ -6,6 +6,7 @@
 		<meta charset="UTF-8">
 		<%@ page import='lenaye_CSCI201L_TrojanEats.DatabaseJDBC' %>
 		<%@ page import='lenaye_CSCI201L_TrojanEats.Restaurant' %>
+		
 		<% int resId = Integer.parseInt(request.getParameter("restaurantId"));%>
 		<% Restaurant currRes  = DatabaseJDBC.getRestaurant(resId); %>
 		<% String resName = currRes.getName(); %>
@@ -85,7 +86,7 @@
 				width: 600px;
 				margin-right: auto;
 				margin-left: auto;
-				padding: 10px;
+				padding: 20px;
 				border-radius: 15px;
 				background-color: rgb(239, 246, 238);
 				margin-top: 20px;
@@ -99,6 +100,19 @@
 				border-radius: 10px;
 				display: block;
 			}
+			.interact {
+				float: right;
+				padding-right:5px;
+			
+			}
+			.score{
+			float:right;
+			padding-right: 10px;
+		}
+		.revText{
+		float: left;
+		
+		}
 		</style>
 		<script>
 			function isValid() {
@@ -133,18 +147,49 @@
 			}
 			function Like(reviewId) {
 				var xhttp = new XMLHttpRequest();
-			  	xhttp.open("GET", "LikeDislike?value=like&id=" + reviewId, false);
+				console.log(reviewId);
+			  
+			  	xhttp.open("GET", "LikeDislike?value=like&id=" + reviewId, true);
+				xhttp.onreadystatechange = function() {
+					
+					if(xhttp.readyState == 4) {
+						if(xhttp.responseText.trim() == "Must sign in to vote."){
+							document.getElementById("error"+reviewId).innerHTML = xhttp.responseText;
+						}
+						else {
+							document.getElementById("score"+reviewId).innerHTML = xhttp.responseText;
+						}
+					}
+				}
+				
+			  	
 			  	xhttp.send();
+			  
 			}
 			function Dislike(reviewId) {
 				var xhttp = new XMLHttpRequest();
-			  	xhttp.open("GET", "LikeDislike?value=like&id=" + reviewId, false);
+				xhttp.open("GET", "LikeDislike?value=dislike&id=" + reviewId, true);
+				xhttp.onreadystatechange = function() {
+					
+					if(xhttp.readyState == 4) {
+						if(xhttp.responseText.trim() == "Must sign in to vote."){
+							document.getElementById("error"+reviewId).innerHTML = xhttp.responseText;
+						}
+						else {
+							document.getElementById("score"+reviewId).innerHTML = xhttp.responseText;
+						}
+					}
+				}
+			  	
 			  	xhttp.send();
+			  
+			  	
+			  	
 			}
 		</script>
 	</head>
 	<body>
-		<%@ page import='lenaye_CSCI201L_TrojanEats.DatabaseJDBC' %>
+		
 		<% String username = (String)session.getAttribute("username");
 		if(username != null) {
 			if(username.length() >= 0) { %>
@@ -319,12 +364,16 @@
 						</div> <!--  .star -->	
 						<div class='clearfloat'></div>
 						<div class='revText'><%=currRev.getText() %></div>
-						<form name ="interact" onsubmit="Like(<%=currRev.getId() %>)" action="HomePage.jsp">
-							<button id="like" value="like">▲</button>	
-						</form>
-						<form name ="interact" onsubmit="Dislike(<%=currRev.getId() %>)" action="HomePage.jsp">
-							<button id="dislike" value="dislike">▼</button>
-						</form>	
+						
+						<button class='interact' onclick="Like(<%=currRev.getId() %>)" id="like" value="like">▲</button>	
+						
+						<div class='clearfloat'></div>
+						
+						<button class='interact' id="dislike" onclick="Dislike(<%=currRev.getId() %>)" value="dislike">▼</button>
+						
+						<div class='clearfloat'></div>
+						<div class='score' id='score<%=currRev.getId()%>'><%=DatabaseJDBC.getScore(currRev.getId()) %></div>
+						<div id='error<%=currRev.getId()%>'></div>
 				</div> <!-- .review -->
 				<%} %>
 				
