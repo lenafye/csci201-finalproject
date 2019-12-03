@@ -38,8 +38,7 @@
 		  			+"&cuisine="+cuisine+"&price="+price
 		  			+"&hours="+hours, false);
 			  	xhttp.send(); 
-			  	location.href = "SearchResults.jsp"
-			  	
+
 			  	if(xhttp.responseText.trim().length > 0) {
 			  		sessionStorage.setItem("error", xhttp.responseText);
 			  		document.getElementById("error").innerHTML = "Please enter restaurant name or search requirements.";
@@ -47,7 +46,7 @@
 					sessionStorage.setItem("error", "");
 					return false;
 			  	}
-			  	
+			  	location.href = "SearchResults.jsp"
 		  		return true;
 		  	}
 		</script>
