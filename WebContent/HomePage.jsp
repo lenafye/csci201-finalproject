@@ -14,24 +14,52 @@
 		<script type="text/javascript">
 			function isValid() {
 		  		var hasError = false;
-		  		document.getElementById("error").innerHTML = "";
-			  	var xhttp = new XMLHttpRequest();
-			  	xhttp.open("GET", "SearchRestaurant?searchInput="+document.myform.input.value
-			  			+"&swipes="+document.myform.swipes.value+"&dollars="+document.myform.dollars.value
-			  			+"&cuisine="+document.myform.cuisine.value+"&price="+document.myform.price.value
-			  			+"&hours="+document.myform.hours.value, false);
-			  	xhttp.send();
-			  	if(xhttp.responseText.trim().length > 0) {
-			  		document.getElementById("error").innerHTML = xhttp.responseText;
-			  		hasError = true;
-			  	}
-			  	if(hasError) {
-			  		window.location.href = "HomePage.jsp?error=" + xhttp.responseText;
+		  		var searchQuery = document.getElementById('searchQuery').value;
+		  		
+		  		if (searchQuery == "Lemonade") {
+		  			var xhttp = new XMLHttpRequest();
+				  	xhttp.open("GET", "SearchServlet?searchQuery="+searchQuery, false);
+				  	xhttp.send();
+				  	location.href = "SearchResults.jsp"
+				  	return true;
 		  		}
-		  		return !hasError;
+		  		
+		  		var swipes = $("#customSwitch2").is(":checked"); 
+		  		var dollars = $("#customSwitch1").is(":checked"); 
+		  		var cuisine = $("input[name='cuisine']:checked").val();
+		  		var price = $("input[name='price']:checked").val();
+		  		var hours = null /* $("input[name='time']:checked").val(); */
+		  		
+		  		console.log(hours);
+		  		sessionStorage.setItem("searchQuery", searchQuery);
+		  		sessionStorage.setItem("swipes", swipes);
+		  		sessionStorage.setItem("dollars", dollars);
+		  		sessionStorage.setItem("cuisine", cuisine);
+		  		sessionStorage.setItem("price", price);
+		  		sessionStorage.setItem("hours", hours);
+		  		
+		  		document.getElementById("error").innerHTML = "";
+			  	
+			  	var xhttp = new XMLHttpRequest();
+			  	xhttp.open("POST", "SearchServlet?searchQuery="+searchQuery
+		  			+"&swipes="+swipes+"&dollars="+dollars
+		  			+"&cuisine="+cuisine+"&price="+price
+		  			+"&hours="+hours, false);
+			  	xhttp.send(); 
+			  	location.href = "SearchResults.jsp"
+			  	
+			  	if(xhttp.responseText.trim().length > 0) {
+			  		sessionStorage.setItem("error", xhttp.responseText);
+			  		document.getElementById("error").innerHTML = "Please enter restaurant name or search requirements.";
+					error = "";
+					sessionStorage.setItem("error", "");
+					return false;
+			  	}
+			  	
+		  		return true;
 		  	}
 		</script>
-		<!-- <script>
+		<script>
 		function ifError(){
 			var error = sessionStorage.getItem("error")
 			document.getElementById("error").innerHTML = error;
@@ -39,9 +67,9 @@
 			sessionStorage.setItem("error", "");
 			
 		}
-		</script> -->
+		</script>
 	</head>
-	<body> <!-- onload="ifError()"> -->
+	<body onload="ifError()"> 
 		<div id="nav">
 			<nav class="navbar navbar-light bg-light">
 				<div class="logo"><a href="HomePage.jsp">TrojanEats</a></div>
@@ -57,13 +85,13 @@
 			  </form>
 			</nav>
 		</div>
-		<div class="myformclass">
+		<div class="myform">
 			<div class="alert alert-light" role="alert">
 				<h1 style="font-weight:normal;text-align:center; padding:30px;">TrojanEats: Find a place to eat near campus!</h1><br>
 				<div class="input-group mb-3">
-			  		<input type="text" class="form-control" placeholder="Enter search terms" aria-label="Query" aria-describedby="button-addon2">
+			  		<input type="text" class="form-control" id="searchQuery" placeholder="Enter restaurant name" aria-label="Query" aria-describedby="button-addon2">
 				  	<div class="input-group-append">
-				  		<a href="SearchServlet" class="btn btn-outline-secondary" role="button">Search</a>
+				  		<a href="#" class="btn btn-outline-secondary" onclick="isValid()" role="button">Search</a>
 				    	
 				  	</div>
 				</div><br>
@@ -73,21 +101,29 @@
 							<div class="row">
 								<legend class="col-form-label col-sm-2 pt-0"></legend>
 							    <div class="col-sm-10">
+							    	
 							    	<div class="form-check">
-							        	Price <select name="price">
-											<option value="none"></option>
-											<option value="one">$</option>
-											<option value="two">$$</option>
-											<option value="three">$$$</option>
-										</select>
+							        	Price <!-- <select name="price"> -->
+											<!-- <option name="price" value="none"></option>
+											<option name="price" value="one">$</option>
+											<option name="price" value="two">$$</option>
+											<option name="price" value="three">$$$</option> -->
+													<input type="radio" name="price" value="$"> $ 
+												  	<input type="radio" name="price" value="$$"> $$ 
+													<input type="radio" name="price" value="$$$"> $$$ 
+									
+										<!-- </select> -->
 							        </div>
 							        <div class="form-check">
-							        	Cuisine <select name="cuisine">
-											<option value="none"></option>
+							        	Cuisine <!-- <select name="cuisine"> -->
+											<input type="radio" name="cuisine" value="american"> American 
+										  	<input type="radio" name="cuisine" value="asian"> Asian 
+											<input type="radio" name="cuisine" value="mexican"> Mexican 
+											<!-- <option value="none"></option>
 											<option value="american">American</option>
 											<option value="asian">Asian</option>
-											<option value="mexican">Mexican</option>
-										</select>
+											<option value="mexican">Mexican</option> -->
+										<!-- </select> -->
 							        </div>
 							        <div class="form-check disabled">
 							        	Hours <input type="time" name="hours" id="time" step="900">
@@ -97,6 +133,7 @@
 						</fieldset>
 					</div>
 					<div class="column">
+						
 						<div class="custom-control custom-switch">
 							<input type="checkbox" class="custom-control-input" id="customSwitch1" name="dollars">
 						  	<label class="custom-control-label" for="customSwitch1">Dining Dollars</label>
