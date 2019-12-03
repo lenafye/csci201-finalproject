@@ -98,7 +98,7 @@ public class DatabaseJDBC {
 		String query = "SELECT * FROM Restaurants WHERE";
 		ArrayList<Restaurant> r = new ArrayList<Restaurant>();
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneats201&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
+			conn = DriverManager.getConnection("jdbc:mysql://google/trojaneats?cloudSqlInstance=emunch-csci201-lab7:us-central1:trojaneatsproject&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false&user=root&password=test");
 			if(!input.isEmpty()) {
 				query += " name=" + input;
 			}
