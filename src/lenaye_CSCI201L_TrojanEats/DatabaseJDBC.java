@@ -436,7 +436,7 @@ public class DatabaseJDBC {
 				rs2 = ps.executeQuery();
 				rs2.next();
 				String name = rs2.getString("name");
-				Notification n = new Notification(notificationId, username, upvote, read, date, name);
+				Notification n = new Notification(notificationId, username, upvote, read, date, name, restaurantId);
 				notifications.add(n);
 			}
 			
