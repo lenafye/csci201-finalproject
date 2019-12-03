@@ -59,7 +59,6 @@
 				background-color: #A1A1A1;
 			}
 			.stars {
-				float: left;
 				margin-top: 10px;
 				margin-bottom: 10px;
 			}
@@ -92,8 +91,9 @@
 				margin-top: 20px;
 			}
 			#addReview{
-				height: 20px;
-				width: 40px;
+				height: 5%;
+				padding-left: 5px;
+				width: 8%;
 				background-color: rgb(156,201,186);
 				color: white;
 				border-radius: 10px;
@@ -130,6 +130,16 @@
 				document.getElementById("content").style.display = "none";
 				document.getElementById("noUserError").innerHTML = "Error: No user logged in.";
 				document.getElementById("askLogin").innerHTML = "Login now?";
+			}
+			function Like(reviewId) {
+				var xhttp = new XMLHttpRequest();
+			  	xhttp.open("GET", "LikeDislike?value=like&id=" + reviewId, false);
+			  	xhttp.send();
+			}
+			function Dislike(reviewId) {
+				var xhttp = new XMLHttpRequest();
+			  	xhttp.open("GET", "LikeDislike?value=like&id=" + reviewId, false);
+			  	xhttp.send();
 			}
 		</script>
 	</head>
@@ -204,7 +214,7 @@
 					<p>Address: <%= currRes.getAddress() %></p>
 					<% int cost = currRes.getCost(); %>
 					<p>Cost: <%for(int i=0; i<cost; i++) { %>$<%} %> </p>
-					<div  class='stars'>
+					<div class='stars'>
 						<% double avgRating =currRes.getRating();
 						
 						for(int i=0; i<5; i++)
@@ -231,6 +241,7 @@
 							
 							}%>
 							</div> <!-- .stars -->
+							<br><br>
 					<% boolean dollars = currRes.getDD(); 
 						String acceptsDD = "No";
 						if(dollars)
@@ -296,7 +307,7 @@
 									{
 										%><img class='ratingStar' src='img/emptystar.png'><%	
 									}
-									rating=  rating - 1;
+									rating--;
 								}
 								else
 								{
@@ -307,9 +318,13 @@
 						%>
 						</div> <!--  .star -->	
 						<div class='clearfloat'></div>
-						<div class='revText'><%=currRev.getText() %></div>	
-						<div class='vote'></div>	
-						<div class='vote'></div>	
+						<div class='revText'><%=currRev.getText() %></div>
+						<form name ="interact" onsubmit="Like(<%=currRev.getId() %>)" action="HomePage.jsp">
+							<button id="like" value="like">▲</button>	
+						</form>
+						<form name ="interact" onsubmit="Dislike(<%=currRev.getId() %>)" action="HomePage.jsp">
+							<button id="dislike" value="dislike">▼</button>
+						</form>	
 				</div> <!-- .review -->
 				<%} %>
 				
